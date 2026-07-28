@@ -1,0 +1,169 @@
+GENERALE:
+	1)	Uniformare il nome
+			usando sempre e ovunque lo stesso nome permette al web di aiutare a restituire alla ricerca tutto l'insieme
+			(al massimo se possibile impostare come alias le altre nomee)
+			oltre che aiuta a non creare dubbi alle persone
+			
+			Idea Nome Principale:
+				Dung Si Academy : semplice, corto e non ambiguo
+			Eviterei:
+				Viet Vo Dao Dung Si Academy : lungo, da al risultato anche Viet Vo Dao (altre scuole)
+					Viet Vo Dao : usabile come alias
+				Vo Viet Dung Si Academy : lungo, da al risultato anche Viet Vo Dao (altre scuole)
+					Vo Viet : usabile come alias
+				Kung Fu Vietnamita Dung Si Academy : lungo
+					Kung Fu Vietnamita : usabile come alias
+			Altri Alias (non visibili ma per la sola ricerca):
+				A.S.D. Dung Si Academy
+				Viet Vo Dao Verona
+				Viet Vo Dao Arcole
+				Minh Long Italia
+				Minh Long Verona
+				Minh Long Arcole
+				Minh Long San Bonifacio
+
+EMAIL:
+	la attuale:
+		dungsi@libero.it
+	potrebbe alla vista di oggi risultare come una palestra vecchia e non in aggioranemento.
+	Sarebbe preferibile usare uno dei domini:
+		@gmail.com : 
+			moderna
+			piu sicura
+			piu facile da usare
+			CONTRO: unica main per tutto
+				dungsiacademy@gmail.com
+		@dungsiacademy.it : 
+			moderna e professionale
+			dominio privato per la palestra
+			possibilità di creare diversi account riferiti alla stessa palestra ma per scopi diversi:
+				info@dungsiacademy.com : email per 
+			CONTRO: pagamento del dominio (compreso con il dominio del sito abilitato a posta elettronica)
+
+GOOGLE BUSINESS PROFILE:
+	punto principale di tutte le informazioni e come risultato di ricerca
+	comparire nella ricerca di google quando si cerca "Dũng Sĩ Academy" e dare informazioni veloci su luogo, orari e link sito e caricare le foto
+		Maps
+		Recensioni
+		foto
+
+SOCIAL:
+	0)	Generalizzare il nome:
+			usare un unico nome
+				es:
+					dungsiacademy
+			non importa la visivita del nome, quella la si puo gestire nelle impsotazioni
+			(permette all'internet una gestione migliore e quindi piu visibilità futura)
+	
+	1)	Differenziare Social Scuola da Personale:
+			vero che il Maestro è la scuola e la scuola è il Maestro,
+			ma differenziare i social permette di avere informazioni chiari in un unico punto e non mix di informazioni
+			Social Scuola:
+				annunci, post, video, short della sola Scuola
+				dare la possibilità di fare repost (permette di ripubblicare i post come collegamenti e quindi anche riportare al social principale)
+			Social Personale:
+				tutto quello che si vuole, anche non della Scuola
+			al massimo nel personale si possono fare i repost del social della palestra
+			(traguardi personali o pareri personali sono da pubblicare sul personale e al massimo repostarlo sulla palestra
+			cene della palestra sulla social della scuola al massimo la foto finale con tutti per far capire la coesione, ma altre singole o delle singole cene meglio evitare che appesantiscono il social e quindi le informazioni)
+	
+	2) 	UNICO profilo PUBBLICO in ogni social (anche se dormienti, ma almeno li si hanno "prenotati"):
+			FACEBOOK: 
+				per pubblico adulti, visibilità locale (dato che punta alla connessione tra conoscenti), per annunci
+			INSTAGRAM: 
+				per mostrare lavori, video corti formativi che attraggono, storie sul cosa si sta facendo quel giorno
+			YOUTUBE:
+				per video piu completi come: presentazione del corso, brevi lezioni per creare interesse
+			TIKTOK:
+				per pubblico giovane, ma video brevi/scherzosi/ironici sulla vita della palestra, mini-tutorial veloci per attrarre interesse. 
+				(Attenzione: bisogna rimare attivi e al passo coi trend - quindi magari non caso nostro)
+			PINTEREST: 
+				social per tutte le immagini
+	
+	3)	link a sito in ogni social
+	
+	4)	Uso di almeno un hashtag univoco ma ricorrente in tutti i post
+			Esempi:
+				#dungsiacademy
+				#kungfuvietnamita
+				#artimarziali
+				#difesapersonale
+	
+	5)	Caricare immagini con nome del file di struttura sempre simile
+			es:
+				dung-si-academy-ARGOMENTO
+			aiuta nella ricerca a far vedere le immagini, dato che non sono vincolate da descrizione o nome del post su cui vengono messe
+
+PULIZIA/ORDINE:
+	al momento bisogna tenere aggiornato o eseguire pulizia dei seguenti ambiti:
+
+	https://temizen.zenworld.eu/arti-marziali/vietnam/vr/viet-vo-dao
+		modificare il sito di riferimento
+		da ricordarsi di tenere aggiornato il luogo
+	
+	https://share.google/je6zeUoTAuecNrf5W
+		il luogo compare solo se si scrive esattamente
+			Viet Vo Dao Dung Si
+		probabilmente per qualche errore di configurazione e di uniformita del nome
+	
+	SOCIAL:
+		- eliminare i doppioni
+		- eliminare i post non pertinenti
+		- modificare i post esistenti con descrizioni migliori e aggiunta di hashtag
+		- migliorare i post esistenti e nuovi caricando immagini di qualita buona o superiore
+		- inserire in ogni bio dei social un descrizione breve ma chiara e link agli altri social e sito
+
+	FOTO X SITO:
+		organizzarsi per fare delle foto (con camera) da usare come base comune per tutti in modo da postare delle basi ottime che vengono prese come riferimento centrale
+		(materiale principale per popolare il sito di immagini e farsi conoscere)
+
+La gestione del lato social della sola Scuola e quindi visibilità è complessa, lunga e da essere costante.
+Per questo di solito si ha la figura del Social Media Manager
+
+
+FOTO:
+	INDEX/ CAROSELLO:
+		- foto di tutti seduti in semicerchio e maestro in centro del cerchio
+			(volendo due semicerchi con cinture alte cerchio interno, ma siamo pochi)
+			foto scattata da di fronte alto
+		  o
+		  foto maestro centro in seizan, istruttori ai lati, allievi dietro in ginocchio e in piedi
+		  o
+		  (vedi bozze in media)
+		- foto saluto (in laptan) da angolo lato maestro che guarda angolo tra istruttori e allievi
+		- foto durante allenamento arti marziali
+		- foto durante allenamento difesa personale
+		- foto orizzontale con stendardo dietro di diverse posizioni, armi, mani nude
+	
+	WHOWEARE/
+		sezione ARMI:
+			foto disposti in riga con posizione e arma 
+				Bastone Lungo 
+				Spada
+				Sciabola
+				Lancia
+				Ventaglio
+				Alabarda
+				Coltello
+				Long Gian
+				?
+			gif di parti interesanti per alcune armi (1 o piu assieme/pezzo di forma di coppia)
+	
+	CONTATTI/
+		per ogni figura rilevante 
+			foto da sopraginocchio (focus le cinture)
+			o
+			foto mezzobusto	(focus viso)
+			di:
+				Antonio : Maestro / Direttore/Presidente
+				Simone : istruttore 3dan corso bambini e adulti
+				Micaela : istruttore 2dan corso bambini e adulti
+				Raoul : istruttore 2dan corso adulti
+				Mattia : istruttore 1dan corso bambini e adulti
+				Jennifer : self gardian
+				altro?
+		
+ALBO ASI:
+	https://www.asinazionale.it/albo-tecnici/?_albo_disciplina=kung-fu-vietnamita-minh-long-cintura-rossa
+	al momento risultano doppioni.
+	quello scaduti risultano ancora nell'albo come altra persona (non so se sia voluto dall'Asi, non so se vogliamo noi)
