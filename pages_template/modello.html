@@ -1,0 +1,35 @@
+<!--
+    Per creare una nuova pagina:
+    1. Copia questo file in templates/nome-pagina.html e scrivi il contenuto in <article>.
+    2. Aggiungi una voce in seo-data.json (sezione "pages") con:
+         "key": "nome-pagina",
+         "template": "nome-pagina.html",
+         "output": "nome-pagina.html",
+         "title": "Titolo Breve Pagina",
+         "ogTitle": null,
+         "description": "Descrizione di massimo ~155 caratteri."
+    3. Esegui: npm run build:seo
+    4. Il file nome-pagina.html comparirà nella root, pronto per il deploy.
+    5. Aggiungi la pagina anche in sitemap.xml.
+-->
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+{{HEAD_COMMON}}
+</head>
+
+<body>
+    <div class="bg-layer"></div>
+
+    <header> <!-- auto-generated --> </header>
+
+    <article>
+        <!-- contenuto pagina -->
+    </article>
+
+    <footer> <!-- auto-generated --> </footer>
+
+</body>
+
+</html>

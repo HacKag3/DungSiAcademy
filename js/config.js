@@ -1,22 +1,4 @@
 export const CONFIG = {
-
-    annunci: [
-        {
-            id: "2026_esami_adulti",
-            attivo: true,
-            titolo: "Esame per il Passaggio di grado del corso adulti",
-            data: "Venerdì 12 Giugno 2026 19:30",
-            testo: "Si avvisa che venerdì 12 giugno alle 19:30 si effettueranno gli esami del corso adulti per il passaggio di grado. Si chiede abbigliamento completo e di arrivare almeno 10 minuti in anticipo.",
-        },
-        {
-            id: "2026_esami_bambini",
-            attivo: true,
-            titolo: "Esame per il Passaggio di grado del corso bambini",
-            data: "Domenica 31 Maggio 2026 9:00",
-            testo: "Si avvisa che domenica 30 giugno alle 9:00 si effettueranno gli esami del corso bambini per il passaggio di grado. Si chiede abbigliamento completo e di arrivare almeno 10 minuti in anticipo.",
-        }
-    ],
-
     orari: {
         adulti: {
             id: "Adulti",
@@ -39,10 +21,15 @@ export const CONFIG = {
 
     luogo: {
         indirizzo: {
-            via: "Palestra Scuole Medie,</br> Via Friuli, 9",
+            via: "Scuole medie, Via Friuli",
+            numero: "9",
+            citta: "Arcole",
+            provincia: "VR",
             cap: "37040",
-            citta: "Arcole (VR)"
+            paese: "IT"
         },
+        lat: 45.35786798512037,
+        lng: 11.29127910901515,
         map: `
             <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d897.085100866655!2d11.29127910901515!3d45.35786798512037!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477f4114e1748db3%3A0x239b9f730af2eed1!2sViet%20Vo%20Dao%20Dung%20Si!5e1!3m2!1sit!2sit!4v1728210616168!5m2!1sit!2sit"
@@ -63,14 +50,29 @@ export const CONFIG = {
 
     brand: {
         name: "DŨNG SĨ Academy",
-        logo: "./media/logo_DungSi.svg",
+        logo: "./media/loghi/logo_DungSi.svg",
         home: "./index.html"
+    },
+
+    legal: {
+        denominazione: "[DA CONFERMARE: denominazione legale completa, es. A.S.D. DŨNG SĨ Academy]",
+        codiceFiscale: "[DA CONFERMARE]",
+        partitaIva: "[DA CONFERMARE, se presente]",
+        sedeLegale: {
+            via: "[DA CONFERMARE]",
+            cap: "[DA CONFERMARE]",
+            citta: "[DA CONFERMARE]"
+        },
+        rappresentanteLegale: "[DA CONFERMARE: nome del Presidente/legale rappresentante]",
+        registrazione: "[DA CONFERMARE: n. iscrizione RUNTS o registro CONI/ente affiliante]",
+        emailPrivacy: "[DA CONFERMARE: email per richieste privacy]"
     },
 
     associations: {
         asi : {
-            logo: "./media/Logo-ASI.png",
-            subNum: "A0000000"
+            logo: "./media/loghi/Logo-ASI.png",
+            subNum: "A0000000",
+            altText: "logo asi"
         }
     },
 

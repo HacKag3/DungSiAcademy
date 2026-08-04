@@ -22,12 +22,12 @@ export const TOPICS = [
         tabLabel: "Arte Marziale Vietnamita",
         heading: "L'Arte Marziale",
         intro: `
-            L'arte marziale che viene svolta in questa scuola è un arte marziale tradizionale vietnamita che
-            comprende svariati ambiti di studi, dalla pratica fisica a quella mentale.<br />
-            Infatti, nel corso della pratica, quest'arte non cerca solo di sviluppare un corpo e una conoscenza
-            marziale, ma stimola anche la mente del praticante con l'obiettivo di comprendersi meglio e riuscire
-            ad affrontare le avversità di ogni giorno con quella che noi chiamiamo una mente marziale.<br /><br />
-            Negli anni di pratica si affronteranno le seguenti attività:
+            La nostra è un'arte marziale tradizionale vietnamita che unisce corpo e mente in un unico
+            percorso di studio.<br />
+            Non ci limitiamo a costruire un corpo forte e una tecnica marziale solida: allenamento dopo
+            allenamento stimoliamo anche la mente del praticante, per imparare a conoscersi meglio e affrontare
+            le difficoltà quotidiane con quella che chiamiamo una mente marziale.<br /><br />
+            Ecco le attività che si affrontano negli anni di pratica:
         `,
         activities: [
             {
@@ -35,12 +35,12 @@ export const TOPICS = [
                 caroselloNum: 1,
                 title: "Tecniche Fondamentali",
                 text: `
-                    Per una buona pratica fisica e longeva, poniamo estrema importanza
-                    nel costruire la base su cui sviluppare ogni tecnica.<br />
-                    Lo studio dei fontamentali risulta quindi essenziale per proseguire nella Via e non far crollare
-                    la struttura che si costruisce con il passare del tempo.<br />
-                    Nei fondamentali sono comprese le tecniche base di parate, pugni e calci, ma ancora più
-                    importanti le posizioni su cui il corpo si soregge ed esegue quest'ultime.
+                    Ogni tecnica nasce da una base solida: per questo dedichiamo grande cura alla costruzione
+                    dei fondamentali fin dal primo giorno.<br />
+                    Studiarli a fondo è essenziale per proseguire nella Via senza che la struttura costruita nel
+                    tempo finisca per crollare.<br />
+                    I fondamentali comprendono le tecniche base di parate, pugni e calci — ma soprattutto le
+                    posizioni su cui il corpo si sorregge per eseguirle.
                 `
             },
             {
@@ -48,13 +48,12 @@ export const TOPICS = [
                 caroselloNum: 2,
                 title: "Forme a Mani Nude",
                 text: `
-                    Il passo successivo una volta imparate le basi è di mettere assieme e combinare le
-                    varie tecniche di base per creare sequenze più complesse.<br />
-                    Avviene quindi lo studio delle forme, esse sono infatti delle sequenze di tecniche predefinite
-                    in cui si combatte con un avversario immaginario.<br />
-                    Le forme da fuori potrebbero sembrare movimenti non sensati o danze, ma con la pratica si scopre
-                    cosa queste possono trasmettere realmente. Infatti oltre ad un senso puramente fisico di
-                    combattimento simulato, ogni forma nasconde un obbiettivo ed un significato particolare.
+                    Una volta acquisite le basi, il passo successivo è combinarle in sequenze più complesse.<br />
+                    Nasce così lo studio delle forme: sequenze di tecniche predefinite in cui si affronta uno o più
+                    avversari immaginari.<br />
+                    Viste da fuori possono sembrare movimenti senza uno scopo preciso, quasi una danza — ma con
+                    la pratica si scopre quanto hanno da trasmettere. Ogni forma, oltre al combattimento simulato,
+                    nasconde un obiettivo e un significato tutto suo.
                 `
             },
             {
@@ -62,11 +61,10 @@ export const TOPICS = [
                 caroselloNum: 3,
                 title: "Acrobatica",
                 text: `
-                    Nel nostro corso poniamo anche importanza sulle tecniche di caduta e di acrobatica.<br />
-                    Riteniamo fondamentale questa parte non solo per la capacità di riuscire a non provocarsi danno
-                    nella caduta e a sapersi rialzare, ma soprattutto per sviluppare la capacità di
-                    sapersi rialzare mentalmente; ovvero essere in grado di fronte alle avversità di tornare in
-                    piedi ogni volta che veniamo buttati giù anche moralmente.
+                    Nel nostro corso diamo spazio anche alle tecniche di caduta e all'acrobatica.<br />
+                    Non è solo una questione di imparare a cadere senza farsi male e a rialzarsi in fretta: è
+                    soprattutto un allenamento a rialzarsi mentalmente, per tornare in piedi ogni volta che la
+                    vita ci mette a terra.
                 `
             },
             {
@@ -74,18 +72,16 @@ export const TOPICS = [
                 caroselloNum: 4,
                 title: "Studio delle Armi",
                 text: `
-                    Fin dai primi anni di pratica nella nostra scuola, il praticante si ritrova a praticare lo studio
-                    dell'arma per noi considerata "l'arma madre": il bastone lungo.<br />
-                    Con quest'arma il praticante sviluppa un controllo equilibrato di ciascuna parte doppia del
-                    corpo, sviluppando e coordinando parte destra e sinistra in equal modo. Tonifica in oltre il
-                    corpo irrobustendolo e condizionandolo senza avere scompensi tra le parti.<br />
-                    Una volta padroneggiato il bastone lungo il praticante verrà introdotto ad altre armi
-                    tradizionai dell'arte, come ad esempio: spada, ventaglio, sciabola, etc.<br />
-                    Lo studio di questo ambito non avviene tanto per la pratica delle armi, ma per comprendere
-                    l'arma stessa e ciò che queste trasmettono. E' infatti improbabile trovarsi in situazioni in cui
-                    poter utilizzare fisicamente queste armi nella vita reale, ma nello studio dell'arma si possono
-                    trarre molte più informazioni che il semplice mero utilizzo, come ad esempio degli approcci
-                    mentali.
+                    Fin dai primi anni di pratica ci si confronta con quella che consideriamo "l'arma madre":
+                    il bastone lungo.<br />
+                    Attraverso quest'arma il praticante sviluppa un controllo equilibrato di ogni parte del
+                    corpo, coordinando lato destro e sinistro in egual misura, e tonifica la struttura fisica
+                    senza creare scompensi tra le parti.<br />
+                    Padroneggiato il bastone lungo, si passa ad altre armi tradizionali dell'arte: spada,
+                    ventaglio, sciabola, e altre ancora.<br />
+                    Non è tanto una questione di saper maneggiare fisicamente un'arma — è improbabile trovarsi a
+                    doverlo fare nella vita reale — quanto di comprenderla a fondo. È proprio in questo studio
+                    che si trovano gli insegnamenti più preziosi, spesso più mentali che tecnici.
                 `
             },
             {
@@ -93,13 +89,12 @@ export const TOPICS = [
                 caroselloNum: 5,
                 title: "Combattimento",
                 text: `
-                    Lo studio dei fondamenti, di forme, tecniche di difesa e tutto quello che viene appreso nel
-                    percorso viene anche messo a prova nella pratica vera e propria.<br />
-                    Svolto con le protezioni adeguate, si studia tramite la pratica e
-                    l'esercitazione ciò che nel tradizionale tecnico di forme e tecniche potrebbe tornare utile ed
-                    essere applicato anche in situazioni di combattimento reale.<br />
-                    Questa parte del programma viene svolta sempre con rispetto, controllo e attenzione tra gli
-                    allievi così da garantire una continuazione nella pratica serena e conviviale.
+                    Tutto ciò che si impara — fondamentali, forme, tecniche di difesa — viene messo alla prova
+                    nella pratica del combattimento.<br />
+                    Con le protezioni adeguate, si allena sul campo ciò che lo studio tecnico e le forme
+                    insegnano, per capire come applicarlo in una situazione di combattimento reale.<br />
+                    Questa parte del programma si svolge sempre con rispetto, controllo e attenzione reciproca
+                    tra gli allievi, per una pratica che resti serena e conviviale.
                 `
             },
             {
@@ -107,20 +102,19 @@ export const TOPICS = [
                 caroselloNum: 6,
                 title: "Tecniche di Rottura",
                 // TODO: contenuto da completare
-                text: `Durante...`
+                text: `Contenuto in arrivo.`
             },
             {
                 key: "teoria",
                 caroselloNum: 7,
                 title: "Teoria",
                 text: `
-                    Come già accennato nel programma di studi il praticante non si concentrerà solo ed
-                    esclusivamente nella pratica fisica, ma verrà istruito anche con una parte teorica molto
-                    varia.<br />
-                    Durante gli allenamenti infatti verranno forniti spunti e informazioni per svilupparsi anche
-                    mentalmente come praticanti ed invece in possibili lezioni dedicate alla teoria verranno
-                    introdotti e spiegati dei concetti tradizionali come: simbologia, medicina
-                    tradizionale, teoria riferita ad argomenti pratici, etc.
+                    Come già accennato, il percorso non si ferma alla pratica fisica: comprende anche una parte
+                    teorica ricca e variegata.<br />
+                    Durante gli allenamenti vengono offerti spunti per crescere anche mentalmente come
+                    praticanti; nelle lezioni dedicate alla teoria, invece, si approfondiscono concetti
+                    tradizionali come simbologia, medicina tradizionale e la teoria dietro agli aspetti più
+                    pratici.
                 `
             }
         ]
@@ -130,35 +124,34 @@ export const TOPICS = [
         tabLabel: "Difesa Personale",
         heading: "Difesa Personale Close Combat",
         intro: `
-            Il Close Combat è una tipologia di difesa personale divisibile in 3 target: per militari, per le forze
-            dell'ordine e per i civili.<br />
-            Nella nostra palestra si istruiscono gli allievi al livello civile di difesa pesonale,
-            ovvero si impara la capacità di difendersi in diversi scenari con il solo scopo di tutelare la propria
-            persona; senza quindi avere come obbiettivo primario quello di neutralizzare o bloccare l'avversario.<br />
-            Il principale scopo che si vuole raggiungere, oltre alla capacità di difendersi fisicamente
-            e acquisire informazioni/metodologie per affrontare un combattimento, è quello di acquisire
-            fiducia in se stessi ed autostima per affrontare i problemi di ogni giorno.<br />
-            Si precisa quindi, che quando si parla di combattimento, la nostra palestra, non si ferma al solo
-            combattimento fisico di calci e pugni, ma punta a sviluppare una mente pronta ad affrontare anche
-            avversità di qualsiasi tipo (da situazioni sgradevoli a aggressioni verbali a aggressioni fisiche).
+            Il Close Combat è un sistema di difesa personale pensato per tre target diversi: militari, forze
+            dell'ordine e civili.<br />
+            Nella nostra palestra si insegna il livello civile: la capacità di difendersi in scenari diversi
+            con un solo obiettivo, tutelare la propria persona — non neutralizzare o sopraffare
+            l'avversario.<br />
+            Oltre a saper difendersi fisicamente, lo scopo principale è acquisire fiducia in se stessi e
+            autostima per affrontare i problemi di ogni giorno.<br />
+            Per questo, quando parliamo di combattimento, non intendiamo solo calci e pugni: puntiamo a
+            costruire una mente pronta ad affrontare qualsiasi avversità, da una situazione sgradevole a
+            un'aggressione verbale o fisica.
         `,
         // slideshow generale del topic, mostrato subito dopo l'intro (prima dell'elenco attività)
         introCaroselloNum: 8,
-        introOutro: `Negli anni di pratica si affronteranno le seguenti attività:`,
+        introOutro: `Ecco le attività che si affrontano negli anni di pratica:`,
         activities: [
             {
                 key: "difesa-mani-nude",
                 caroselloNum: 9,
                 title: "Difesa a Mani Nude",
                 // TODO: contenuto da completare
-                text: `...`
+                text: `Contenuto in arrivo.`
             },
             {
                 key: "difesa-uso-armi",
                 caroselloNum: 10,
                 title: "Difesa e Uso di Armi",
                 // TODO: contenuto da completare
-                text: `...`
+                text: `Contenuto in arrivo.`
             }
         ]
     }

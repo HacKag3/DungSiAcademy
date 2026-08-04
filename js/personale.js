@@ -56,7 +56,7 @@ export const PEOPLE = [
         email: ""
     },
     {
-        titolo: "Istruttore (Montagna Ferma)",
+        titolo: "Istruttore (Gru Bianca)",
         nome: "Mattia",
         cognome: "Giarolo",
         foto: {

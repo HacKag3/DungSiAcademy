@@ -1,11 +1,11 @@
-import { CONFIG } from "../../config.js";
+import { ANNUNCI } from "../../annunci.js";
 import { escapeHtml } from "../../utilities/utils.js";
 
 export function renderSezioneAnnunci() {
     const annunciContainer = document.getElementById("sezione-annunci");
     if (!annunciContainer) return;
 
-    const annunciAttivi = CONFIG.annunci.filter(a => a.attivo);
+    const annunciAttivi = ANNUNCI.filter(a => a.attivo);
     if (annunciAttivi.length === 0) {
         annunciContainer.style.display = "none";
         return;
