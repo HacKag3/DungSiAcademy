@@ -187,7 +187,58 @@ function checkUnresolvedTokens(html, pageKey) {
     const leftover = html.match(/\{\{[A-Z_]+\}\}/g);
     if (leftover) {
         console.warn(`⚠️  Pagina "${pageKey}": token non risolti rimasti nell'output -> ${[...new Set(leftover)].join(", ")}`);
+        return true;
     }
+    return false;
+}
+
+function checkPlaceholderText(html, pageKey) {
+    const patterns = [
+        /\[DA CONFERMARE[^\]]*\]/gi,
+        /\[DA DEFINIRE[^\]]*\]/gi,
+        /\[\.\.\.\]/g
+    ];
+    const found = new Set();
+
+    for (const regex of patterns) {
+        const matches = html.match(regex);
+        if (matches) {
+            matches.forEach(match => found.add(match));
+        }
+    }
+
+    if (found.size > 0) {
+        console.warn(`⚠️  Pagina "${pageKey}": placeholder provvisori trovati nell'output -> ${[...found].join(", ")}`);
+        return true;
+    }
+    return false;
+}
+
+function checkConfigPlaceholders() {
+    const placeholderRegex = /\[DA CONFERMARE[^\]]*\]|\[DA DEFINIRE[^\]]*\]|\[\.\.\.\]/gi;
+    const issues = [];
+
+    function scan(value, path) {
+        if (typeof value === "string") {
+            const matches = value.match(placeholderRegex);
+            if (matches) {
+                matches.forEach(match => issues.push(`${path}: ${match}`));
+            }
+        } else if (Array.isArray(value)) {
+            value.forEach((item, index) => scan(item, `${path}[${index}]`));
+        } else if (value && typeof value === "object") {
+            Object.entries(value).forEach(([key, nested]) => scan(nested, `${path}.${key}`));
+        }
+    }
+
+    scan(CONFIG, "CONFIG");
+
+    if (issues.length > 0) {
+        console.warn("⚠️  Attenzione: il file js/config.js contiene valori provvisori o placeholder:");
+        issues.forEach(issue => console.warn(`   - ${issue}`));
+        return true;
+    }
+    return false;
 }
 
 function build() {
@@ -198,13 +249,16 @@ function build() {
         return;
     }
 
+    const configHasPlaceholders = checkConfigPlaceholders();
     let generated = 0;
+    let hasWarnings = configHasPlaceholders;
 
     for (const page of pages) {
         const templatePath = path.join(TEMPLATES_DIR, page.template);
 
         if (!fs.existsSync(templatePath)) {
             console.warn(`⚠️  Template mancante: ${TEMPLATES_DIR}/${page.template} (pagina "${page.key}") — saltata.`);
+            hasWarnings = true;
             continue;
         }
 
@@ -213,7 +267,11 @@ function build() {
         const tokens = computeTokens(site, page);
         const finalHtml = applyTokens(withPartials, tokens);
 
-        checkUnresolvedTokens(finalHtml, page.key);
+        const unresolvedTokens = checkUnresolvedTokens(finalHtml, page.key);
+        const placeholderIssues = checkPlaceholderText(finalHtml, page.key);
+        if (unresolvedTokens || placeholderIssues) {
+            hasWarnings = true;
+        }
 
         const outPath = path.join(OUTPUT_DIR, page.output);
         makeWritable(outPath);
@@ -224,6 +282,9 @@ function build() {
     }
 
     console.log(`\nFatto: ${generated} pagina/e generate su ${pages.length} definite.`);
+    if (hasWarnings) {
+        console.warn("⚠️  Attenzione: sono stati rilevati placeholder o token provvisori. Controlla le pagine generate prima della pubblicazione o del push.");
+    }
 }
 
 build();
