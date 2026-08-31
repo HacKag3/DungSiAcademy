@@ -40,11 +40,59 @@ export function renderSezioneAnnunci() {
 
     const dettaglio = annunciContainer.querySelector("#annuncio-dettaglio");
     document.body.appendChild(dettaglio);
+    const carouselWrapper = annunciContainer.querySelector("#carouselWrapper");
     let ultimoBottoneAttivo = null;
+    let suppressClickAfterDrag = false;
+
+    if (carouselWrapper) {
+        let isDragging = false;
+        let startX = 0;
+        let startScrollLeft = 0;
+
+        const endDrag = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            carouselWrapper.classList.remove("dragging");
+            suppressClickAfterDrag = true;
+            window.setTimeout(() => {
+                suppressClickAfterDrag = false;
+            }, 80);
+        };
+
+        carouselWrapper.addEventListener("pointerdown", (event) => {
+            if (event.pointerType === "mouse" && event.button !== 0) return;
+
+            isDragging = true;
+            startX = event.clientX;
+            startScrollLeft = carouselWrapper.scrollLeft;
+            carouselWrapper.classList.add("dragging");
+            carouselWrapper.setPointerCapture?.(event.pointerId);
+        }, { passive: true });
+
+        carouselWrapper.addEventListener("pointermove", (event) => {
+            if (!isDragging) return;
+
+            const deltaX = event.clientX - startX;
+            if (Math.abs(deltaX) > 4) {
+                suppressClickAfterDrag = true;
+                carouselWrapper.scrollLeft = startScrollLeft - deltaX;
+            }
+        }, { passive: true });
+
+        carouselWrapper.addEventListener("pointerup", endDrag, { passive: true });
+        carouselWrapper.addEventListener("pointerleave", endDrag, { passive: true });
+        carouselWrapper.addEventListener("pointercancel", endDrag, { passive: true });
+    }
 
     annunciContainer.addEventListener("click", async (event) => {
         const button = event.target.closest("[data-annuncio-id]");
         if (!button) return;
+        if (suppressClickAfterDrag) {
+            event.preventDefault();
+            event.stopPropagation();
+            suppressClickAfterDrag = false;
+            return;
+        }
 
         const annuncio = ANNUNCI.find(a => a.id === button.dataset.annuncioId);
         if (!annuncio || !dettaglio) return;

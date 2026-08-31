@@ -511,6 +511,13 @@ article #luogo #map {
     scrollbar-color: rgba(255, 255, 255, .35) transparent;
     scroll-behavior: smooth;
     padding: 1em;
+    cursor: grab;
+    touch-action: pan-y;
+
+    &.dragging {
+        cursor: grabbing;
+        user-select: none;
+    }
 
     &::-webkit-scrollbar {
         height: 5px;
