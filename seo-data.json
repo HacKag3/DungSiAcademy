@@ -1,0 +1,52 @@
+{
+    "site": {
+        "name": "DŨNG SĨ Academy",
+        "locale": "it_IT",
+        "domain": "https://dungsiacademy.pages.dev",
+        "ogImage": "/media/logo_DungSi.svg",
+        "ogImageAlt": "Logo DŨNG SĨ Academy"
+    },
+
+    "pages": [
+        {
+            "key": "index",
+            "template": "index.html",
+            "output": "index.html",
+            "title": null,
+            "ogTitle": "DŨNG SĨ Academy - Arti Marziali e Difesa Personale ad Arcole (VR)",
+            "description": "DŨNG SĨ Academy: scuola di arti marziali tradizionali vietnamite e difesa personale Close Combat ad Arcole (VR). Corsi per bambini e adulti."
+        },
+        {
+            "key": "whoweare",
+            "template": "whoweare.html",
+            "output": "whoweare.html",
+            "title": "Chi Siamo",
+            "ogTitle": null,
+            "description": "Scopri l'arte marziale tradizionale vietnamita e la difesa personale Close Combat insegnate alla DŨNG SĨ Academy."
+        },
+        {
+            "key": "contacts",
+            "template": "contacts.html",
+            "output": "contacts.html",
+            "title": "Contatti",
+            "ogTitle": null,
+            "description": "Contatti e team della DŨNG SĨ Academy: maestro, istruttori e responsabili della scuola di arti marziali di Arcole (VR)."
+        },
+        {
+        "key": "privacy",
+        "template": "privacy.html",
+        "output": "privacy.html",
+        "title": "Privacy Policy",
+        "ogTitle": null,
+        "description": "Informativa sul trattamento dei dati personali della DŨNG SĨ Academy."
+        },
+        {
+        "key": "cookie",
+        "template": "cookie.html",
+        "output": "cookie.html",
+        "title": "Cookie Policy",
+        "ogTitle": null,
+        "description": "Informativa sui cookie e sui contenuti di terze parti utilizzati dal sito della DŨNG SĨ Academy."
+        }
+    ]
+}

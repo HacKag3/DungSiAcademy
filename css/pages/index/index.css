@@ -1,3 +1,6 @@
+/* ============================================================
+   HERO
+   ============================================================ */
 article .hero-panel {
     margin: 1em auto 2em;
     padding: 0 1rem;
@@ -21,14 +24,33 @@ article .hero-card {
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
     transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-}
 
-article .hero-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(141, 153, 174, 0.14), transparent 60%);
-    pointer-events: none;
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, rgba(141, 153, 174, 0.14), transparent 60%);
+        pointer-events: none;
+    }
+
+    .eyebrow {
+        display: inline-block;
+        margin-bottom: 0.75rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 1.5em;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: var(--f_color);
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+        margin-bottom: 0.7rem;
+        font-family: var(--fh);
+        font-size: clamp(2rem, 3.3vw, 2.8rem);
+        line-height: 1.1;
+        color: white;
+    }
 }
 
 article .hero-copy {
@@ -36,33 +58,7 @@ article .hero-copy {
     z-index: 1;
 }
 
-article .hero-card .eyebrow {
-    display: inline-block;
-    margin-bottom: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: 1.5em;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: var(--f_color);
-    background: rgba(255, 255, 255, 0.1);
-}
-
-article .hero-card h1 {
-    margin-bottom: 0.7rem;
-    font-family: var(--fh);
-    font-size: clamp(2rem, 3.3vw, 2.8rem);
-    line-height: 1.1;
-    color: white;
-}
-
-article .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
-article .hero-actions .btn {
+article .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -74,14 +70,21 @@ article .hero-actions .btn {
     background: rgba(255, 255, 255, 0.08);
     color: var(--f_color);
     transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }
 }
 
-@media (hover: hover)  and (pointer: fine) {
-    article .hero-actions .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
-        background: rgba(255, 255, 255, 0.2);
-    }
+article .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
 }
 
 article .hero-highlights {
@@ -105,20 +108,372 @@ article .hero-highlight {
     border-radius: 1em;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+
+    strong {
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    span {
+        font-size: 0.8rem;
+        color: var(--f_color);
+    }
 }
 
-article .hero-highlight strong {
-    color: white;
-    font-size: 0.9rem;
+article .hero-cta {
+    position: relative;
+    z-index: 1;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
 }
 
-article .hero-highlight span {
-    font-size: 0.8rem;
+article .hero-cta-text {
+    max-width: 40rem;
+    margin: 0;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+article .hero-cta-btn {
+    padding: 0.85rem 1.75rem;
+    font-size: 1.05rem;
+}
+
+
+/* ============================================================
+   ORARI + LUOGO — guscio condiviso delle due card
+   ============================================================ */
+article #partecipare,
+article #orari,
+article #luogo,
+article hr {
+    width: 95%;
+    margin: auto;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        border-radius: 0;
+    }
+}
+
+article #partecipare,
+article #orari,
+article #luogo {
+    padding: 1.25rem 1.25rem 1.5rem;
+    background: rgba(52, 46, 55, 0.99);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+}
+
+article #partecipare{
+    margin-top: 1em;
+    border-top-left-radius: 2em;
+    border-top-right-radius: 2em;
+}
+
+article #luogo {
+    border-bottom-left-radius: 2em;
+    border-bottom-right-radius: 2em;
+
+    @media (max-width: 768px) {
+        margin-bottom: 0;
+    }
+}
+
+article .lb_title {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5em;
+    border-radius: 2em;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
+    font-size: 1.1em;
+    font-weight: bold;
+    border-bottom: none;
+}
+
+
+
+article #partecipare {
+    div {
+        margin-left: 1em;
+        line-height: 1.5;
+        
+        ul {
+            margin: .75em 1.25em;
+        }
+    }
+}
+
+
+/* ============================================================
+   ORARI — selettore a tab (età/categoria)
+   ============================================================ */
+article #orari .selector {
+    justify-content: center;
+    display: flex;
+
+    ul {
+        justify-content: center;
+        display: flex;
+        list-style: none;
+        gap: 0.5em;
+        text-decoration: none;
+    }
+
+    li {
+        cursor: default;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 2em;
+        transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+
+        &.off {
+            color: var(--f2_color);
+            background: rgba(255, 255, 255, 0.04);
+            cursor: pointer;
+
+            &:hover {
+                transform: translateY(-4px);
+                background: rgba(255, 255, 255, 0.12);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        &:not(.off) {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            border-bottom-color: rgba(255, 255, 255, 0.03);
+            border-bottom-width: 4px;
+            border-radius: 1.5em 1.5em 0 0;
+        }
+    }
+}
+
+/* Condiviso con altri selettori a tab del sito (es. whoweare) */
+button.topic-btn {
+    padding: 0.65rem 1.1rem;
+    width: 100%;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-weight: bold;
+    cursor: inherit;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    &:focus-visible {
+        outline: 2px solid var(--f_color);
+        outline-offset: -4px;
+        border-radius: 0.4em;
+    }
+}
+
+
+/* ============================================================
+   ORARI — tabella
+   ============================================================ */
+article #orari .content {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+
+    .table-wrapper {
+        position: relative;
+        width: 65ch;
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 1em;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    table {
+        background-color: rgba(255, 255, 255, 0.04);
+        width: 100%;
+        border-radius: 1em;
+        border-collapse: collapse;
+        overflow: hidden;
+    }
+
+    th {
+        border-bottom: rgba(255, 255, 255, 0.18) solid 2px;
+        padding: 0.85em 0.65em;
+    }
+
+    td {
+        text-align: center;
+        padding: 0.7em 0.65em;
+    }
+
+    .giorno {
+        text-align: left;
+        width: 70%;
+        border-right: solid 2px rgba(255, 255, 255, 0.08);
+    }
+}
+
+
+/* ============================================================
+   INFO BOX — icona con popup/overlay a schermo intero
+   ============================================================ */
+.info {
+    position: absolute;
+    top: -1.25em;
+    right: -1em;
+    z-index: 50;
+    pointer-events: auto;
+    font-family: 'Roboto';
+
+    &:hover .info-icon {
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 1);
+    }
+}
+
+.info-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--f2_color), #c9d3e4);
+    color: #111;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.info-box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(92vw, 320px);
+    background: linear-gradient(135deg, rgba(52, 46, 55, 0.98), rgba(72, 64, 65, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 20px;
+    border-radius: 2em;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    z-index: 9999;
     color: var(--f_color);
+    line-height: 1.6;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.86);
+    backdrop-filter: blur(5px);
+    z-index: 9998;
 }
 
 
+/* ============================================================
+   LUOGO — indirizzo e mappa
+   ============================================================ */
+article #luogo #indirizzo {
+    padding: 0.5rem 2rem;
+    line-height: 1.8;
+}
+
+article #luogo #map {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    max-width: 64em;
+    aspect-ratio: 21 / 9;
+
+    iframe {
+        border-radius: 1em;
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* ============================================================
+   LUOGO — placeholder mappa (click-to-load)
+   ============================================================ */
+.map-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    padding: 2em 1.5em;
+    box-sizing: border-box;
+    border-radius: 1em;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    background:
+        repeating-linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.03) 0 2px,
+            transparent 2px 14px
+        ),
+        rgba(255, 255, 255, 0.04);
+    transition: border-color 0.25s ease, background 0.25s ease;
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+.map-placeholder-icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--f2_color), #c9d3e4);
+    color: #111;
+    font-size: 1.4em;
+}
+
+.map-placeholder-text {
+    max-width: 32em;
+    margin: 0;
+    line-height: 1.6;
+    color: var(--f_color);
+    font-size: 0.95em;
+}
+
+.map-placeholder-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-placeholder {
+        padding: 1.5em 1em;
+    }
+
+    .map-placeholder-text {
+        font-size: 0.9em;
+    }
+}
+
+/* ============================================================
+   ANNUNCI (carosello scorrevole di card)
+   ============================================================ */
 #sezione-annunci {
     width: 100%;
     margin: 0 auto;
@@ -153,41 +508,56 @@ article .hero-highlight span {
     width: 100%;
     overflow-x: auto;
     scrollbar-width: thin;
-    scrollbar-color: rgba(255,255,255,.35) transparent;
+    scrollbar-color: rgba(255, 255, 255, .35) transparent;
     scroll-behavior: smooth;
     padding: 1em;
-}
-.carousel-wrapper::-webkit-scrollbar {
-    height: 5px;
-}
-.carousel-wrapper::-webkit-scrollbar-track {
-    background: transparent;
-}
-.carousel-wrapper::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.18);
-    border-radius: 999px;
-    transition: background 0.25s ease;
-}
-@media (hover: hover) and (pointer: fine) {
-    .carousel-wrapper::-webkit-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.35);
+    cursor: grab;
+    touch-action: pan-y;
+
+    &.dragging {
+        cursor: grabbing;
+        user-select: none;
     }
-}
-.carousel-wrapper:active::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.45);
+
+    &::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        transition: background 0.25s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        &::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+    }
+
+    &:active::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.45);
+    }
 }
 
 .carousel-track {
     display: flex;
     gap: 1.1rem;
     padding: 0em 2em;
-}
-.carousel-track::after {
-    content: "";
-    flex: 0 0 2em;
+
+    &::after {
+        content: "";
+        flex: 0 0 2em;
+    }
 }
 
 .annuncio-card {
+    display: flex;
+    flex-direction: column;
     background: linear-gradient(100deg, rgba(52, 46, 55, 0.98), rgba(72, 64, 65, 0.95));
     border-left: 5px solid var(--f2_color);
     padding: 1em;
@@ -204,221 +574,189 @@ article .hero-highlight span {
     h2 {
         font-weight: bolder;
     }
-    .annuncio-data {
-        display: inline-block;
-        padding: 0.25em 0.5em;
-        font-style: italic;
-    }
+
     p {
         padding: 0.5em 1em;
     }
 }
 
-
-article #orari,
-article #luogo,
-article hr {
-    width: 95%;
-    margin: auto;
-}
-article #orari,
-article #luogo {
-    padding: 1.25rem 1.25rem 1.5rem;
-    background: rgba(52, 46, 55, 0.99);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
-}
-article #orari {
-    margin-top: 1em;
-    border-top-left-radius: 2em;
-    border-top-right-radius: 2em;
-}
-article #luogo {
-    margin-bottom: 1em;
-    border-bottom-left-radius: 2em;
-    border-bottom-right-radius: 2em;
-
-    @media (max-width: 768px) {
-        margin-bottom: 0;
-    }
+.annuncio-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    margin-top: auto;
+    padding-top: 0.75em;
 }
 
-@media (max-width: 768px) {
-    article #orari,
-    article #luogo,
-    article hr {
-        width: 100%;
-        border-radius: 0;
-    }
+.annuncio-date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
 }
 
-article .lb_title {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.5em;
-    border-radius: 2em;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
-    font-size: 1.1em;
+.annuncio-data {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.25em 0.5em;
+}
+
+.annuncio-evento-data {
     font-weight: bold;
-    border-bottom: none;
 }
 
-article #orari .selector {
-    justify-content: center;
-    display: flex;
-}
-
-article #orari .selector ul {
-    justify-content: center;
-    display: flex;
-    list-style: none;
-    gap: 0.5em;
-    text-decoration: none;
-}
-
-article #orari .selector ul li {
-    transform: translateY(4px);
-    padding: 0.65rem 1.1rem;
-    cursor: default;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 2em;
-    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-}
-
-article #orari .selector ul li.off:hover {
-    transform: translateY(0);
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-article #orari .selector ul li:not(.off) {
-    transform: translateY(0);
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
-    border-bottom-color: rgba(255, 255, 255, 0.03);
-    border-bottom-width: 4px;
-    border-radius: 1.5em 1.5em 0 0;
-}
-
-article #orari .selector ul li.off {
+.annuncio-evento-data i {
     color: var(--f2_color);
-    background: rgba(255, 255, 255, 0.04);
-    cursor: pointer;
+    font-size: 1.1em;
 }
 
-article #orari .content {
-    display: flex;
-    gap: 1rem;
-    width: 100%;
-    justify-content: center;
+.annuncio-pubblicazione-data {
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.78em;
+    font-style: italic;
 }
 
-article #orari .content .table-wrapper {
-    position: relative;
-    width: 65ch;
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 1em;
+.annuncio-pubblicazione-data i {
+    opacity: 0.75;
+}
+
+.annuncio-apri,
+.annuncio-chiudi {
     border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.6em;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
 }
 
-article #orari .content table {
-    background-color: rgba(255, 255, 255, 0.04);
-    width: 100%;
-    border-radius: 1em;
-    border-collapse: collapse;
+.annuncio-apri {
+    padding: 0.5em 1em;
+}
+
+.annuncio-apri:hover,
+.annuncio-apri:focus-visible,
+.annuncio-chiudi:hover,
+.annuncio-chiudi:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.annuncio-dettaglio {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.78);
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+.annuncio-alert-aperto {
     overflow: hidden;
 }
 
-article #orari .content th {
-    border-bottom: rgba(255, 255, 255, 0.18) solid 2px;
-    padding: 0.85em 0.65em;
-}
-
-article #orari .content td {
-    text-align: center;
-    padding: 0.7em 0.65em;
-}
-
-article #orari .content .giorno {
-    text-align: left;
-    width: 70%;
-    border-right: solid 2px rgba(255, 255, 255, 0.08);
-}
-
-.info {
-    position: absolute;
-    top: -1.25em;
-    right: -1em;
-    z-index: 50;
-    pointer-events: auto;
-    font-family: 'Roboto';
-}
-
-.info-icon {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, var(--f2_color), #c9d3e4);
-    color: #111;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.info:hover .info-icon {
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 1);
-}
-
-.info-box {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(92vw, 320px);
-    background: linear-gradient(135deg, rgba(52, 46, 55, 0.98), rgba(72, 64, 65, 0.95));
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    padding: 20px;
-    border-radius: 2em;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-    z-index: 9999;
-    color: var(--f_color);
-    line-height: 1.6;
-}
-
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.86);
-    backdrop-filter: blur(5px);
-    z-index: 9998;
-}
-
-
-article #luogo #indirizzo {
-    padding: 0.5rem 2rem;
-    line-height: 1.8;
-}
-
-article #luogo #map {
-    margin: 0 auto;
-    text-align: center;
-    width: 100%;
-    max-width: 64em;
-    aspect-ratio: 21 / 9;
-}
-
-article #luogo #map iframe {
+.annuncio-dettaglio-box {
+    position: relative;
+    width: min(100%, 48rem);
+    max-height: min(85vh, 48rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.42) rgba(0, 0, 0, 0.18);
+    padding: 1.5em 2.5em 1.5em 1.5em;
+    border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 1em;
-    width: 100%;
-    height: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, rgba(52, 46, 55, 0.99), rgba(72, 64, 65, 0.98));
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    &::-webkit-scrollbar {
+        width: 0.7rem;
+    }
+
+    &::-webkit-scrollbar-button {
+        display: none;
+        width: 0;
+        height: 0;
+        appearance: none;
+        border: 0;
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-button:single-button,
+    &::-webkit-scrollbar-button:start:decrement,
+    &::-webkit-scrollbar-button:end:increment {
+        display: none;
+        width: 0;
+        height: 0;
+        appearance: none;
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+        margin: 0.75rem 0;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.18);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background-clip: padding-box;
+        background-color: rgba(255, 255, 255, 0.42);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 255, 255, 0.68);
+    }
+
+    h2 {
+        margin: 0.35em 0;
+    }
+
+    p {
+        padding: 0;
+    }
+}
+
+.annuncio-dettaglio-data {
+    font-style: italic;
+}
+
+.annuncio-dettaglio-date {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+.annuncio-chiudi {
+    position: absolute;
+    top: 0.75em;
+    right: 0.75em;
+    width: 2em;
+    height: 2em;
+    line-height: 1;
+}
+
+.annuncio-dettaglio-contenuto img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .annuncio-dettaglio {
+        padding: 1rem;
+    }
+
+    .annuncio-dettaglio-box {
+        max-height: 90vh;
+        padding: 1.25em 2.25em 1.25em 1.25em;
+    }
 }

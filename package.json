@@ -1,0 +1,8 @@
+{
+    "name": "dungsi-academy-site",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build:seo": "node build-seo.mjs"
+    }
+}
