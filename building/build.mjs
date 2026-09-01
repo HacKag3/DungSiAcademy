@@ -2,23 +2,25 @@
 // e genera gli .html finali pronti per il deploy.
 //
 // Uso:
-//   node build-seo.mjs
-//   (oppure: npm run build:seo)
+//   node building/build.mjs
+//   (oppure: npm run build)
 //
 // Per modificare titoli/descrizioni/dominio: edita SOLO seo-data.json.
 // Per modificare il contenuto di una pagina: edita pages_template/<pagina>.html.
+// e poi eseguire il build
 
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { CONFIG } from "./js/config.js";
+import { CONFIG } from "../js/config.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url)); // root del sito
-
+const ROOT_DIR = path.resolve(__dirname, "..");
 const DATA_PATH = path.join(__dirname, "seo-data.json");
 const TEMPLATES_DIR = path.join(__dirname, "pages_template");
 const PARTIALS_DIR = path.join(TEMPLATES_DIR, "_partials");
-const OUTPUT_DIR = __dirname;
+const SEO_TEMPLATES_DIR = path.join(__dirname, "seo");          // dove si trovano i sorgenti di sitemap e robots
+const OUTPUT_DIR = ROOT_DIR;
 
 const PARTIALS = {
     "{{HEAD_COMMON}}": "head-common.html"
@@ -34,9 +36,7 @@ const GIORNI_IT_EN = {
     "Domenica": "Sunday"
 };
 
-// Toglie il flag "sola lettura" se il file esiste già, cosi' possiamo
-// riscriverlo. Su Windows fs.chmod agisce sull'attributo "read-only";
-// su Unix/macOS sui permessi di scrittura del proprietario.
+// Toglie il flag "sola lettura" se il file esiste già
 function makeWritable(filePath) {
     if (!fs.existsSync(filePath)) return;
     try {
@@ -45,10 +45,9 @@ function makeWritable(filePath) {
         console.warn(`⚠️  Non riesco a rendere scrivibile ${filePath}: ${err.message}`);
     }
 }
-
-// Imposta il file appena scritto come sola lettura, per scoraggiare
-// modifiche a mano dei file generati (vanno editati i template, non
-// questi).
+// Imposta il file come sola lettura, 
+// per scoraggiare modifiche a mano dei file generati
+// (vanno editati i template, non questi).
 function makeReadOnly(filePath) {
     try {
         fs.chmodSync(filePath, 0o444);
@@ -86,7 +85,6 @@ function buildOpeningHours() {
             });
         }
     }
-
     return specs;
 }
 
@@ -115,14 +113,12 @@ function buildSchemaOrgJson(site, page) {
     };
 
     Object.keys(schema).forEach(key => schema[key] === undefined && delete schema[key]);
-
     return JSON.stringify(schema, null, 4);
 }
 
 function buildLegalTokens() {
     const legal = CONFIG.legal ?? {};
     const sede = legal.sedeLegale ?? {};
-
     const sedeTesto = sede.via ? `${sede.via}, ${sede.cap} ${sede.citta}` : "";
     const pivaInline = legal.partitaIva ? `, P.IVA ${legal.partitaIva}` : "";
 
@@ -165,7 +161,7 @@ function applyPartials(html, pageKey) {
 
         const partialPath = path.join(PARTIALS_DIR, filename);
         if (!fs.existsSync(partialPath)) {
-            console.warn(`⚠️  Pagina "${pageKey}": partial mancante _partials/${filename} per il token ${token}.`);
+            console.warn(`⚠️  Pagina "${pageKey}": partial mancante ${PARTIALS_DIR}/${filename}`);
             continue;
         }
 
@@ -241,6 +237,31 @@ function checkConfigPlaceholders() {
     return false;
 }
 
+// Funzione per generare sitemap.xml e robots.txt usando il dominio da seo-data.json
+function buildAuxiliaryFiles(site) {
+    const siteUrl = site.domain;
+    const auxFiles = ["sitemap.xml", "robots.txt"];
+
+    for (const fileName of auxFiles) {
+        const templatePath = path.join(SEO_TEMPLATES_DIR, fileName);
+
+        if (!fs.existsSync(templatePath)) {
+            console.warn(`⚠️  File ausiliario mancante: ${SEO_TEMPLATES_DIR}/${fileName} — saltato.`);
+            continue;
+        }
+
+        let content = fs.readFileSync(templatePath, "utf-8");
+        content = content.split("%%SITE_URL%%").join(siteUrl);
+
+        const outPath = path.join(OUTPUT_DIR, fileName);
+        makeWritable(outPath);
+        fs.writeFileSync(outPath, content, "utf-8");
+        makeReadOnly(outPath);
+
+        console.log(`✅  ${SEO_TEMPLATES_DIR}/${fileName} -> ${fileName} (aggiornato con domain: ${siteUrl})`);
+    }
+}
+
 function build() {
     const { site, pages } = loadData();
 
@@ -281,6 +302,9 @@ function build() {
         generated++;
     }
 
+    // Genera automaticamente sitemap e robots leggendo il domain da seo-data.json
+    buildAuxiliaryFiles(site);
+    
     console.log(`\nFatto: ${generated} pagina/e generate su ${pages.length} definite.`);
     if (hasWarnings) {
         console.warn("⚠️  Attenzione: sono stati rilevati placeholder o token provvisori. Controlla le pagine generate prima della pubblicazione o del push.");

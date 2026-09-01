@@ -3,6 +3,6 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build:seo": "node build-seo.mjs"
+        "build": "node building/build.mjs"
     }
 }
