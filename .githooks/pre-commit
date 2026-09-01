@@ -11,6 +11,7 @@ if [ "$CURRENT_BRANCH" = "main" ]; then
         echo "   Il branch main deve contenere solo i file HTML finali compilati."
         exit 1
     fi
+    exit 0
 fi
 
 # 2. Se siamo su dev (o altro branch), esegue il build automatico
