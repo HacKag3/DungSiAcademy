@@ -1,0 +1,238 @@
+.slideshow {
+    --transition-duration: 1s;
+
+    aspect-ratio: 21 / 9;
+    width: 100%;
+    max-height: 60vh;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto 2em auto;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    background: #000000;
+    z-index: 1;
+
+    @media (max-width: 768px) {
+        aspect-ratio: 4 / 3;
+        max-height: 45vh;
+    }
+}
+
+.slideshow-inner {
+    width: 100%;
+    height: 100%;
+}
+
+.slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slideshow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--transition-duration) ease, transform 6s ease;
+    pointer-events: none;
+
+    &.is-active {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+        z-index: 1;
+    }
+
+    .image-container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}
+
+.pagination {
+    position: absolute;
+    bottom: 1.5em;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.3em;
+    z-index: 3;
+
+    .item {
+        appearance: none;
+        border: none;
+        background: transparent;
+        width: 4.8em;
+        height: 1.8em;
+        cursor: pointer;
+        position: relative;
+        transform-origin: center;
+        transition: transform 0.25s ease;
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0.7em;
+            bottom: 0.7em;
+            left: 0.4em;
+            right: 0.4em;
+            border-radius: 2em;
+        }
+
+        &::before {
+            background: rgba(255, 255, 255, 0.25);
+            transition: background 0.5s ease;
+        }
+
+        &::after {
+            background: var(--f_color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        @media (hover: hover) {
+            &:hover::before {
+                background: rgba(255, 255, 255, 0.5);
+            }
+            &:hover {
+                transform: scaleY(1.6);
+            }
+        }
+
+        &.is-active {
+            transform: scaleY(1.4);
+
+            &::after {
+                transform: scaleX(1);
+            }
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--f_color);
+            outline-offset: -4px;
+            border-radius: 0.4em;
+        }
+
+        @media (max-width: 768px) {
+            width: 2.2em;
+            height: 1.5em;
+
+            &::before,
+            &::after {
+                top: 0.6em;
+                bottom: 0.6em;
+                left: 0.15em;
+                right: 0.15em;
+            }
+        }
+    }
+}
+
+.arrows {
+    .arrow {
+        /* Reset nativo per i bottoni */
+        appearance: none;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8em;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 3;
+        filter: drop-shadow(0 3px 5px black) drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
+        transition: filter 0.25s ease;
+
+        @media (hover: hover) {
+            &:hover {
+                filter: drop-shadow(0 5px 8px black) drop-shadow(0 0 5px rgba(0, 0, 0, 0.9));
+            }
+        }
+
+        /* Il carosello ha overflow:hidden, quindi l'outline deve stare
+           dentro i bordi del bottone (offset negativo) per non essere tagliato,
+           dato che le frecce sono posizionate molto vicino ai margini del container. */
+        &:focus-visible {
+            outline: 2px solid var(--f_color);
+            outline-offset: -6px;
+            border-radius: 0.4em;
+        }
+
+        @media (max-width: 768px) {
+            width: 3em;
+        }
+
+        /* Stili dell'SVG */
+        svg {
+            width: 14px;
+            height: 26px;
+            fill: #fff;
+            transition: transform 0.25s ease;
+        }
+    }
+
+    .prev { 
+        left: 1.5em;
+        
+        @media (max-width: 768px) {
+            left: 0.75em; 
+        }
+
+        @media (hover: hover) {
+            &:hover svg { 
+                transform: translateX(-0.25em); 
+            }
+        }
+    }
+
+    .next { 
+        right: 1.5em; 
+        
+        @media (max-width: 768px) {
+            right: 0.75em; 
+        }
+        
+        /* Specchia l'icona verso destra */
+        svg {
+            transform: scaleX(-1);
+        }
+
+        /* Mantiene lo specchiamento e sposta verso destra all'hover */
+        @media (hover: hover) {
+            &:hover svg { 
+                transform: scaleX(-1) translateX(-0.25em); 
+            }
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slide {
+        transition: opacity 0.3s ease;
+        transform: none !important;
+    }
+}
