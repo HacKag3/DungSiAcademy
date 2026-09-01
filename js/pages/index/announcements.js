@@ -1,7 +1,7 @@
 import { ANNUNCI } from "../../annunci.js";
 import { escapeHtml } from "../../utilities/utils.js";
 
-export function renderSezioneAnnunci() {
+export async function renderSezioneAnnunci() {
     const annunciContainer = document.getElementById("sezione-annunci");
     if (!annunciContainer) return;
 
@@ -11,20 +11,35 @@ export function renderSezioneAnnunci() {
         return;
     }
 
+    const annunciConVerifica = await Promise.all(
+        annunciAttivi.map(async (a) => {
+            let fileEsiste = false;
+            if (a.dettaglioUrl && String(a.dettaglioUrl).trim()) {
+                try {
+                    const res = await fetch(a.dettaglioUrl, { method: "HEAD" });
+                    fileEsiste = res.ok;
+                } catch {
+                    fileEsiste = false;
+                }
+            }
+            return { ...a, fileEsiste };
+        })
+    );
+
     annunciContainer.innerHTML = `
-        <label>📢 Annunci</label>
+        <label><i class="fa-solid fa-bullhorn"></i> Annunci</label>
         <div class="fade-content">
             <div class="carousel-wrapper" id="carouselWrapper">
                 <div class="carousel-track">
-                    ${annunciAttivi.map(a => `
+                    ${annunciConVerifica.map(a => `
                         <div class="annuncio-card">
                             <h2>${escapeHtml(a.titolo)}</h2>
                             <span class="annuncio-data annuncio-evento-data"><i class="far fa-calendar-check" aria-hidden="true"></i>
-                            <span> ${escapeHtml(a.data)}</span></span>     
+                            <span> ${escapeHtml(a.data)}</span></span>    
                             <p>${escapeHtml(a.testo)}</p>
                             <div class="annuncio-footer">
                                 <span class="annuncio-data annuncio-pubblicazione-data"><i class="far fa-clock" aria-hidden="true"></i><span>Pubblicato il ${escapeHtml(a.dataPubblicazione)}</span></span>
-                                ${a.dettaglioUrl && String(a.dettaglioUrl).trim() ? `
+                                ${a.fileEsiste ? `
                                     <button type="button" class="annuncio-apri" data-annuncio-id="${escapeHtml(a.id)}" aria-controls="annuncio-dettaglio" aria-expanded="false">
                                         Dettagli
                                     </button>

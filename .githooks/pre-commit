@@ -1,0 +1,29 @@
+#!/bin/sh
+# Pre-commit hook: blocca modifiche a building/ su main e rigenera gli html prima del commit.
+
+CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# 1. Protezione del branch main: impedisce di committare la cartella building/ o package su main
+if [ "$CURRENT_BRANCH" = "main" ]; then
+    # Controlla se ci sono modifiche nell'area di stage che toccano building/ o package.json
+    if git diff --cached --name-only | grep -qE '^(building/|package\.json|package-lock\.json)'; then
+        echo "❌ ERRORE: Non puoi committare file di generazione (building/ o package.json) sul branch main!"
+        echo "   Il branch main deve contenere solo i file HTML finali compilati."
+        exit 1
+    fi
+fi
+
+# 2. Se siamo su dev (o altro branch), esegue il build automatico
+echo "Rigenero gli html da building/pages_template..."
+node building/build.mjs
+
+if [ $? -ne 0 ]; then
+    echo "❌ build.mjs ha fallito: commit annullato."
+    exit 1
+fi
+
+# 3. Aggiunge i file HTML generati nella root e i file ausiliari (sitemap, robots)
+git add index.html contacts.html whoweare.html privacy.html cookie.html sitemap.xml robots.txt
+
+echo "✅ Build completata, file rigenerati inclusi nel commit."
+exit 0

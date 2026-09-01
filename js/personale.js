@@ -9,7 +9,7 @@ export const PEOPLE = [
             cutout: true
         },
         ruolo: "Maestro",
-        descrizione: "Fondatore della scuola di arti marziali vietnamite Dũng Sĩ Academy e Maestro di difesa personale Close Combat.",
+        descrizione: "Fondatore della scuola di arti marziali vietnamite Dũng Sĩ Academy e istruttore di difesa personale Close Combat.",
         telefono: "+39 ",
         email: ""
     },
