@@ -1,0 +1,39 @@
+name: Deploy to Main (Clean Build)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-clean-main:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies & Run Build
+        run: |
+          if [ -f package.json ]; then
+            npm install
+            npm run build:seo
+          fi
+
+      - name: Remove building source files from staging
+        run: |
+          # Rimuove chirurgicamente la cartella di sviluppo e i file di package dal branch main
+          rm -rf building/
+          rm -f package.json package-lock.json
+
+      - name: Commit cleaned production files to main
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(prod): aggiornamento automatico file di produzione compilati"
+          branch: main
+          skip_ci: true
