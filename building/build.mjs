@@ -64,6 +64,17 @@ function loadData() {
     return JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
 }
 
+function buildAbsoluteAssetUrl(siteDomain, assetPath) {
+    if (!assetPath) return "";
+
+    if (/^https?:\/\//i.test(assetPath)) {
+        return assetPath;
+    }
+
+    const cleanPath = assetPath.replace(/^\.?\//, "");
+    return `${siteDomain}/${cleanPath}`;
+}
+
 function buildOpeningHours() {
     const specs = [];
 
@@ -128,11 +139,11 @@ function buildSchemaOrgJson(site, page) {
         name: site.name,
         description: page.description ?? "",
         url: pageUrl,
-        image: site.ogImage
-            ? `${site.domain}${site.ogImage}`
+        image: CONFIG.brand?.copertina
+            ? buildAbsoluteAssetUrl(site.domain, CONFIG.brand.copertina)
             : undefined,
         logo: CONFIG.brand?.logo
-            ? `${site.domain}/${CONFIG.brand.logo.replace(/^\.?\//, "")}`
+            ? buildAbsoluteAssetUrl(site.domain, CONFIG.brand.logo)
             : undefined,
         address,
         geo,
@@ -211,8 +222,11 @@ function computeTokens(site, page) {
         "{{SITE_NAME}}": site.name,
         "{{SITE_LOCALE}}": site.locale,
         "{{SITE_DOMAIN}}": site.domain,
-        "{{OG_IMAGE}}": `${site.domain}${site.ogImage}`,
-        "{{OG_IMAGE_ALT}}": site.ogImageAlt,
+        "{{OG_IMAGE}}": buildAbsoluteAssetUrl(
+            site.domain,
+            CONFIG.brand?.copertina
+        ),
+        "{{OG_IMAGE_ALT}}": site.ogImageAlt || `${site.name} - Copertina`,
         "{{PAGE_TITLE_TAG}}": pageTitleTag,
         "{{PAGE_OG_TITLE}}": pageOgTitle,
         "{{PAGE_DESCRIPTION}}": page.description ?? "",

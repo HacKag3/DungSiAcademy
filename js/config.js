@@ -100,7 +100,8 @@ export const CONFIG = {
     brand: {
         name: "DŨNG SĨ Academy",
         logo: "./media/loghi/DungSi.svg",
-        home: "./index.html"
+        home: "./index.html",
+        copertina: "./media/social/copertina.png"
     },
 
     legal: {
