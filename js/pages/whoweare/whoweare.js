@@ -1,5 +1,13 @@
-import { TOPICS } from "../../topics.js";
+import { INTRO, TOPICS } from "../../topics.js";
 
+function renderIntro(intro) {
+    const container = document.getElementById("descrizioe");
+    if (!container) {
+        console.warn("[WhoWeAre] #descrizioe non trovato: intro non generata.");
+        return;
+    }
+    container.innerHTML = intro.text;
+}
 
 function renderTabButton(topic, index) {
     return `
@@ -118,7 +126,7 @@ function initTopicSwitcher() {
     changeTopic(0);
 }
 
-
+renderIntro(INTRO);
 renderContent(TOPICS);
 
 document.addEventListener("DOMContentLoaded", initTopicSwitcher);

@@ -38,7 +38,56 @@ export const CONFIG = {
             </iframe>`
     },
 
-    contactPhone: "+39 telefono",
+    contacts: {
+        "generale": {
+            id: "generale",
+            titolo: "Generale",
+            icon: "fas fa-address-book",
+            descrizione: "Qualsiasi informazione o richiesta.",
+            telefono: "+39 telefono",
+            email: "email@email.ext"
+        },
+        "segreteria": {
+            id: "segreteria",
+            titolo: "Segreteria",
+            icon: "fas fa-address-card",
+            descrizione: "Informazioni su corsi, iscrizioni, orari e prove gratuite.",
+            telefono: "",
+            email: ""
+        },
+        "amministrazione": {
+            id: "amministrazione",
+            titolo: "Amministrazione",
+            icon: "fas fa-file-invoice",
+            descrizione: "Quote associative, pagamenti, certificati medici e fatturazione.",
+            telefono: "",
+            email: ""
+        },
+        "privacy": {
+            id: "privacy",
+            titolo: "Privacy e Tutela Dati",
+            icon: "fas fa-user-shield",
+            descrizione: "Richieste privacy, esenzione da foto/video ed esercizio dei diritti GDPR.",
+            telefono: "",
+            email: ""
+        },
+        "safeguardian": {
+            id: "safeguarding",
+            titolo: "Safeguarding",
+            icon: "fas fa-shield-alt",
+            descrizione: "Segnalazioni e richieste relative alla tutela e al benessere degli allievi.",
+            telefono: "",
+            email: ""
+        },
+        "eventi": {
+            id: "eventi",
+            titolo: "Eventi e Stage",
+            icon: "fas fa-calendar-alt",
+            descrizione: "Organizzazione di stage, esami di grado ed eventi della scuola.",
+            telefono: "",
+            email: ""
+        }
+    },
     
     social: [
         { name: "Facebook",  url: "https://facebook.com/dungsiacademy",  icon: "fab fa-facebook-f", color: "#1877F2" },
@@ -70,12 +119,13 @@ export const CONFIG = {
 
     associations: {
         asi : {
-            logo: "./media/loghi/Logo-ASI.png",
-            subNum: "A0000000",
+            logo: "./media/loghi/Logo-ASI.webp",
+            subNum: "[DA CONFERMARE] A0000000",
             altText: "logo asi"
         }
     },
 
+    // per elenco burger/navbar
     pages: [
         { name: "Home", href: "./index.html" },
         { name: "Chi Siamo", href: "./whoweare.html" },

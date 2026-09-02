@@ -95,8 +95,32 @@ function buildSameAs() {
 }
 
 function buildSchemaOrgJson(site, page) {
-    const { indirizzoSchema, lat, lng } = CONFIG.luogo ?? {};
+    const luogo = CONFIG.luogo ?? {};
+    const indirizzo = luogo.indirizzo ?? {};
+    const generale = CONFIG.contacts?.generale ?? {};
     const pageUrl = `${site.domain}/${page.output}`;
+    const address = indirizzo.via
+        ? {
+            "@type": "PostalAddress",
+            streetAddress: `${indirizzo.via}${indirizzo.numero ? ` ${indirizzo.numero}` : ""}`,
+            addressLocality: indirizzo.citta ?? "",
+            addressRegion: indirizzo.provincia ?? "",
+            postalCode: indirizzo.cap ?? "",
+            addressCountry: indirizzo.paese ?? "IT"
+        }
+        : undefined;
+    const geo = (
+        typeof luogo.lat === "number" &&
+        typeof luogo.lng === "number"
+    )
+        ? {
+            "@type": "GeoCoordinates",
+            latitude: luogo.lat,
+            longitude: luogo.lng
+        }
+        : undefined;
+    const telephone = generale.telefono?.trim() || undefined;
+    const email = generale.email?.trim() || undefined;
 
     const schema = {
         "@context": "https://schema.org",
@@ -104,15 +128,30 @@ function buildSchemaOrgJson(site, page) {
         name: site.name,
         description: page.description ?? "",
         url: pageUrl,
-        image: `${site.domain}${site.ogImage}`,
-        address: indirizzoSchema ? { "@type": "PostalAddress", ...indirizzoSchema } : undefined,
-        geo: (lat && lng) ? { "@type": "GeoCoordinates", latitude: lat, longitude: lng } : undefined,
+        image: site.ogImage
+            ? `${site.domain}${site.ogImage}`
+            : undefined,
+        logo: CONFIG.brand?.logo
+            ? `${site.domain}/${CONFIG.brand.logo.replace(/^\.?\//, "")}`
+            : undefined,
+        address,
+        geo,
+        telephone,
+        email,
         openingHoursSpecification: buildOpeningHours(),
-        sameAs: buildSameAs(),
-        telephone: CONFIG.contactPhone || undefined
+        sameAs: buildSameAs()
     };
 
-    Object.keys(schema).forEach(key => schema[key] === undefined && delete schema[key]);
+    Object.keys(schema).forEach(key => {
+        if (
+            schema[key] === undefined ||
+            schema[key] === "" ||
+            (Array.isArray(schema[key]) && schema[key].length === 0)
+        ) {
+            delete schema[key];
+        }
+    });
+
     return JSON.stringify(schema, null, 4);
 }
 
@@ -134,6 +173,35 @@ function buildLegalTokens() {
     };
 }
 
+function buildContactTokens() {
+    const generale = CONFIG.contacts?.generale ?? {};
+
+    return {
+        "{{CONTACT_GENERALE_TELEFONO}}": generale.telefono ?? "",
+        "{{CONTACT_GENERALE_EMAIL}}": generale.email ?? "",
+
+        "{{CONTACT_SEGRETERIA_TELEFONO}}":
+            CONFIG.contacts?.segreteria?.telefono ?? "",
+        "{{CONTACT_SEGRETERIA_EMAIL}}":
+            CONFIG.contacts?.segreteria?.email ?? "",
+
+        "{{CONTACT_AMMINISTRAZIONE_TELEFONO}}":
+            CONFIG.contacts?.amministrazione?.telefono ?? "",
+        "{{CONTACT_AMMINISTRAZIONE_EMAIL}}":
+            CONFIG.contacts?.amministrazione?.email ?? "",
+
+        "{{CONTACT_PRIVACY_TELEFONO}}":
+            CONFIG.contacts?.privacy?.telefono ?? "",
+        "{{CONTACT_PRIVACY_EMAIL}}":
+            CONFIG.contacts?.privacy?.email ?? "",
+
+        "{{CONTACT_SAFEGUARDING_TELEFONO}}":
+            CONFIG.contacts?.safeguardian?.telefono ?? "",
+        "{{CONTACT_SAFEGUARDING_EMAIL}}":
+            CONFIG.contacts?.safeguardian?.email ?? ""
+    };
+}
+
 function computeTokens(site, page) {
     const pageTitleTag = page.title ? `${site.name} - ${page.title}` : site.name;
     const pageOgTitle = page.ogTitle || pageTitleTag;
@@ -150,7 +218,8 @@ function computeTokens(site, page) {
         "{{PAGE_DESCRIPTION}}": page.description ?? "",
         "{{PAGE_URL}}": pageUrl,
         "{{SCHEMA_ORG_JSON}}": buildSchemaOrgJson(site, page),
-        ...buildLegalTokens()
+        ...buildLegalTokens(),
+        ...buildContactTokens()
     };
 }
 
