@@ -61,6 +61,7 @@ export async function renderSezioneAnnunci() {
 
     if (carouselWrapper) {
         let isDragging = false;
+        let hasDragged = false;
         let startX = 0;
         let startScrollLeft = 0;
 
@@ -68,18 +69,27 @@ export async function renderSezioneAnnunci() {
             if (!isDragging) return;
             isDragging = false;
             carouselWrapper.classList.remove("dragging");
-            suppressClickAfterDrag = true;
-            window.setTimeout(() => {
-                suppressClickAfterDrag = false;
-            }, 80);
+            if (hasDragged) {
+                suppressClickAfterDrag = true;
+                window.setTimeout(() => {
+                    suppressClickAfterDrag = false;
+                }, 80);
+            }
+            hasDragged = false;
         };
 
         carouselWrapper.addEventListener("pointerdown", (event) => {
             if (event.pointerType === "mouse" && event.button !== 0) return;
 
+            if (event.target.closest("button, a, input, select, textarea")) {
+                return;
+            }
+
             isDragging = true;
+            hasDragged = false;
             startX = event.clientX;
             startScrollLeft = carouselWrapper.scrollLeft;
+
             carouselWrapper.classList.add("dragging");
             carouselWrapper.setPointerCapture?.(event.pointerId);
         }, { passive: true });
@@ -88,7 +98,9 @@ export async function renderSezioneAnnunci() {
             if (!isDragging) return;
 
             const deltaX = event.clientX - startX;
+
             if (Math.abs(deltaX) > 4) {
+                hasDragged = true;
                 suppressClickAfterDrag = true;
                 carouselWrapper.scrollLeft = startScrollLeft - deltaX;
             }
@@ -102,6 +114,7 @@ export async function renderSezioneAnnunci() {
     annunciContainer.addEventListener("click", async (event) => {
         const button = event.target.closest("[data-annuncio-id]");
         if (!button) return;
+
         if (suppressClickAfterDrag) {
             event.preventDefault();
             event.stopPropagation();

@@ -1,5 +1,4 @@
 const CAROSELLI_ROOT = "./media/caroselli/";
-const IMG_EXTENSION = ".jpg";
 
 const carousels = new Map();
 
@@ -39,7 +38,7 @@ async function getImages(caroselloNum) {
         const res = await fetch(`${path}manifest.json`);
         if (!res.ok) throw new Error("manifest non trovato");
         const files = await res.json();
-        return files.map(name => `${path}${name}${IMG_EXTENSION}`);
+        return files.map(name => `${path}${name}`);
     } catch (err) {
         console.error(`Impossibile leggere il manifest per il carosello ${caroselloNum}:`, err);
         return [];
