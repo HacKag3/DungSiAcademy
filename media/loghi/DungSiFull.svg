@@ -3,12 +3,12 @@
 
 <svg
    width="158.75mm"
-   height="161.63184mm"
-   viewBox="0 0 158.75 161.63182"
+   height="161.36725mm"
+   viewBox="0 0 158.75 161.36723"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7, 2026-05-05)"
-   sodipodi:docname="proposta1.svg"
+   sodipodi:docname="DungSiFull.svg"
    xml:space="preserve"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -24,19 +24,20 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.4142136"
-     inkscape:cx="284.61048"
-     inkscape:cy="320.67292"
+     inkscape:cx="284.96403"
+     inkscape:cy="319.96581"
      inkscape:window-width="2560"
      inkscape:window-height="1369"
      inkscape:window-x="1912"
      inkscape:window-y="329"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g44"
-     showguides="true"><inkscape:page
+     inkscape:current-layer="layer1"
+     showguides="true"
+     inkscape:export-bgcolor="#1f1f1f00"><inkscape:page
        x="0"
-       y="1.0331449e-06"
+       y="1.0966179e-08"
        width="158.75"
-       height="161.63181"
+       height="161.36723"
        id="page1"
        margin="0"
        bleed="0" /></sodipodi:namedview><defs
@@ -44,7 +45,7 @@
      inkscape:label="Livello 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(133.12499,35.045443)"
+     transform="translate(133.12499,34.780859)"
      style="display:inline"><path
        id="path1"
        style="display:inline;fill:#ffffff;stroke-width:0;stroke-linecap:round;stroke-miterlimit:100;paint-order:fill markers stroke"
@@ -165,10 +166,10 @@
        xml:space="preserve"
        style="font-size:13.9128px;line-height:1;font-family:Consolas;-inkscape-font-specification:Consolas;writing-mode:lr-tb;direction:ltr;display:inline;fill:#ffffff;stroke-width:0"
        x="-126.96542"
-       y="-22.355448"
+       y="-22.090864"
        id="text2"><tspan
          sodipodi:role="line"
          id="tspan2"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.9128px;font-family:Georgia;-inkscape-font-specification:'Georgia Bold';stroke-width:0"
          x="-126.96542"
-         y="-22.355448">DŨNG SĨ ACADEMY</tspan></text></g></svg>
+         y="-22.090864">DŨNG SĨ ACADEMY</tspan></text></g></svg>

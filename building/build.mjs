@@ -227,6 +227,14 @@ function computeTokens(site, page) {
             CONFIG.brand?.copertina
         ),
         "{{OG_IMAGE_ALT}}": site.ogImageAlt || `${site.name} - Copertina`,
+        "{{FAVICON}}": buildAbsoluteAssetUrl(
+            site.domain,
+            CONFIG.brand?.logo
+        ),
+        "{{TOUCH_ICON}}": buildAbsoluteAssetUrl(
+            site.domain,
+            CONFIG.brand?.touchIcon
+        ),
         "{{PAGE_TITLE_TAG}}": pageTitleTag,
         "{{PAGE_OG_TITLE}}": pageOgTitle,
         "{{PAGE_DESCRIPTION}}": page.description ?? "",
