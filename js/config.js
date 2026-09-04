@@ -101,6 +101,7 @@ export const CONFIG = {
         name: "DŨNG SĨ Academy",
         logo: "./media/loghi/DungSi.svg",
         home: "./index.html",
+        touchIcon: "./media/loghi/touch-icon.png",
         copertina: "./media/social/copertina.png"
     },
 

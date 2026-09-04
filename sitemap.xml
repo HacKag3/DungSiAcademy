@@ -1,39 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://hackag3.github.io/DungSiAcademy/index.html</loc>
+        <loc>https://dungsiacademy.it/index.html</loc>
         <lastmod>2026-07-29</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
     </url>
 
     <url>
-        <loc>https://hackag3.github.io/DungSiAcademy/whoweare.html</loc>
+        <loc>https://dungsiacademy.it/whoweare.html</loc>
         <lastmod>2026-07-29</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
     </url>
 
     <url>
-        <loc>https://hackag3.github.io/DungSiAcademy/contacts.html</loc>
+        <loc>https://dungsiacademy.it/contacts.html</loc>
         <lastmod>2026-07-29</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://hackag3.github.io/DungSiAcademy/privacy.html</loc>
+        <loc>https://dungsiacademy.it/privacy.html</loc>
         <lastmod>2026-07-29</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
     </url>
 
     <url>
-        <loc>https://hackag3.github.io/DungSiAcademy/cookie.html</loc>
+        <loc>https://dungsiacademy.it/cookie.html</loc>
         <lastmod>2026-07-29</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
     </url>
 
 </urlset>
