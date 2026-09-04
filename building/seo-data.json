@@ -47,6 +47,39 @@
         "title": "Cookie Policy",
         "ogTitle": null,
         "description": "Informativa sui cookie e sui contenuti di terze parti utilizzati dal sito della DŨNG SĨ Academy."
+        },
+        {
+        "key": "error-404",
+        "template": "error.html",
+        "output": "404.html",
+        "title": "Pagina non trovata",
+        "description": "La pagina richiesta non è stata trovata sul sito DŨNG SĨ Academy.",
+        "errorCode": "404",
+        "errorKicker": "Pagina non trovata",
+        "errorTitle": "Qui non c'è quello che stai cercando.",
+        "errorDescription": "Il link potrebbe essere cambiato oppure l'indirizzo non è corretto. Torna alla home e riprendi da lì il tuo percorso."
+        },
+        {
+        "key": "error-403",
+        "template": "error.html",
+        "output": "403.html",
+        "title": "Accesso non consentito",
+        "description": "Non è possibile accedere a questa risorsa del sito DŨNG SĨ Academy.",
+        "errorCode": "403",
+        "errorKicker": "Accesso non consentito",
+        "errorTitle": "Questa risorsa non è disponibile.",
+        "errorDescription": "Non hai i permessi necessari per visualizzare questa pagina. Puoi tornare alla home oppure chiedere informazioni alla scuola."
+        },
+        {
+        "key": "error-500",
+        "template": "error.html",
+        "output": "500.html",
+        "title": "Errore temporaneo",
+        "description": "Si è verificato un errore temporaneo sul sito DŨNG SĨ Academy.",
+        "errorCode": "500",
+        "errorKicker": "Errore temporaneo",
+        "errorTitle": "Qualcosa non ha funzionato.",
+        "errorDescription": "Il servizio sta incontrando un problema momentaneo. Riprova tra poco oppure contattaci se l'errore continua."
         }
     ]
 }

@@ -23,7 +23,8 @@ const SEO_TEMPLATES_DIR = path.join(__dirname, "seo");          // dove si trova
 const OUTPUT_DIR = ROOT_DIR;
 
 const PARTIALS = {
-    "{{HEAD_COMMON}}": "head-common.html"
+    "{{HEAD_COMMON}}": "head-common.html",
+    "{{HEAD_ERROR}}": "head-error.html"
 };
 
 const GIORNI_IT_EN = {
@@ -239,6 +240,10 @@ function computeTokens(site, page) {
         "{{PAGE_OG_TITLE}}": pageOgTitle,
         "{{PAGE_DESCRIPTION}}": page.description ?? "",
         "{{PAGE_URL}}": pageUrl,
+        "{{ERROR_CODE}}": page.errorCode ?? "",
+        "{{ERROR_KICKER}}": page.errorKicker ?? "",
+        "{{ERROR_TITLE}}": page.errorTitle ?? "",
+        "{{ERROR_DESCRIPTION}}": page.errorDescription ?? "",
         "{{SCHEMA_ORG_JSON}}": buildSchemaOrgJson(site, page),
         ...buildLegalTokens(),
         ...buildContactTokens()
