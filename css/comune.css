@@ -50,6 +50,20 @@ body {
     padding-top: var(--header-height);
 }
 
+.development-alert {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: #d9a441;
+    color: #1d160b;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-align: center;
+}
+
 body > *:not(header) {
     position: relative;
 }
