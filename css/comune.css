@@ -34,6 +34,7 @@ html, body {
     width: 100%;
     min-height: 100%;
     min-height: 100dvh;
+    overflow-x: hidden;
 }
 
 body {
@@ -44,8 +45,6 @@ body {
 
     display: flex;
     flex-direction: column;
-
-    overflow-x: clip;
 
     padding-top: var(--header-height);
 }
@@ -58,8 +57,8 @@ body > *:not(header) {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    right: 0;
+    bottom: 0;
     background: url("../media/bg.svg") no-repeat center / cover;
     transform-origin: center;
     opacity: 0.2;
@@ -68,6 +67,33 @@ body > *:not(header) {
 
 article {
     font-family: var(--f);
+}
+
+/* Evita overflow orizzontale causato da immagini o contenuti che non
+ * si adattano al viewport.
+ * - Ogni immagine rispetta il contenitore.
+ * - Nel contenuto principale (article) i link lunghi (es. URL) e il testo
+ *   vanno a capo invece di estendersi oltre il viewport.
+ * Non si applica alla navigazione (header/footer/menu) dove il testo
+ * deve restare su una riga (white-space: nowrap). */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+article a,
+article p,
+article li,
+article td,
+article th {
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+article a {
+    word-break: break-all;
+    max-width: 100%;
+    display: inline-block;
 }
 
 

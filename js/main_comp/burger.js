@@ -5,18 +5,12 @@ import { genNavBarLinks } from "../utilities/utils.js";
 // Usa position:fixed sul body per evitare il salto in cima alla pagina
 // e lo scroll-lock via overflow come fallback per browser meno recenti.
 const scrollLock = (() => {
-    let scrollY = 0;
-
     return {
         save() {
-            scrollY = window.scrollY;
-            document.body.style.top = `-${scrollY}px`;
             document.body.classList.add("menu-open");
         },
         restore() {
             document.body.classList.remove("menu-open");
-            document.body.style.top = "";
-            window.scrollTo(0, scrollY);
         }
     };
 })();
@@ -66,10 +60,11 @@ function ensureOverlay() {
 }
 
 export function initBurger() {
+    const burgerEl   = document.getElementById("burger");
     const burgerBtn  = document.querySelector(".burger-icon");
     const burgerNav  = document.getElementById("burger-links");
     const headerEl   = document.querySelector("header");
-    if (!burgerBtn || !burgerNav || !headerEl) {
+    if (!burgerBtn || !burgerNav || !headerEl || !burgerEl) {
         console.warn("[Burger] Nessun burger o header trovato del DOM.");
         return;
     }
@@ -113,4 +108,50 @@ export function initBurger() {
             burgerBtn.focus(); 
         }
     });
+
+    // Il burger segue lo stesso scroll behavior dell'header: si nasconde
+    // scorrendo verso il basso e appare scorrendo verso l'alto.
+    let lastScrollY = window.scrollY;
+    let accumulated = 0;
+    let isHidden = false;
+    let ticking = false;
+
+    const updateScroll = () => {
+        const currentScrollY = Math.max(window.scrollY, 0);
+        const delta = currentScrollY - lastScrollY;
+        const headerHeight = headerEl.offsetHeight;
+
+        if (currentScrollY <= headerHeight / 3) {
+            burgerEl.classList.remove("nav-hidden");
+            burgerEl.classList.add("nav-visible");
+            isHidden = false;
+            accumulated = 0;
+        } else if (delta > 0) {
+            // scroll verso il basso
+            accumulated = accumulated > 0 ? accumulated + delta : delta;
+            if (!isHidden && accumulated > 1) {
+                burgerEl.classList.add("nav-hidden");
+                burgerEl.classList.remove("nav-visible");
+                isHidden = true;
+            }
+        } else if (delta < 0) {
+            // scroll verso l'alto
+            accumulated = accumulated < 0 ? accumulated + delta : delta;
+            if (isHidden && accumulated < -1) {
+                burgerEl.classList.remove("nav-hidden");
+                burgerEl.classList.add("nav-visible");
+                isHidden = false;
+            }
+        }
+
+        lastScrollY = currentScrollY;
+        ticking = false;
+    };
+
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            requestAnimationFrame(updateScroll);
+            ticking = true;
+        }
+    }, { passive: true });
 }
