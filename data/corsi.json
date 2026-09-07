@@ -1,0 +1,59 @@
+{
+    "disciplina": [
+        {
+            "key": "arte-marziale",
+            "titolo": "Arti Marziale",
+            "icona": "fas fa-person-running",
+            "description": "Il percorso di arti marziali tradizionali vietnamite sviluppa tecnica, disciplina e consapevolezza attraverso un allenamento progressivo del corpo e della mente.",
+            "fascia": {
+                "adulti": {
+                    "id": "Adulti",
+                    "descrizione": "Lezioni per adulti e ragazzi di età superiore ai 14 anni (compresi).",
+                    "giorni": [
+                        { "giorno": "Lunedì", "ora": "20:00-21:30" },
+                        { "giorno": "Mercoledì", "ora": "20:00-21:30" },
+                        { "giorno": "Venerdì", "ora": "20:00-21:30" }
+                    ]
+                },
+                "bambini": {
+                    "id": "Bambini",
+                    "descrizione": "Lezioni per bambini di età inferiore ai 14 anni.",
+                    "giorni": [
+                        { "giorno": "Lunedì", "ora": "19:00-20:00" },
+                        { "giorno": "Mercoledì", "ora": "19:00-20:00" }
+                    ]
+                }
+            }
+        },
+        {
+            "key": "difesa-personale",
+            "titolo": "Difesa Personale",
+            "icona": "fas fa-shield-halved",
+            "description": "Il percorso di difesa personale Close Combat insegna a riconoscere le situazioni di rischio e a gestirle con lucidità, fiducia e rispetto della propria sicurezza.",
+            "fascia": {
+                "adulti": {
+                    "id": "Adulti",
+                    "descrizione": "Lezioni di difesa personale Close Combat per adulti e ragazzi di età superiore ai 14 anni.",
+                    "giorni": [
+                        { "giorno": "Lunedì", "ora": "20:00-21:30" },
+                        { "giorno": "Mercoledì", "ora": "20:00-21:30" },
+                        { "giorno": "Venerdì", "ora": "20:00-21:30" }
+                    ]
+                }
+            }
+        }
+    ],
+    "luogo": {
+        "indirizzo": {
+            "via": "Scuole medie, Via Friuli",
+            "numero": "9",
+            "citta": "Arcole",
+            "provincia": ["VR", "Verona"],
+            "cap": "37040",
+            "country": "IT"
+        },
+        "lat": 45.35786798512037,
+        "lng": 11.29127910901515,
+        "map": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d897.085100866655!2d11.29127910901515!3d45.35786798512037!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477f4114e1748db3%3A0x239b9f730af2eed1!2sViet%20Vo%20Dao%20Dung%20Si!5e1!3m2!1sit!2sit!4v1728210616168!5m2!1sit!2sit\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+    }
+}

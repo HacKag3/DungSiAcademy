@@ -197,6 +197,10 @@ function stopAutoPlay(caroselloNum) {
 /* inizializza automaticamente tutti i caroselli presenti nella pagina corrente */
 function initAllCarousels() {
     document.querySelectorAll('.slideshow[id^="carosello"]').forEach((section) => {
+        // Evita di reinizializzare un carosello già costruito
+        // (le sezioni possono essere inserite a runtime dai dati).
+        if (section.querySelector(".slideshow-inner")) return;
+
         const num = section.id.replace(/^carosello/, "");
         const simple = section.dataset.simple === "true";
         const interval = section.dataset.interval ? Number(section.dataset.interval) : undefined;

@@ -1,0 +1,55 @@
+{
+    "brand": {
+        "name": "DŨNG SĨ Academy",
+        "logo": {
+            "alt": "Logo DŨNG SĨ Academy",
+            "paths": {
+                "og": "./media/loghi/DungSi.svg",
+                "svg": "/media/loghi/icons/source/logo-square.svg",
+                "favicon": {
+                    "48": "/media/loghi/icons/favicon/favicon-48x48.png",
+                    "32": "/media/loghi/icons/favicon/favicon-32x32.png",
+                    "16": "/media/loghi/icons/favicon/favicon-16x16.png",
+                    "ico": "/media/loghi/icons/favicon/favicon.ico"
+                },
+                "apple": {
+                    "180": "/media/loghi/icons/apple/apple-touch-icon.png",
+                    "152": "/media/loghi/icons/apple/apple-touch-icon-152x152.png",
+                    "120": "/media/loghi/icons/apple/apple-touch-icon-120x120.png"
+                },
+                "android": {
+                    "192": "/media/loghi/icons/android/icon-192x192.png",
+                    "512": "/media/loghi/icons/android/icon-512x512.png"
+                },
+                "manifest": "/site.webmanifest",
+                "browserconfig": "/browserconfig.xml"
+            }
+        },
+        "copertina": {
+            "path": "./media/social/copertina.png",
+            "width": "1200",
+            "height": "630",
+            "alt": "Copertina DŨNG SĨ Academy"
+        },
+        "descrizione": "Corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, per bambini, ragazzi e adulti."
+    },
+    "legale": {
+        "denominazione": "[DA CONFERMARE: denominazione legale completa, es. A.S.D. DŨNG SĨ Academy]",
+        "codiceFiscale": "[DA CONFERMARE]",
+        "partitaIva": "[DA CONFERMARE, se presente]",
+        "sedeLegale": {
+            "via": "[DA CONFERMARE]",
+            "cap": "[DA CONFERMARE]",
+            "citta": "[DA CONFERMARE]"
+        },
+        "rappresentanteLegale": "[DA CONFERMARE: nome del Presidente/legale rappresentante]",
+        "registrazione": "[DA CONFERMARE: n. iscrizione RUNTS o registro CONI/ente affiliante]"
+    },
+    "associazioni": {
+        "asi": {
+            "logo": "./media/loghi/Logo-ASI.webp",
+            "subNum": "[DA CONFERMARE] A0000000",
+            "altText": "logo asi"
+        }
+    }
+}

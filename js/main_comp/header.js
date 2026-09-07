@@ -1,6 +1,9 @@
-import { CONFIG } from "../config.js";
+// Header generato a runtime dai dati in /data (brand da settings.json,
+// navigazione da #navigation-data). Modificando i JSON i contenuti cambiano
+// senza rebuild.
+import { loadSiteData, buildBrand } from "../data-loader.js";
 import { genBurger, initBurger } from "./burger.js";
-import { getCurrentPage, genNavBarLinks } from "../utilities/utils.js";
+import { genNavBarLinks } from "../utilities/utils.js";
 
 const MOBILE_BREAKPOINT = 767;
 
@@ -11,8 +14,6 @@ const debounce = (fn, wait) => {
     return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), wait); };
 };
 
-
-const SCROLL_DISTANCE_THRESHOLD = 8;
 
 function initScrollBehavior(headerEl) {
     let lastScrollY = window.scrollY;
@@ -90,34 +91,39 @@ function genDesktopNav() {
     `;
 }
 
-const generateHeader = () => `
-    ${genBurger()}
+function generateHeader(brand) {
+    return `
+        ${genBurger()}
 
-    <div id="titolo" class="nav-fallback">
-        <a href="${CONFIG.brand.home}" aria-label="Torna alla homepage di ${CONFIG.brand.name}">
-            <img
-                src="${CONFIG.brand.logo}"
-                alt="Logo ${CONFIG.brand.name}"
-                loading="eager"
-                height="128"
-                width="auto">
-            <span class="header-brand-name">${CONFIG.brand.name}</span>
-        </a>
-    </div>
+        <div id="titolo" class="nav-fallback">
+            <a href="${brand.home}" aria-label="Torna alla homepage di ${brand.name}">
+                <img
+                    src="${brand.logo}"
+                    alt="Logo ${brand.name}"
+                    loading="eager"
+                    height="128"
+                    width="auto">
+                <span class="header-brand-name">${brand.name}</span>
+            </a>
+        </div>
 
-    ${genDesktopNav()}
-`;
+        ${genDesktopNav()}
+    `;
+}
 
 
-export function loadHeader() {
+export async function loadHeader() {
     const headerEl = document.querySelector("header");
     if (!headerEl) {
         console.warn("[Header] Nessun elemento <header> trovato nel DOM.");
         return;
     }
 
+    const { settings } = await loadSiteData();
+    const brand = buildBrand(settings);
+
     function render() {
-        headerEl.innerHTML = generateHeader();
+        headerEl.innerHTML = generateHeader(brand);
         initBurger();
 
         requestAnimationFrame(() => {

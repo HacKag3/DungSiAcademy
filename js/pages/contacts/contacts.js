@@ -1,5 +1,8 @@
-import { PEOPLE } from "../../personale.js";
-import { CONFIG } from "../../config.js";
+// js/pages/contacts/contacts.js
+// La pagina "Contatti" viene costruita a runtime dai JSON in /data:
+// modificare data/contatti.json o data/personale.json aggiorna la pagina
+// senza rebuild.
+import { loadSiteData, buildContacts } from "../../data-loader.js";
 import { escapeHtml } from "../../utilities/utils.js";
 
 const PLACEHOLDER_PHOTOS = {
@@ -8,152 +11,64 @@ const PLACEHOLDER_PHOTOS = {
     default: "./media/persone/placeholder-uomo.webp"
 };
 
-function getPlaceholderSrc(sesso) {
-    if (sesso === "M" || sesso === "F") {
-        return PLACEHOLDER_PHOTOS[sesso];
-    }
-    return PLACEHOLDER_PHOTOS.default;
-}
-
-function creaContatti({ telefono, email, nome }) {
-    const telefonoPulito = telefono?.trim();
-    const emailPulita = email?.trim();
-
+function contactLinks({ telefono, email, nome }) {
+    const phone = telefono?.trim();
+    const address = email?.trim();
     const links = [
-        telefonoPulito && `
-            <a class="contact-link" href="tel:${telefonoPulito.replace(/[^\d+]/g, '')}" aria-label="Chiama ${escapeHtml(nome)}">
-                <i class="fas fa-phone-alt" aria-hidden="true"></i>
-                <span>${escapeHtml(telefonoPulito)}</span>
-            </a>`,
-        emailPulita && `
-            <a class="contact-link" href="mailto:${emailPulita}" aria-label="Scrivi a ${escapeHtml(nome)}">
-                <i class="fas fa-envelope" aria-hidden="true"></i>
-                <span>${escapeHtml(emailPulita)}</span>
-            </a>`
+        phone && `<a class="contact-link" href="tel:${phone.replace(/[^0-9+]/g, "")}" aria-label="Chiama ${escapeHtml(nome)}"><i class="fas fa-phone-alt" aria-hidden="true"></i><span>${escapeHtml(phone)}</span></a>`,
+        address && `<a class="contact-link" href="mailto:${escapeHtml(address)}" aria-label="Scrivi a ${escapeHtml(nome)}"><i class="fas fa-envelope" aria-hidden="true"></i><span>${escapeHtml(address)}</span></a>`
     ].filter(Boolean).join("");
-
     return links ? `<div class="person-contacts">${links}</div>` : "";
 }
 
-function creaCard(persona, index) {
-    const { titolo, nome, cognome, foto, sesso, ruolo, descrizione } = persona ?? {};
+function renderPerson(person, index) {
+    const { titolo, nome, cognome, foto, sesso, ruolo, descrizione } = person;
+    if (!nome || !cognome) return "";
 
-    if (!nome || !cognome) {
-        console.warn("Persona senza nome/cognome: card saltata.", persona);
-        return "";
-    }
+    const photo = foto?.src?.trim() || PLACEHOLDER_PHOTOS[sesso] || PLACEHOLDER_PHOTOS.default;
+    const fallback = PLACEHOLDER_PHOTOS[sesso] || PLACEHOLDER_PHOTOS.default;
+    const classes = ["person-photo", foto?.cutout && "cutout", !foto?.src?.trim() && "placeholder"].filter(Boolean).join(" ");
 
-    const isReversed = index % 2 === 1;
-
-    const fotoSrc = foto?.src?.trim() || getPlaceholderSrc(sesso);
-    const isPlaceholder = !foto?.src?.trim();
-    const photoClass = [
-        "person-photo",
-        foto?.cutout ? "cutout" : "",
-        isPlaceholder ? "placeholder" : ""
-    ].filter(Boolean).join(" ");
-    const placeholderSrc = getPlaceholderSrc(sesso);
-
-    const contatti = creaContatti(persona);
-
-    return `
-        <div class="person-row ${isReversed ? "reversed" : ""}">
-            <div class="${photoClass}">
-                <img 
-                    src="${fotoSrc}" 
-                    alt="${escapeHtml(foto?.alt ?? `${nome} ${cognome}`)}" 
-                    loading="lazy"
-                    onerror="this.onerror=null; this.src='${placeholderSrc}'; this.closest('.person-photo').classList.add('placeholder');" />
-            </div>
-            <div class="person-info">
-                ${titolo ? `<p class="person-title">${escapeHtml(titolo)}</p>` : ""}
-                <h2 class="person-name">${escapeHtml(nome)} ${escapeHtml(cognome)}</h2>
-                ${ruolo ? `<p class="person-role">${escapeHtml(ruolo)}</p>` : ""}
-                ${descrizione ? `<p class="person-desc">${escapeHtml(descrizione)}</p>` : ""}
-                ${contatti}
-            </div>
+    return `<div class="person-row ${index % 2 ? "reversed" : ""}">
+        <div class="${classes}"><img src="${escapeHtml(photo)}" alt="${escapeHtml(foto?.alt ?? `${nome} ${cognome}`)}" loading="lazy" onerror="this.onerror=null; this.src='${fallback}'; this.closest('.person-photo').classList.add('placeholder');"></div>
+        <div class="person-info">
+            ${titolo ? `<p class="person-title">${escapeHtml(titolo)}</p>` : ""}
+            <h2 class="person-name">${escapeHtml(nome)} ${escapeHtml(cognome)}</h2>
+            ${ruolo ? `<p class="person-role">${escapeHtml(ruolo)}</p>` : ""}
+            ${descrizione ? `<p class="person-desc">${escapeHtml(descrizione)}</p>` : ""}
+            ${contactLinks(person)}
         </div>
-    `;
+    </div>`;
 }
 
-function creaTeamSection() {
-    if (!Array.isArray(PEOPLE) || PEOPLE.length === 0) {
-        return `
-            <section id="team" class="team-section">
-                <label class="lb_title">Il Nostro Team</label>
-                <p class="team-empty">Le informazioni sul nostro team non sono ancora disponibili.</p>
-            </section>
-        `;
-    }
-
-    const cards = PEOPLE.map(creaCard).join("");
-
-    return `
-        <section id="team" class="team-section">
-            <label class="lb_title">Il Nostro Team</label>
-            <div class="team-list">
-                ${cards}
-            </div>
-        </section>
-    `;
+function renderUsefulContact(contact) {
+    const { id, titolo, icon, descrizione, telefono, email } = contact;
+    if (!titolo) return "";
+    const links = contactLinks({ telefono, email, nome: titolo });
+    return `<div class="useful-contact-row" ${id ? `id="contatto-${escapeHtml(id)}"` : ""}>
+        <div class="useful-contact-icon"><i class="${escapeHtml(icon ?? "fas fa-info-circle")}" aria-hidden="true"></i></div>
+        <div class="useful-contact-text"><h3 class="useful-contact-title">${escapeHtml(titolo)}</h3>${descrizione ? `<p class="useful-contact-desc">${escapeHtml(descrizione)}</p>` : ""}</div>
+        <div class="useful-contact-actions">${links || "<span class=\"useful-contact-pending\">In aggiornamento</span>"}</div>
+    </div>`;
 }
 
-function creaContattoUtileRow(contatto) {
-    const { id, titolo, icon, descrizione, telefono, email } = contatto ?? {};
+async function renderContactsPage() {
+    const root = document.querySelector("article#page-content");
+    if (!root) return;
 
-    if (!titolo) {
-        console.warn("Contatto utile senza titolo: riga saltata.", contatto);
-        return "";
-    }
+    const data = await loadSiteData();
+    const contacts = buildContacts(data.contatti.email);
+    const usefulContacts = Object.values(contacts).map(renderUsefulContact).filter(Boolean).join("");
+    const team = (data.personale ?? []).map(renderPerson).filter(Boolean).join("");
 
-    const contatti = creaContatti({ telefono, email, nome: titolo });
-
-    return `
-        <div class="useful-contact-row" ${id ? `id="contatto-${escapeHtml(id)}"` : ""}>
-            <div class="useful-contact-icon">
-                <i class="${icon ?? 'fas fa-info-circle'}" aria-hidden="true"></i>
-            </div>
-            <div class="useful-contact-text">
-                <h3 class="useful-contact-title">${escapeHtml(titolo)}</h3>
-                ${descrizione ? `<p class="useful-contact-desc">${escapeHtml(descrizione)}</p>` : ""}
-            </div>
-            <div class="useful-contact-actions">
-                ${contatti || `<span class="useful-contact-pending">In aggiornamento</span>`}
-            </div>
-        </div>
-    `;
+    root.innerHTML = `<section id="contatti-utili" class="useful-contacts-section">
+        <label class="lb_title">Contatti Utili</label>
+        <div class="useful-contacts-list">${usefulContacts}</div>
+    </section>
+    <section id="team" class="team-section">
+        <label class="lb_title">Il Nostro Team</label>
+        <div class="team-list">${team}</div>
+    </section>`;
 }
 
-function creaContattiUtiliSection(contacts) {
-    if (!contacts || typeof contacts !== "object") return "";
-
-    const lista = Object.values(contacts);
-    if (!lista.length) return "";
-
-    const rows = lista.map(creaContattoUtileRow).filter(Boolean).join("");
-    if (!rows) return "";
-
-    return `
-        <section id="contatti-utili" class="useful-contacts-section">
-            <label class="lb_title">Contatti Utili</label>
-            <div class="useful-contacts-list">
-                ${rows}
-            </div>
-        </section>
-    `;
-}
-
-function renderContatti() {
-    const article = document.querySelector("article");
-    if (!article) {
-        console.error("Elemento <article> non trovato.");
-        return;
-    }
-
-    article.innerHTML = `
-        ${creaContattiUtiliSection(CONFIG.contacts)}
-        ${creaTeamSection()}
-    `;
-}
-
-window.addEventListener("DOMContentLoaded", renderContatti);
+document.addEventListener("DOMContentLoaded", renderContactsPage);

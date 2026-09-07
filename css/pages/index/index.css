@@ -213,7 +213,108 @@ article #partecipare {
 
 
 /* ============================================================
-   ORARI — selettore a tab (età/categoria)
+   ORARI — descrizioni e selettori
+   ============================================================ */
+article #orari .schedule-selector-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.82rem;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+article #orari .schedule-panel-kicker {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: var(--schedule-accent);
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 0.16em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+article #orari .schedule-layout {
+    --schedule-accent: var(--f2_color);
+    --schedule-surface: rgba(255, 255, 255, 0.045);
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.28fr);
+    align-items: center;
+    gap: 1.25rem;
+    width: min(100%, 66rem);
+    margin: 1.5rem auto 0;
+}
+
+article #orari .discipline-description {
+    width: min(100%, 54ch);
+    margin: 1rem auto 0;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.5;
+    text-align: center;
+}
+
+article #orari .schedule-selector-group {
+    min-width: 0;
+}
+
+article #orari .discipline-panel {
+    align-self: start;
+    padding: 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.5rem;
+    background: var(--schedule-surface);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.12);
+}
+
+article #orari .discipline-panel .selector ul {
+    display: grid;
+    gap: 0.45rem;
+}
+
+article #orari .discipline-panel li,
+article #orari .discipline-panel li:not(.off) {
+    border-radius: 0.45rem;
+}
+
+article #orari .discipline-panel .topic-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.65rem;
+    min-height: 2.8rem;
+    text-align: left;
+}
+
+article #orari .discipline-panel .topic-btn i {
+    width: 1.25rem;
+    color: currentColor;
+    text-align: center;
+}
+
+article #orari .discipline-panel li:not(.off) {
+    color: #fff;
+    background: var(--schedule-accent);
+    border-color: var(--schedule-accent);
+    box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.2);
+}
+
+article #orari .schedule-results {
+    min-width: 0;
+    padding: 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+article #orari .age-selector {
+    margin-bottom: 1rem;
+}
+
+/* ============================================================
+   ORARI — selettore a tab
    ============================================================ */
 article #orari .selector {
     justify-content: center;
@@ -232,7 +333,7 @@ article #orari .selector {
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 2em;
-        transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 
         &.off {
             color: var(--f2_color);
@@ -240,18 +341,18 @@ article #orari .selector {
             cursor: pointer;
 
             &:hover {
-                transform: translateY(-4px);
                 background: rgba(255, 255, 255, 0.12);
                 border-color: rgba(255, 255, 255, 0.2);
             }
         }
 
         &:not(.off) {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
-            border-bottom-color: rgba(255, 255, 255, 0.03);
-            border-bottom-width: 4px;
-            border-radius: 1.5em 1.5em 0 0;
+            color: var(--bg);
+            background: var(--f2_color);
+            border-color: var(--f2_color);
+            border-bottom-width: 1px;
+            border-radius: 2em;
+            box-shadow: 0 0.25rem 0.8rem rgba(0, 0, 0, 0.18);
         }
     }
 }
@@ -281,102 +382,88 @@ button.topic-btn {
    ORARI — tabella
    ============================================================ */
 article #orari .content {
-    display: flex;
-    gap: 1rem;
     width: 100%;
-    justify-content: center;
 
-    .table-wrapper {
-        position: relative;
-        width: 65ch;
-        background: rgba(255, 255, 255, 0.04);
-        border-radius: 1em;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+    .schedule-description {
+        width: min(100%, 72ch);
+        margin: 0 0 1.15rem;
+        padding-left: 0.85rem;
+        border-left: 2px solid var(--schedule-accent);
+        color: rgba(255, 255, 255, 0.72);
+        line-height: 1.55;
     }
 
-    table {
-        background-color: rgba(255, 255, 255, 0.04);
-        width: 100%;
-        border-radius: 1em;
-        border-collapse: collapse;
+    .schedule-table-card {
+        position: relative;
+        width: min(100%, 42rem);
+        margin: 0;
+        min-width: 0;
+        background: var(--schedule-surface);
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.14);
         overflow: hidden;
     }
 
-    th {
+    .schedule-table-card h3 {
+        margin: 0;
+        padding: 0.9rem 1rem;
+        background: rgba(255, 255, 255, 0.07);
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+        text-align: left;
+    }
+
+    .schedule-table {
+        background-color: rgba(255, 255, 255, 0.04);
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .schedule-table th {
         border-bottom: rgba(255, 255, 255, 0.18) solid 2px;
         padding: 0.85em 0.65em;
     }
 
-    td {
+    .schedule-table tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.035);
+    }
+
+    .schedule-table td {
         text-align: center;
         padding: 0.7em 0.65em;
     }
 
-    .giorno {
+    .schedule-empty {
+        margin: 0;
+        padding: 2rem 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+    }
+
+    .schedule-table .giorno {
         text-align: left;
-        width: 70%;
+        width: 45%;
         border-right: solid 2px rgba(255, 255, 255, 0.08);
     }
-}
 
-
-/* ============================================================
-   INFO BOX — icona con popup/overlay a schermo intero
-   ============================================================ */
-.info {
-    position: absolute;
-    top: -1.25em;
-    right: -1em;
-    z-index: 50;
-    pointer-events: auto;
-    font-family: 'Roboto';
-
-    &:hover .info-icon {
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 1);
+    .orario-disciplina {
+        white-space: nowrap;
     }
 }
 
-.info-icon {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, var(--f2_color), #c9d3e4);
-    color: #111;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-weight: bold;
+@media (max-width: 768px) {
+    article #orari .schedule-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    article #orari .selector ul {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
 }
 
-.info-box {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(92vw, 320px);
-    background: linear-gradient(135deg, rgba(52, 46, 55, 0.98), rgba(72, 64, 65, 0.95));
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    padding: 20px;
-    border-radius: 2em;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-    z-index: 9999;
-    color: var(--f_color);
-    line-height: 1.6;
-}
-
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.86);
-    backdrop-filter: blur(5px);
-    z-index: 9998;
-}
 
 
 /* ============================================================

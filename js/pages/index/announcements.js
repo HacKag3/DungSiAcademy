@@ -1,11 +1,12 @@
-import { ANNUNCI } from "../../annunci.js";
+import { loadSiteData, buildAnnouncements } from "../../data-loader.js";
 import { escapeHtml } from "../../utilities/utils.js";
 
 export async function renderSezioneAnnunci() {
     const annunciContainer = document.getElementById("sezione-annunci");
     if (!annunciContainer) return;
 
-    const annunciAttivi = ANNUNCI.filter(a => a.attivo);
+    const annunci = buildAnnouncements((await loadSiteData()).annunci);
+    const annunciAttivi = annunci.filter(a => a.attivo);
     if (annunciAttivi.length === 0) {
         annunciContainer.style.display = "none";
         return;
@@ -122,7 +123,7 @@ export async function renderSezioneAnnunci() {
             return;
         }
 
-        const annuncio = ANNUNCI.find(a => a.id === button.dataset.annuncioId);
+        const annuncio = annunci.find(a => a.id === button.dataset.annuncioId);
         if (!annuncio || !dettaglio) return;
 
         ultimoBottoneAttivo = button;

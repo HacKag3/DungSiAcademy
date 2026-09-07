@@ -1,4 +1,6 @@
-import { CONFIG } from "../config.js";
+// Footer generato a runtime dai dati in /data (social, contatti, legal,
+// affiliazioni). Modificando i JSON i contenuti cambiano senza rebuild.
+import { loadSiteConfig } from "../data-loader.js";
 import { escapeHtml } from "../utilities/utils.js";
 
 
@@ -22,20 +24,20 @@ function renderSocialItem({ name, url, icon, color }) {
         </li>`;
 }
 
-function renderSocialBox() {
-    if (!CONFIG.social?.length) return "";
+function renderSocialBox(config) {
+    if (!config.social?.length) return "";
 
     return `
         <nav class="footer-social" aria-label="Social media">
             <p class="footer-social-title" aria-hidden="true">Seguici sui Social</p>
             <ul class="footer-social-icons" role="list">
-                ${CONFIG.social.map(renderSocialItem).join("")}
+                ${config.social.map(renderSocialItem).join("")}
             </ul>
         </nav>`;
 }
 
-function renderPhoneLink() {
-    const phone = CONFIG.contactPhone?.trim();
+function renderPhoneLink(config) {
+    const phone = config.contacts?.generale?.telefono?.trim();
 
     const digitsOnly = (phone || "").replace(/\D/g, "");
     if (!phone || digitsOnly.length < 8) return "";
@@ -48,8 +50,8 @@ function renderPhoneLink() {
         </a>`;
 }
 
-function renderAffiliation() {
-    const { logo, altText, subNum } = CONFIG.associations.asi;
+function renderAffiliation(config) {
+    const { logo, altText, subNum } = config.associations.asi ?? {};
 
     return `
         <div class="footer-affiliation">
@@ -59,18 +61,18 @@ function renderAffiliation() {
         </div>`;
 }
 
-function renderBrand() {
-    const { name } = CONFIG.brand;
+function renderBrand(config) {
+    const { name } = config.brand;
 
     return `
         <address class="footer-brand">
             <span class="footer-brand-name">${escapeHtml(name)}</span>
-            ${renderPhoneLink()}
+            ${renderPhoneLink(config)}
         </address>`;
 }
 
-function renderNoteLegali() {
-    const legal = CONFIG.legal ?? {};
+function renderNoteLegali(config) {
+    const legal = config.legal ?? {};
     const sede = legal.sedeLegale;
     const sedeTesto = sede ? `${sede.via}, ${sede.cap} ${sede.citta}` : null;
 
@@ -99,29 +101,31 @@ function renderNoteLegali() {
 }
 
 
-export function genFooter() {
+export function genFooter(config) {
     const year = new Date().getFullYear();
 
     return `
         <div class="footer-inner">
-            ${renderAffiliation()}
-            ${renderBrand()}
-            ${renderSocialBox()}
+            ${renderAffiliation(config)}
+            ${renderBrand(config)}
+            ${renderSocialBox(config)}
         </div>
-        ${renderNoteLegali()}
+        ${renderNoteLegali(config)}
         <div class="footer-copyright">
-            <small>&copy; ${year} ${escapeHtml(CONFIG.brand.name)}. Tutti i diritti riservati.</small>
+            <small>&copy; ${year} ${escapeHtml(config.brand.name)}. Tutti i diritti riservati.</small>
         </div>`;
 }
 
-export function loadFooter() {
+export async function loadFooter() {
     const footerEl = document.querySelector("footer");
     if (!footerEl) {
         console.warn("[Footer] Nessun footer trovato del DOM.");
         return;
     }
 
+    const config = await loadSiteConfig();
+
     requestAnimationFrame(() => {
-        footerEl.innerHTML = genFooter();
+        footerEl.innerHTML = genFooter(config);
     });
 }

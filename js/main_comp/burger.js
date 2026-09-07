@@ -1,5 +1,4 @@
-import { CONFIG } from "../config.js";
-import { getCurrentPage, genNavBarLinks } from "../utilities/utils.js";
+import { genNavBarLinks } from "../utilities/utils.js";
 
 
 export function genBurger() {

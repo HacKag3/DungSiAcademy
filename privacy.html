@@ -2,18 +2,29 @@
 <html lang="it">
 
 <head>
-        <meta charset="UTF-8">
+            <meta charset="UTF-8">
 
-    <title> DŨNG SĨ Academy - Privacy Policy - </title>
+    <title>DŨNG SĨ Academy - Privacy Policy</title>
 
     <meta name="author" content="Giarolo Mattia" />
     <meta name="description" content="Informativa sul trattamento dei dati personali della DŨNG SĨ Academy.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://dungsiacademy.it/privacy.html" />
 
-    <!-- Icons -->
-    <link rel="icon" type="image/svg+xml" href="https://dungsiacademy.it/media/loghi/DungSi.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://dungsiacademy.it/media/loghi/touch-icon.png">
+        <!-- Icons -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="48x48" href="/media/loghi/icons/favicon/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/media/loghi/icons/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/media/loghi/icons/favicon/favicon-16x16.png">
+    <link rel="shortcut icon" href="/media/loghi/icons/favicon/favicon.ico">
+    <!-- Apple (iPhone/iPad) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/media/loghi/icons/apple/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/media/loghi/icons/apple/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/media/loghi/icons/apple/apple-touch-icon-120x120.png">
+    <!-- PWA manifest (Android + installabilità) -->
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- Windows tile -->
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    <meta name="theme-color" content="#d9a441">
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
@@ -22,29 +33,35 @@
     <meta property="og:locale" content="it_IT">
     <meta property="og:title" content="DŨNG SĨ Academy - Privacy Policy">
     <meta property="og:description" content="Informativa sul trattamento dei dati personali della DŨNG SĨ Academy.">
-    <meta property="og:image" content="https://dungsiacademy.it/media/social/copertina.png">
+    <meta property="og:image" content="./media/social/copertina.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Logo DŨNG SĨ Academy">
+    <meta property="og:image:alt" content="Copertina DŨNG SĨ Academy">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DŨNG SĨ Academy - Privacy Policy">
     <meta name="twitter:description" content="Informativa sul trattamento dei dati personali della DŨNG SĨ Academy.">
-    <meta name="twitter:image" content="https://dungsiacademy.it/media/social/copertina.png">
+    <meta name="twitter:image" content="./media/social/copertina.png">
 
     <link rel="stylesheet" href="./font/font-awesome/css/all.min.css">
     <link rel="stylesheet" href="./css/comune.css" type="text/css" />
-    <script type="module" src="./js/main.js"></script>
 
+
+    <link rel="canonical" href="https://dungsiacademy.it/privacy.html" />
+
+    <script type="application/json" id="navigation-data">[{"name":"Home","href":"./index.html"},{"name":"Chi Siamo","href":"./whoweare.html"},{"name":"Contatti","href":"./contacts.html"}]</script>
+
+    <script type="module" src="./js/main.js"></script>
     
     <link rel="stylesheet" href="./css/pages/legal/legal.css" type="text/css" />
+    <script type="module" src="./js/pages/legal/legal.js"></script>
 </head>
 
 <body>
     <div class="bg-layer"></div>
 
-    <header id="header"> <!-- auto-generated --> </header>
+    <header id="header"></header>
 
     <article class="legal-page">
         <label class="lb_title">Privacy Policy</label>
@@ -53,13 +70,13 @@
 
         <h2>1. Titolare del trattamento</h2>
         <p>
-            Il Titolare del trattamento dei dati è <strong>[DA CONFERMARE: denominazione legale completa, es. A.S.D. DŨNG SĨ Academy]</strong>,
-            C.F. [DA CONFERMARE], P.IVA [DA CONFERMARE, se presente], con sede legale in [DA CONFERMARE], [DA CONFERMARE] [DA CONFERMARE],
-            legale rappresentante [DA CONFERMARE: nome del Presidente/legale rappresentante] ([DA CONFERMARE: n. iscrizione RUNTS o registro CONI/ente affiliante]).
+            Il Titolare del trattamento dei dati è <strong data-legal-field="denominazione"></strong>,
+            C.F. <span data-legal-field="codiceFiscale"></span><span data-legal-field="pivaInline"></span>, con sede legale in <span data-legal-field="sedeLegale"></span>,
+            legale rappresentante <span data-legal-field="rappresentanteLegale"></span> (<span data-legal-field="registrazione"></span>).
         </p>
         <p>
             Per qualsiasi richiesta relativa al trattamento dei dati personali è possibile scrivere a:
-            <a href="mailto:[DA CONFERMARE: email per richieste privacy]">[DA CONFERMARE: email per richieste privacy]</a>.
+            <a data-legal-field-href="emailPrivacy" data-legal-field="emailPrivacy" href="mailto:" aria-label="Scrivici per questioni di privacy"></a>.
         </p>
 
         <h2>2. Quali dati raccogliamo</h2>
@@ -206,7 +223,7 @@
         </p>
     </article>
 
-    <footer id="footer"> <!-- auto-generated --> </footer>
+    <footer id="footer"></footer>
 
 </body>
 

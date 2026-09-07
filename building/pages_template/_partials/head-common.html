@@ -1,15 +1,12 @@
     <meta charset="UTF-8">
 
-    <title> {{PAGE_TITLE_TAG}} - </title>
+    <title>{{PAGE_TITLE_TAG}}</title>
 
-    <meta name="author" content="Giarolo Mattia" />
+    <meta name="author" content="{{AUTHOR}}" />
     <meta name="description" content="{{PAGE_DESCRIPTION}}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="{{PAGE_URL}}" />
 
-    <!-- Icons -->
-    <link rel="icon" type="image/svg+xml" href="{{FAVICON}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{TOUCH_ICON}}">
+    {{ICONS}}
 
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
@@ -18,17 +15,16 @@
     <meta property="og:locale" content="{{SITE_LOCALE}}">
     <meta property="og:title" content="{{PAGE_OG_TITLE}}">
     <meta property="og:description" content="{{PAGE_DESCRIPTION}}">
-    <meta property="og:image" content="{{OG_IMAGE}}">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="{{OG_IMAGE_ALT}}">
+    <meta property="og:image" content="{{COPERTINA_PATH}}">
+    <meta property="og:image:width" content="{{COPERTINA_WIDTH}}">
+    <meta property="og:image:height" content="{{COPERTINA_HEIGHT}}">
+    <meta property="og:image:alt" content="{{COPERTINA_ALT}}">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{PAGE_OG_TITLE}}">
     <meta name="twitter:description" content="{{PAGE_DESCRIPTION}}">
-    <meta name="twitter:image" content="{{OG_IMAGE}}">
+    <meta name="twitter:image" content="{{COPERTINA_PATH}}">
 
     <link rel="stylesheet" href="./font/font-awesome/css/all.min.css">
     <link rel="stylesheet" href="./css/comune.css" type="text/css" />
-    <script type="module" src="./js/main.js"></script>

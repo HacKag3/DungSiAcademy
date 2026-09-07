@@ -1,4 +1,4 @@
-import { CONFIG } from "../config.js";
+import { getNavigation } from "../data-loader.js";
 
 export function getCurrentPage() {
     const { pathname } = window.location;
@@ -8,7 +8,7 @@ export function getCurrentPage() {
 export function genNavBarLinks() {
     const currentPage = getCurrentPage();
 
-    return CONFIG.pages
+    return getNavigation()
         .filter(page => page.href !== `./${currentPage}`);
 }
 

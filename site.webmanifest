@@ -1,0 +1,21 @@
+{
+    "name": "DŨNG SĨ Academy",
+    "short_name": "DŨNG SĨ Academy",
+    "description": "Corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, per bambini, ragazzi e adulti.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#0A0908",
+    "theme_color": "#d9a441",
+    "icons": [
+        {
+            "src": "/media/loghi/icons/android/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/media/loghi/icons/android/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
