@@ -93,8 +93,6 @@ function genDesktopNav() {
 
 function generateHeader(brand) {
     return `
-        ${genBurger()}
-
         <div id="titolo" class="nav-fallback">
             <a href="${brand.home}" aria-label="Torna alla homepage di ${brand.name}">
                 <img
@@ -122,9 +120,22 @@ export async function loadHeader() {
     const { settings } = await loadSiteData();
     const brand = buildBrand(settings);
 
+    let burgerInitialized = false;
+
     function render() {
+        // Il burger vive nel <body>, fuori dall'header: così può stare
+        // sopra l'overlay a tutto schermo (z-index > header) e restare
+        // cliccabile anche quando l'overlay oscura la pagina e l'header.
+        // Il burger viene creato una sola volta (i suoi contenuti non cambiano
+        // a runtime); solo l'header viene ricreato su resize. initBurger()
+        // registra i listener una sola volta per evitare accumuli.
+        if (!burgerInitialized) {
+            document.body.insertAdjacentHTML("afterbegin", genBurger());
+            initBurger();
+            burgerInitialized = true;
+        }
+
         headerEl.innerHTML = generateHeader(brand);
-        initBurger();
 
         requestAnimationFrame(() => {
             document.getElementById("burger-links")?.classList.add("has-transition");
@@ -142,11 +153,29 @@ export async function loadHeader() {
 
     let wasMobile = isMobile();
 
+    const closeMenuCompletely = () => {
+        // Chiude il menu e ripristina lo scroll: usato quando la modalità
+        // mobile cambia (es. rotazione telefono) per evitare che il body
+        // resti bloccato (menu-open) con il menu invisibile su desktop.
+        // Simuliamo un click sull'overlay: questo chiama toggleMenu(false)
+        // che aggiorna anche lo stato interno isMenuOpen, quindi il prossimo
+        // click sull'icona riapre correttamente il menu.
+        // Lo facciamo solo se il menu è effettivamente aperto, altrimenti
+        // toggleMenu(false) chiamerebbe scrollLock.restore() e scrollerebbe
+        // in cima alla pagina.
+        const icon = document.querySelector(".burger-icon");
+        if (icon?.getAttribute("aria-expanded") === "true") {
+            const overlay = document.querySelector(".burger-overlay");
+            overlay?.click();
+        }
+    };
+
     const onResize = debounce(() => {
         const nowMobile = isMobile();
 
         if (nowMobile !== wasMobile) {
             wasMobile = nowMobile;
+            closeMenuCompletely();
             render();
         } else if (!nowMobile) {
             checkDesktopFit(headerEl);
