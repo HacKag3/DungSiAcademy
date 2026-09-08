@@ -1,18 +1,14 @@
+// js/pages/index/announcements.js
+// Sezione "Annunci": card scorrevoli (drag con il mouse) generate a runtime
+// da data/annunci.json. La modale di dettaglio vive in annuncioDettaglio.js.
 import { loadSiteData, buildAnnouncements } from "../../data-loader.js";
 import { escapeHtml } from "../../utilities/utils.js";
+import { setupDettaglio } from "./annuncioDettaglio.js";
 
-export async function renderSezioneAnnunci() {
-    const annunciContainer = document.getElementById("sezione-annunci");
-    if (!annunciContainer) return;
-
-    const annunci = buildAnnouncements((await loadSiteData()).annunci);
-    const annunciAttivi = annunci.filter(a => a.attivo);
-    if (annunciAttivi.length === 0) {
-        annunciContainer.style.display = "none";
-        return;
-    }
-
-    const annunciConVerifica = await Promise.all(
+// Il dettaglio è opzionale: prima di mostrare il bottone "Dettagli"
+// verifichiamo con una richiesta HEAD che il file esista davvero.
+async function verificaFileDettaglio(annunciAttivi) {
+    return Promise.all(
         annunciAttivi.map(async (a) => {
             let fileEsiste = false;
             if (a.dettaglioUrl && String(a.dettaglioUrl).trim()) {
@@ -26,38 +22,57 @@ export async function renderSezioneAnnunci() {
             return { ...a, fileEsiste };
         })
     );
+}
+
+function renderCard(a) {
+    return `
+        <div class="annuncio-card">
+            <h2>${escapeHtml(a.titolo)}</h2>
+            <span class="annuncio-data annuncio-evento-data"><i class="far fa-calendar-check" aria-hidden="true"></i>
+            <span> ${escapeHtml(a.data)}</span></span>
+            <p>${escapeHtml(a.testo)}</p>
+            <div class="annuncio-footer">
+                <span class="annuncio-data annuncio-pubblicazione-data"><i class="far fa-clock" aria-hidden="true"></i><span>Pubblicato il ${escapeHtml(a.dataPubblicazione)}</span></span>
+                ${a.fileEsiste ? `
+                    <button type="button" class="annuncio-apri" data-annuncio-id="${escapeHtml(a.id)}" aria-controls="annuncio-dettaglio" aria-expanded="false">
+                        Dettagli
+                    </button>
+                ` : ""}
+            </div>
+        </div>`;
+}
+
+export async function initAnnouncements() {
+    const annunciContainer = document.getElementById("sezione-annunci");
+    if (!annunciContainer) return;
+
+    const annunci = buildAnnouncements((await loadSiteData()).annunci);
+    const annunciAttivi = annunci.filter(a => a.attivo);
+    if (annunciAttivi.length === 0) {
+        annunciContainer.style.display = "none";
+        return;
+    }
+
+    const annunciConVerifica = await verificaFileDettaglio(annunciAttivi);
 
     annunciContainer.innerHTML = `
         <label><i class="fa-solid fa-bullhorn"></i> Annunci</label>
         <div class="fade-content">
             <div class="carousel-wrapper" id="carouselWrapper">
                 <div class="carousel-track">
-                    ${annunciConVerifica.map(a => `
-                        <div class="annuncio-card">
-                            <h2>${escapeHtml(a.titolo)}</h2>
-                            <span class="annuncio-data annuncio-evento-data"><i class="far fa-calendar-check" aria-hidden="true"></i>
-                            <span> ${escapeHtml(a.data)}</span></span>    
-                            <p>${escapeHtml(a.testo)}</p>
-                            <div class="annuncio-footer">
-                                <span class="annuncio-data annuncio-pubblicazione-data"><i class="far fa-clock" aria-hidden="true"></i><span>Pubblicato il ${escapeHtml(a.dataPubblicazione)}</span></span>
-                                ${a.fileEsiste ? `
-                                    <button type="button" class="annuncio-apri" data-annuncio-id="${escapeHtml(a.id)}" aria-controls="annuncio-dettaglio" aria-expanded="false">
-                                        Dettagli
-                                    </button>
-                                ` : ""}
-                            </div>
-                        </div>
-                    `).join("")}
+                    ${annunciConVerifica.map(renderCard).join("")}
                 </div>
             </div>
             <section id="annuncio-dettaglio" class="annuncio-dettaglio" hidden aria-live="polite" aria-modal="true" role="dialog"></section>
         </div>
     `;
 
-    const dettaglio = annunciContainer.querySelector("#annuncio-dettaglio");
-    document.body.appendChild(dettaglio);
+    const dettaglio = setupDettaglio(annunciContainer);
+
+    // Drag orizzontale della lista con il mouse (touch usa lo scroll nativo):
+    // al rilascio sopprime il click che seguirebbe un trascinamento, per non
+    // aprire il dettaglio dopo uno swipe.
     const carouselWrapper = annunciContainer.querySelector("#carouselWrapper");
-    let ultimoBottoneAttivo = null;
     let suppressClickAfterDrag = false;
 
     if (carouselWrapper) {
@@ -112,7 +127,8 @@ export async function renderSezioneAnnunci() {
         carouselWrapper.addEventListener("pointercancel", endDrag, { passive: true });
     }
 
-    annunciContainer.addEventListener("click", async (event) => {
+    // Apertura dettaglio via delegazione sul contenitore.
+    annunciContainer.addEventListener("click", (event) => {
         const button = event.target.closest("[data-annuncio-id]");
         if (!button) return;
 
@@ -125,51 +141,6 @@ export async function renderSezioneAnnunci() {
 
         const annuncio = annunci.find(a => a.id === button.dataset.annuncioId);
         if (!annuncio || !dettaglio) return;
-
-        ultimoBottoneAttivo = button;
-        dettaglio.innerHTML = `
-            <div class="annuncio-dettaglio-box">
-                <button type="button" class="annuncio-chiudi" aria-label="Chiudi dettaglio">&times;</button>
-                <div class="annuncio-dettaglio-date">
-                    <span class="annuncio-dettaglio-data"><i class="far fa-calendar-check" aria-hidden="true"></i> Evento: ${escapeHtml(annuncio.data)}</span>
-                    <span class="annuncio-dettaglio-data annuncio-pubblicazione-data"><i class="far fa-clock" aria-hidden="true"></i> Pubblicato il ${escapeHtml(annuncio.dataPubblicazione)}</span>
-                </div>
-                <h2>${escapeHtml(annuncio.titolo)}</h2>
-                <div class="annuncio-dettaglio-contenuto" aria-live="polite">Caricamento...</div>
-            </div>
-        `;
-        dettaglio.hidden = false;
-        document.body.classList.add("annuncio-alert-aperto");
-        button.setAttribute("aria-expanded", "true");
-        dettaglio.querySelector(".annuncio-chiudi").focus();
-
-        try {
-            const response = await fetch(annuncio.dettaglioUrl);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            dettaglio.querySelector(".annuncio-dettaglio-contenuto").innerHTML = await response.text();
-        } catch (error) {
-            console.error(`Impossibile caricare il dettaglio dell'annuncio "${annuncio.id}":`, error);
-            dettaglio.querySelector(".annuncio-dettaglio-contenuto").innerHTML = "<p>Il dettaglio non è momentaneamente disponibile.</p>";
-        }
+        dettaglio.apri(annuncio, button);
     });
-
-    dettaglio.addEventListener("click", (event) => {
-        if (!dettaglio || (event.target !== dettaglio && !event.target.closest(".annuncio-chiudi"))) return;
-        dettaglio.hidden = true;
-        document.body.classList.remove("annuncio-alert-aperto");
-        annunciContainer.querySelectorAll("[data-annuncio-id]").forEach(button => button.setAttribute("aria-expanded", "false"));
-        ultimoBottoneAttivo?.focus();
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (event.key !== "Escape" || !dettaglio || dettaglio.hidden) return;
-        dettaglio.hidden = true;
-        document.body.classList.remove("annuncio-alert-aperto");
-        annunciContainer.querySelectorAll("[data-annuncio-id]").forEach(button => button.setAttribute("aria-expanded", "false"));
-        ultimoBottoneAttivo?.focus();
-    });
-}
-
-export function initAnnouncements() {
-    renderSezioneAnnunci();
 }

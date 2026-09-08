@@ -5,7 +5,7 @@
 
 // Trasforma data/corsi.json (disciplina come array) nella mappa "discipline":
 // { [key]: { titolo, icona, descrizione, orari } }.
-export function buildDisciplineMap(disciplinaList) {
+function buildDisciplineMap(disciplinaList) {
     const discipline = {};
     for (const item of disciplinaList) {
         const orari = {};
@@ -28,12 +28,12 @@ export function buildDisciplineMap(disciplinaList) {
 
 // data/corsi.json usa provincia come ["VR", "Verona"]: nella config
 // il consumatore si aspetta una stringa (abbreviazione).
-export function normalizeProvincia(provincia) {
+function normalizeProvincia(provincia) {
     if (Array.isArray(provincia)) return provincia[0] ?? "";
     return provincia ?? "";
 }
 
-export function buildLuogo(luogo) {
+function buildLuogo(luogo) {
     if (!luogo) return {};
     const indirizzo = luogo.indirizzo ?? {};
     return {
@@ -52,7 +52,7 @@ export function buildLuogo(luogo) {
 }
 
 // Aggiunge un id leggibile ai contatti (data/contatti.json non lo contiene).
-export function buildContacts(emailMap) {
+function buildContacts(emailMap) {
     const contacts = {};
     for (const [key, contact] of Object.entries(emailMap ?? {})) {
         contacts[key] = {
@@ -69,7 +69,7 @@ export function buildContacts(emailMap) {
 }
 
 // Gli annunci nel runtime espongono la data evento come "data".
-export function buildAnnouncements(annunci) {
+function buildAnnouncements(annunci) {
     return (annunci ?? []).map(({ dataEvento, ...annuncio }) => ({
         ...annuncio,
         data: dataEvento ?? ""
@@ -78,7 +78,7 @@ export function buildAnnouncements(annunci) {
 
 // Normalizza il brand da data/settings.json. La copertina ora è un oggetto
 // { path, width, height, alt } usato dai token COPERTINA_* del head-common.
-export function buildBrand(settings) {
+function buildBrand(settings) {
     const brand = settings.brand ?? {};
     const paths = brand.logo?.paths ?? {};
     const copertina = brand.copertina ?? {};

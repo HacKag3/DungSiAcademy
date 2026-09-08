@@ -1,6 +1,6 @@
 import { getNavigation } from "../data-loader.js";
 
-export function getCurrentPage() {
+function getCurrentPage() {
     const { pathname } = window.location;
     return pathname.substring(pathname.lastIndexOf("/") + 1) || "index.html";
 }

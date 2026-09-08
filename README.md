@@ -40,6 +40,8 @@ Struttura dei partial (annidati, risolti in più passate dal builder):
 head-pages.html → head-common.html → icons.html
 head-error.html → head-common.html
 {{JSON_LD}} (partial jsonLD.html, usato nel template index)
+{{BODY_OPEN}} (partial body-open.html: bg-layer + header)
+{{BODY_CLOSE}} (partial body-close.html: footer + chiusura documento)
 ```
 
 ## Dove modificare cosa
@@ -53,12 +55,15 @@ head-error.html → head-common.html
 - `data/annunci.json`: annunci pubblicati. (runtime)
 - `data/content/whoweare.json`: contenuti della pagina Chi Siamo e numeri dei caroselli
 	(`intro`, `disciplina[]` con `carosello` di introduzione e `activities[].carosello`). (runtime)
-- `building/pages_template/`: template HTML tecnici delle pagine.
-- `building/pages_template/_partials/`: blocchi HTML condivisi (head, JSON-LD, ecc.).
+- `building/pages_template/`: template HTML tecnici delle pagine (il guscio
+	`<body>` condiviso arriva dai partial `body-open.html`/`body-close.html`).
+- `building/pages_template/_partials/`: blocchi HTML condivisi (head, body, JSON-LD, ecc.).
 - `building/seo/`: sorgenti tecnici di sitemap e robots.
 - `building/build.mjs`: orchestratore del build; la logica vive in `building/build/*.mjs`.
 - `building/build/`: sottomoduli del generatore (paths, loadData, validate, transforms, schema, tokens, render, checks, output).
 - `js/data-loader.js`: fetch a runtime dei JSON in `data/` e trasformazioni dati.
+- `js/pages/index/`: logica della home, divisa per sezione (`orari.js`,
+	`luogo.js`, `announcements.js` + `annuncioDettaglio.js` per la modale).
 - Root (`index.html`, `contacts.html`, `site.webmanifest`, ecc.): output generati, da non modificare manualmente.
 
 ## Flusso di aggiornamento

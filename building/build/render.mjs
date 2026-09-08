@@ -13,7 +13,11 @@ const PARTIALS = {
     "{{HEAD_ERROR}}": "head-error.html",
     "{{ICONS}}": "icons.html",
     "{{HEAD_COMMON}}": "head-common.html",
-    "{{JSON_LD}}": "jsonLD.html"
+    "{{JSON_LD}}": "jsonLD.html",
+    // Guscio condiviso del <body>: apertura (bg + header) e chiusura
+    // (footer + tag di chiusura), identici per tutte le pagine "normali".
+    "{{BODY_OPEN}}": "body-open.html",
+    "{{BODY_CLOSE}}": "body-close.html"
 };
 
 export function applyPartials(html, pageKey, maxDepth = 5) {

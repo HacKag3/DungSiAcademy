@@ -2,6 +2,7 @@
 // data/content/whoweare.json. Modificando il JSON la pagina si aggiorna senza
 // rebuild. I caroselli vengono inizializzati dopo il rendering.
 import { loadSiteData } from "../../data-loader.js";
+import { initAllCarousels } from "../../utilities/carosello.js";
 
 function renderActivity(activity) {
     return `<div class="activity">
@@ -26,14 +27,14 @@ function renderTopic(disciplina, index) {
     </div>`;
 }
 
-function renderWhoWeAreContent(intro, disciplinas) {
-    const tabs = disciplinas.map((disciplina, index) => `<li class="${index ? "off" : ""}">
+function renderWhoWeAreContent(intro, discipline) {
+    const tabs = discipline.map((disciplina, index) => `<li class="${index ? "off" : ""}">
         <button type="button" class="topic-btn" role="tab" aria-selected="${index === 0}" aria-controls="topic-${disciplina.key}" id="topic-tab-${index}" data-topic-index="${index}">${disciplina.tabLabel}</button>
     </li>`).join("");
 
-    return `<div id="descrizioe">${intro.text}</div>
+    return `<div id="descrizione">${intro.text}</div>
     <div id="topicSelector" role="tablist" aria-label="Seleziona argomento"><ul>${tabs}</ul></div>
-    <div id="topicsContainer">${disciplinas.map(renderTopic).join("")}</div>`;
+    <div id="topicsContainer">${discipline.map(renderTopic).join("")}</div>`;
 }
 
 function changeTopic(topicIndex) {
@@ -81,11 +82,11 @@ async function loadWhoWeAre() {
 
     initTopicSwitcher();
 
-    // I caroselli ora sono nel DOM: se l'inizializzazione automatica è già
-    // avvenuta (istanziazione DOMContentLoaded precedente), la re-inizializza.
-    if (typeof window.initAllCarousels === "function") {
-        window.initAllCarousels();
-    }
+    // I caroselli ora sono nel DOM: se l'auto-init di carosello.js (al
+    // DOMContentLoaded) è già passato, li re-inizializza; in caso contrario
+    // li prenderà il suo listener (il guard su .slideshow-inner evita i
+    // doppi init in entrambi gli ordini).
+    initAllCarousels();
 }
 
 document.addEventListener("DOMContentLoaded", loadWhoWeAre);

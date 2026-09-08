@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const BUILD_MODULES_DIR = path.dirname(fileURLToPath(import.meta.url)); // building/build/
 export const BUILDING_DIR = path.resolve(BUILD_MODULES_DIR, "..");      // building/
 export const ROOT_DIR = path.resolve(BUILDING_DIR, "..");               // root del sito
-export const DATA_DIR = path.join(ROOT_DIR, "data");
+const DATA_DIR = path.join(ROOT_DIR, "data");
 
 export const SEO_DATA_PATH = path.join(BUILDING_DIR, "data", "seo-data.json");
 export const SETTINGS_PATH = path.join(DATA_DIR, "settings.json");

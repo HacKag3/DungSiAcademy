@@ -8,7 +8,7 @@ import path from "node:path";
 import { OUTPUT_DIR, SEO_TEMPLATES_DIR, THEME_COLOR_DEFAULT } from "./paths.mjs";
 
 // Toglie il flag "sola lettura" se il file esiste già.
-export function makeWritable(filePath) {
+function makeWritable(filePath) {
     if (!fs.existsSync(filePath)) return;
     try {
         fs.chmodSync(filePath, 0o644);
@@ -18,7 +18,7 @@ export function makeWritable(filePath) {
 }
 
 // Imposta il file come sola lettura.
-export function makeReadOnly(filePath) {
+function makeReadOnly(filePath) {
     try {
         fs.chmodSync(filePath, 0o444);
     } catch (err) {

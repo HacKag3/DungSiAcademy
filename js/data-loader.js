@@ -42,16 +42,17 @@ export function loadSiteData() {
 }
 
 // ---------------------------------------------------------------------------
-// Trasformazioni dati: stesse regole che il builder applicava a priori
-// a js/config.js, ora eseguite nel browser sui JSON originali.
+// Trasformazioni dati: stesse regole che il builder applica in building/build/
+// transforms.mjs, eseguite qui nel browser sui JSON originali. Esportate solo
+// le funzioni usate da altri moduli del browser, il resto resta interno.
 // ---------------------------------------------------------------------------
 
-export function normalizeProvincia(provincia) {
+function normalizeProvincia(provincia) {
     if (Array.isArray(provincia)) return provincia[0] ?? "";
     return provincia ?? "";
 }
 
-export function buildLuogo(luogo) {
+function buildLuogo(luogo) {
     if (!luogo) return {};
     const indirizzo = luogo.indirizzo ?? {};
     return {
@@ -70,7 +71,7 @@ export function buildLuogo(luogo) {
 }
 
 /** data/corsi.json (disciplina come array) -> mappa "discipline" del runtime. */
-export function buildDisciplineMap(disciplinaList) {
+function buildDisciplineMap(disciplinaList) {
     const discipline = {};
     for (const item of disciplinaList ?? []) {
         const orari = {};
@@ -116,20 +117,19 @@ export function buildAnnouncements(annunci) {
     }));
 }
 
+/** Normalizza il brand da data/settings.json per header e footer. */
 export function buildBrand(settings) {
     const brand = settings.brand ?? {};
     const paths = brand.logo?.paths ?? {};
     return {
         name: brand.name ?? "",
         logo: paths.og || paths.svg || "",
-        home: "./index.html",
-        touchIcon: paths.apple?.["180"] || "/media/loghi/icons/apple/apple-touch-icon.png",
-        copertina: brand.copertina ?? ""
+        home: "./index.html"
     };
 }
 
 /**
- * Config nel formato che i moduli del browser si aspettavano da js/config.js,
+ * Config nel formato usato dai moduli del browser (footer, pagina index),
  * calcolata a runtime dai JSON originali (così basta modificare i dati).
  */
 export async function loadSiteConfig() {

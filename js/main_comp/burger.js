@@ -114,11 +114,9 @@ export function initBurger() {
     // Click sull'overlay: chiude il menu SENZA interagire con la pagina
     // (l'evento colpisce l'overlay, mai gli elementi sottostanti).
     overlay.addEventListener("click", () => toggleMenu(false));
-    document.addEventListener("click", (e) => { 
-        const burgerEl = document.getElementById("burger");
-        const burgerNav = document.getElementById("burger-links");
-        if (isMenuOpen && !burgerEl.contains(e.target) && !burgerNav.contains(e.target)) 
-            toggleMenu(false); 
+    document.addEventListener("click", (e) => {
+        if (isMenuOpen && !burgerEl.contains(e.target) && !burgerNav.contains(e.target))
+            toggleMenu(false);
     });
     document.addEventListener("keydown", (e) => { 
         if (e.key === "Escape" && isMenuOpen) { 

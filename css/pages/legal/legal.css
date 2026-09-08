@@ -47,11 +47,3 @@
 .legal-page a:focus-visible {
     text-decoration: none;
 }
-
-.legal-disclaimer {
-    margin-top: 2.5em;
-    padding-top: 1.5em;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    font-size: 0.85em;
-    opacity: 0.75;
-}

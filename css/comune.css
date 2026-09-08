@@ -33,7 +33,6 @@
 
     /* Secondary accent - Warm gray */
     --accent2: #7A7A82;
-    --accent2-light: #8A8A92;
     --accent2-glow: rgba(122, 122, 130, 0.1);
 
     /* Glass effects */
@@ -41,18 +40,15 @@
     --glass-bg-hover: rgba(255, 255, 255, 0.04);
     --glass-border: rgba(255, 255, 255, 0.06);
     --glass-border-hover: rgba(255, 255, 255, 0.1);
-    --glass-highlight: rgba(255, 255, 255, 0.01);
 
     /* Shadows */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
     --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
-    --shadow-glow: 0 0 15px rgba(90, 110, 133, 0.08);
 
     /* Typography */
     --f: 'Segoe UI', system-ui, -apple-system, sans-serif;
     --fh: kusanagi;
-    --fh2: impact;
 
     /* Tracking dedicato al font display kusanagi: i suoi glifi sono stretti
        e ravvicinati, quindi i titoli hanno bisogno di più respiro. Tre
@@ -233,33 +229,6 @@ hr {
     line-height: 1.4;
     letter-spacing: 0.04em;
     text-align: center;
-}
-
-/* Utility classes */
-.text-accent {
-    color: var(--accent);
-}
-
-.text-accent2 {
-    color: var(--accent2);
-}
-
-.text-muted {
-    color: var(--f2_color);
-}
-
-.glass-card {
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: all var(--transition-base);
-}
-
-.glass-card:hover {
-    background: var(--glass-bg-hover);
-    border-color: var(--glass-border-hover);
 }
 
 /* Focus styles */

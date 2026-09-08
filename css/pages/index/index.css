@@ -114,23 +114,6 @@ article .btn {
             }
         }
     }
-
-    /* Primary CTA button - Martial Arts Style */
-    &.btn-primary {
-        background: linear-gradient(135deg, var(--accent-dark), var(--accent));
-        border-color: var(--accent);
-        color: white;
-        font-weight: 700;
-        box-shadow: var(--shadow-sm);
-
-        @media (hover: hover) and (pointer: fine) {
-            &:hover {
-                background: linear-gradient(135deg, var(--accent), var(--accent-light));
-                box-shadow: var(--shadow-md);
-                border-color: var(--accent-light);
-            }
-        }
-    }
 }
 
 article .hero-actions {
@@ -202,21 +185,11 @@ article .hero-cta {
 }
 
 article .hero-cta-text {
-    font-size: 1.1rem;
-    color: var(--f2_color);
-    max-width: 500px;
-}
-
-article .hero-cta-btn {
-    font-size: 1.1rem;
-    padding: 1rem 2rem;
-}
-
-article .hero-cta-text {
     max-width: 40rem;
     margin: 0;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
 }
 
 article .hero-cta-btn {

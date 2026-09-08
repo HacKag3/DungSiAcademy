@@ -18,9 +18,7 @@
 </head>
 
 <body>
-    <div class="bg-layer"></div>
-
-    <header id="header"></header>
+    {{BODY_OPEN}}
 
     <article>
         <section id="carosello0" class="slideshow"> <!-- auto-generated --> </section>
@@ -93,32 +91,31 @@
         <section id="orari">
             <label class="lb_title"><i class="fa-solid fa-clock"></i> Orari delle Lezioni</label>
 
-                <div class="schedule-layout">
-                    <div class="discipline-panel schedule-selector-group">
-                        <span class="schedule-panel-kicker" id="schedule-selection-kicker"></span>
-                        <span class="schedule-selector-label" id="schedule-discipline-label"></span>
+            <div class="schedule-layout">
+                <div class="discipline-panel schedule-selector-group">
+                    <span class="schedule-panel-kicker" id="schedule-selection-kicker"></span>
+                    <span class="schedule-selector-label" id="schedule-discipline-label"></span>
+                    <div class="selector">
+                        <ul id="disciplina-selector-menu" role="tablist"></ul>
+                    </div>
+                    <p class="discipline-description" id="discipline-description"></p>
+                </div>
+
+                <div class="schedule-results">
+                    <div class="schedule-selector-group age-selector">
+                        <span class="schedule-selector-label" id="schedule-age-label"></span>
                         <div class="selector">
-                            <ul id="disciplina-selector-menu" role="tablist"></ul>
+                            <ul id="orari-selector-menu" role="tablist"></ul>
                         </div>
-                        <p class="discipline-description" id="discipline-description"></p>
                     </div>
 
-                    <div class="schedule-results">
-                        <div class="schedule-selector-group age-selector">
-                            <span class="schedule-selector-label" id="schedule-age-label"></span>
-                            <div class="selector">
-                                <ul id="orari-selector-menu" role="tablist"></ul>
-                            </div>
-                        </div>
-
-                        <div class="content schedule-content">
-                            <span class="schedule-panel-kicker" id="schedule-results-kicker"></span>
-                            <p class="schedule-description" id="orari-description"></p>
-                            <div class="schedule-table-card">
-                                <h3 id="orari-table-title"></h3>
-                                <table class="schedule-table"></table>
-                                <p class="schedule-empty" id="orari-empty" hidden></p>
-                            </div>
+                    <div class="content schedule-content">
+                        <span class="schedule-panel-kicker" id="schedule-results-kicker"></span>
+                        <p class="schedule-description" id="orari-description"></p>
+                        <div class="schedule-table-card">
+                            <h3 id="orari-table-title"></h3>
+                            <table class="schedule-table"></table>
+                            <p class="schedule-empty" id="orari-empty" hidden></p>
                         </div>
                     </div>
                 </div>
@@ -135,8 +132,4 @@
         <div id="sezione-annunci"> <!-- auto-generated --> </div>
     </article>
 
-    <footer id="footer"></footer>
-
-</body>
-
-</html>
+    {{BODY_CLOSE}}

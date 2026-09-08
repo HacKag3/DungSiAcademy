@@ -1,3 +1,10 @@
+// js/utilities/carosello.js
+// Carosello a slideshow riutilizzabile: le immagini vivono in
+// media/caroselli/<N>_<nome>/ (indice dei numeri in media/caroselli/manifest.json).
+// Ogni sezione .slideshow con id "carosello<N>" presente nella pagina viene
+// inizializzata automaticamente al DOMContentLoaded; le funzioni sono però
+// esportate come moduli ES anche per controllo/inizializzazione programmatica.
+
 const CAROSELLI_ROOT = "./media/caroselli/";
 
 const carousels = new Map();
@@ -84,7 +91,7 @@ function buildPaginationMarkup(images) {
         </button>`).join("");
 }
 
-async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = {}) {
+export async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = {}) {
     const root = document.querySelector(`#carosello${caroselloNum}`);
     if (!root) {
         console.error(`Carosello ${caroselloNum} non trovato nel DOM.`);
@@ -114,8 +121,7 @@ async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = 
         slides: root.querySelectorAll(".slide"),
         items: paginationEl ? root.querySelectorAll(".item") : [],
         timer: null,
-        interval,
-        simple
+        interval
     };
     carousels.set(caroselloNum, state);
 
@@ -133,7 +139,7 @@ async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = 
         }
         const pageBtn = e.target.closest("[data-slide-index]");
         if (pageBtn) {
-            goToSlide(caroselloNum, Number(pageBtn.dataset.slideIndex));
+            setSlide(caroselloNum, Number(pageBtn.dataset.slideIndex));
         }
     });
 
@@ -164,22 +170,20 @@ function render(state) {
     });
 }
 
-function changeSlide(caroselloNum, n) {
+// Porta il carosello alla slide data (modulo la lunghezza) e riparte con l'autoplay.
+function setSlide(caroselloNum, index) {
     const state = carousels.get(caroselloNum);
     if (!state) return;
     stopAutoPlay(caroselloNum);
-    state.index = (state.index + n + state.slides.length) % state.slides.length;
+    state.index = ((index % state.slides.length) + state.slides.length) % state.slides.length;
     render(state);
     startAutoPlay(caroselloNum);
 }
 
-function goToSlide(caroselloNum, n) {
+function changeSlide(caroselloNum, n) {
     const state = carousels.get(caroselloNum);
     if (!state) return;
-    stopAutoPlay(caroselloNum);
-    state.index = n;
-    render(state);
-    startAutoPlay(caroselloNum);
+    setSlide(caroselloNum, state.index + n);
 }
 
 function startAutoPlay(caroselloNum) {
@@ -195,7 +199,7 @@ function stopAutoPlay(caroselloNum) {
 }
 
 /* inizializza automaticamente tutti i caroselli presenti nella pagina corrente */
-function initAllCarousels() {
+export function initAllCarousels() {
     document.querySelectorAll('.slideshow[id^="carosello"]').forEach((section) => {
         // Evita di reinizializzare un carosello già costruito
         // (le sezioni possono essere inserite a runtime dai dati).
@@ -209,10 +213,3 @@ function initAllCarousels() {
 }
 
 document.addEventListener("DOMContentLoaded", () => initAllCarousels());
-
-
-// Esportate per eventuale controllo/inizializzazione programmatica esterna.
-window.initCarousel = initCarousel;
-window.initAllCarousels = initAllCarousels;
-window.changeSlide = changeSlide;
-window.goToSlide = goToSlide;
