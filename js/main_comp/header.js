@@ -4,6 +4,7 @@
 import { loadSiteData, buildBrand } from "../data-loader.js";
 import { genBurger, initBurger } from "./burger.js";
 import { genNavBarLinks } from "../utilities/utils.js";
+import { initSmartHeader } from "../utilities/smartHeader.js";
 
 const MOBILE_BREAKPOINT = 767;
 
@@ -13,53 +14,6 @@ const debounce = (fn, wait) => {
     let timer;
     return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), wait); };
 };
-
-
-function initScrollBehavior(headerEl) {
-    let lastScrollY = window.scrollY;
-    let accumulated = 0;
-    let isHidden = false;
-    let ticking = false;
- 
-    const update = () => {
-        const currentScrollY = Math.max(window.scrollY, 0);
-        const delta = currentScrollY - lastScrollY;
-        const headerHeight = headerEl.offsetHeight;
- 
-        if (currentScrollY <= headerHeight/3) {
-            headerEl.classList.remove("nav-hidden");
-            headerEl.classList.add("nav-visible");
-            isHidden = false;
-            accumulated = 0;
-        } else if (delta > 0) {
-            // scroll verso il basso
-            accumulated = accumulated > 0 ? accumulated + delta : delta;
-            if (!isHidden && accumulated > 1) {
-                headerEl.classList.add("nav-hidden");
-                headerEl.classList.remove("nav-visible");
-                isHidden = true;
-            }
-        } else if (delta < 0) {
-            // scroll verso l'alto
-            accumulated = accumulated < 0 ? accumulated + delta : delta;
-            if (isHidden && accumulated < -1) {
-                headerEl.classList.remove("nav-hidden");
-                headerEl.classList.add("nav-visible");
-                isHidden = false;
-            }
-        }
- 
-        lastScrollY = currentScrollY;
-        ticking = false;
-    };
- 
-    window.addEventListener("scroll", () => {
-        if (!ticking) {
-            requestAnimationFrame(update);
-            ticking = true;
-        }
-    }, { passive: true });
-}
 
 
 function checkDesktopFit(headerEl) {
@@ -149,7 +103,10 @@ export async function loadHeader() {
     }
 
     render();
-    initScrollBehavior(headerEl);
+    // Header e burger condividono la stessa logica di comparsa/scomparsa
+    // (smartHeader): una sola macchina a stati, niente copie che divergono.
+    // Il burger esiste già: render() lo crea prima di riempire l'header.
+    initSmartHeader(headerEl, document.getElementById("burger"));
 
     let wasMobile = isMobile();
 

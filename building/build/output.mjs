@@ -72,7 +72,7 @@ export function buildManifestFiles(settings) {
         description: brand.descrizione ?? "",
         start_url: "/index.html",
         display: "standalone",
-        background_color: "#0A0908",
+        background_color: "#0E0E10",
         theme_color: themeColor,
         icons: [
             { src: paths.android?.["192"], sizes: "192x192", type: "image/png" },

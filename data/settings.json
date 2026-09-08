@@ -31,7 +31,8 @@
             "height": "630",
             "alt": "Copertina DŨNG SĨ Academy"
         },
-        "descrizione": "Corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, per bambini, ragazzi e adulti."
+        "descrizione": "Corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, per bambini, ragazzi e adulti.",
+        "themeColor": "#1a1a1e"
     },
     "legale": {
         "denominazione": "[DA CONFERMARE: denominazione legale completa, es. A.S.D. DŨNG SĨ Academy]",

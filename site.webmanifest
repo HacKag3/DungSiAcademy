@@ -4,8 +4,8 @@
     "description": "Corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, per bambini, ragazzi e adulti.",
     "start_url": "/index.html",
     "display": "standalone",
-    "background_color": "#0A0908",
-    "theme_color": "#d9a441",
+    "background_color": "#0E0E10",
+    "theme_color": "#1a1a1e",
     "icons": [
         {
             "src": "/media/loghi/icons/android/icon-192x192.png",

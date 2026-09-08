@@ -1,14 +1,21 @@
 
 article .lb_title {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.5em;
-    border-radius: 2em;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.1));
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    margin-bottom: 0.75em;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, var(--glass-bg), var(--accent-dim));
     font-size: 1.5em;
     font-weight: bold;
+    color: var(--f_color);
     border-bottom: none;
+}
+
+article .lb_title i {
+    color: var(--accent);
 }
 
 .useful-contacts-section {
@@ -24,65 +31,67 @@ article .lb_title {
 .useful-contacts-list {
     display: flex;
     flex-direction: column;
-    gap: 0.8em;
+    gap: 1em;
     margin-top: 2em;
 }
 
 .useful-contact-row {
     display: flex;
     align-items: center;
-    gap: 1.2em;
+    gap: 1.25em;
     background: var(--bg1);
-    border-radius: 1.25em;
-    padding: 1.1em 1.4em;
-    border: 1px solid transparent;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    border-radius: var(--radius-lg);
+    padding: 1.25em 1.5em;
+    border: 1px solid var(--glass-border);
+    transition: all var(--transition-base);
 }
 
 @media (hover: hover) and (pointer: fine) {
     .useful-contact-row:hover {
-        border-color: rgba(255, 255, 255, 0.14);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-        transform: translateX(3px);
+        border-color: var(--accent);
+        box-shadow: var(--shadow-md);
+        transform: translateX(4px);
+        background: var(--bg2);
     }
 }
 
 .useful-contact-icon {
     flex-shrink: 0;
-    width: 2.6em;
-    height: 2.6em;
-    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.06);
-    color: var(--f_color);
+    background: var(--accent-dim);
+    color: var(--accent);
     font-size: 1.1rem;
 }
 
 .useful-contact-text {
     flex: 1 1 auto;
-    min-width: 0; /* fix overflow: permette al testo di andare a capo invece di sforare */
+    min-width: 0;
 }
 
 .useful-contact-title {
     font-family: var(--fh);
     font-size: 1.1rem;
+    letter-spacing: var(--tracking-text);
     color: white;
-    margin-bottom: 0.2em;
+    margin-bottom: 0.25em;
 }
 
 .useful-contact-desc {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     line-height: 1.5;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--f2_color);
 }
 
 .useful-contact-actions {
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.4em;
+    gap: 0.5em;
     align-items: flex-end;
     text-align: right;
 }
@@ -90,7 +99,7 @@ article .lb_title {
 .useful-contact-actions .person-contacts {
     border-top: none;
     padding-top: 0;
-    gap: 0.4em;
+    gap: 0.5em;
     align-items: flex-end;
 }
 
@@ -101,7 +110,7 @@ article .lb_title {
 .useful-contact-pending {
     font-size: 0.8rem;
     font-style: italic;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--f3_color);
     white-space: nowrap;
 }
 
@@ -125,8 +134,8 @@ article .lb_title {
         flex-basis: 100%;
         align-items: flex-start;
         text-align: left;
-        padding-left: 3.8em;
-        margin-top: 0.3em;
+        padding-left: 4.25em;
+        margin-top: 0.5em;
     }
 }
 
@@ -143,7 +152,7 @@ article .lb_title {
 .team-list {
     display: flex;
     flex-direction: column;
-    gap: 3em;
+    gap: 3.5em;
     margin-top: 2em;
 }
 
@@ -153,8 +162,16 @@ article .lb_title {
     gap: 2.5em;
     align-items: center;
     background: var(--bg1);
-    padding: 1.5em;
-    border-radius: 1.5em;
+    padding: 1.75em;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--glass-border);
+    transition: all var(--transition-base);
+
+    &:hover {
+        border-color: var(--accent);
+        box-shadow: var(--shadow-lg);
+        background: var(--bg2);
+    }
 
     &.reversed {
         grid-template-columns: 1fr minmax(14em, 22em);
@@ -165,8 +182,8 @@ article .lb_title {
 
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
-        gap: 1.25em;
-        padding: 1.25em;
+        gap: 1.5em;
+        padding: 1.5em;
 
         &.reversed {
             grid-template-columns: 1fr;
@@ -182,8 +199,9 @@ article .lb_title {
 .person-photo {
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    border-radius: 1.5em;
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--glass-border);
 }
 
 .person-photo img {
@@ -192,12 +210,18 @@ article .lb_title {
     object-fit: cover;
     object-position: top center;
     display: block;
+    transition: transform var(--transition-slow);
+}
+
+.person-photo:hover img {
+    transform: scale(1.03);
 }
 
 .person-photo.cutout {
     background: none;
     box-shadow: none;
     border-radius: 0;
+    border: none;
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -212,9 +236,9 @@ article .lb_title {
 }
 
 .person-photo.placeholder {
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
-    border-radius: 1.5em;
+    background: var(--bg2);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-lg);
     display: block;
     overflow: hidden;
 }
@@ -229,21 +253,22 @@ article .lb_title {
 .person-info {
     display: flex;
     flex-direction: column;
-    gap: 0.4em;
+    gap: 0.5em;
     padding: 0 0.5em;
 }
 
 .person-title {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--f_color);
-    opacity: 0.85;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    font-weight: 600;
 }
 
 .person-name {
     font-family: var(--fh);
-    font-size: 1.8rem;
+    font-size: 1.9rem;
+    letter-spacing: var(--tracking-title);
     color: white;
     line-height: 1.15;
 }
@@ -257,8 +282,8 @@ article .lb_title {
 
 .person-desc {
     font-size: 1rem;
-    line-height: 1.65;
-    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.7;
+    color: var(--f2_color);
     margin-bottom: 1em;
     max-width: 42em;
 }
@@ -268,7 +293,7 @@ article .lb_title {
     flex-direction: column;
     gap: 0.75em;
     padding-top: 0.75em;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--glass-border);
 }
 
 .contact-link {
@@ -278,12 +303,18 @@ article .lb_title {
     color: var(--f_color);
     text-decoration: none;
     font-size: 0.9rem;
-    transition: color 0.25s ease, transform 0.25s ease;
+    transition: all var(--transition-base);
+}
+
+.contact-link i {
+    color: var(--accent);
+    width: 1.25em;
+    text-align: center;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .contact-link:hover {
-        color: white;
-        transform: translateX(3px);
+        color: var(--accent-light);
+        transform: translateX(4px);
     }
 }

@@ -1,4 +1,5 @@
 import { genNavBarLinks } from "../utilities/utils.js";
+import { smartHeaderMenuOpened, smartHeaderMenuClosed } from "../utilities/smartHeader.js";
 
 
 // Blocco dello scroll di pagina quando il menu è aperto.
@@ -94,10 +95,14 @@ export function initBurger() {
 
         // Blocca lo scroll della pagina quando il menu è aperto: il menu
         // resta utilizzabile per intero e non si "interrompe" scorrendo.
+        // Header/burger seguono via smartHeader: visibili a menu aperto,
+        // riallineati alla posizione di scroll dopo la chiusura.
         if (isMenuOpen) {
             scrollLock.save();
+            smartHeaderMenuOpened();
         } else {
             scrollLock.restore();
+            smartHeaderMenuClosed();
         }
     }
 
@@ -122,49 +127,7 @@ export function initBurger() {
         }
     });
 
-    // Il burger segue lo stesso scroll behavior dell'header: si nasconde
-    // scorrendo verso il basso e appare scorrendo verso l'alto.
-    let lastScrollY = window.scrollY;
-    let accumulated = 0;
-    let isHidden = false;
-    let ticking = false;
-
-    const updateScroll = () => {
-        const currentScrollY = Math.max(window.scrollY, 0);
-        const delta = currentScrollY - lastScrollY;
-        const headerHeight = headerEl.offsetHeight;
-
-        if (currentScrollY <= headerHeight / 3) {
-            burgerEl.classList.remove("nav-hidden");
-            burgerEl.classList.add("nav-visible");
-            isHidden = false;
-            accumulated = 0;
-        } else if (delta > 0) {
-            // scroll verso il basso
-            accumulated = accumulated > 0 ? accumulated + delta : delta;
-            if (!isHidden && accumulated > 1) {
-                burgerEl.classList.add("nav-hidden");
-                burgerEl.classList.remove("nav-visible");
-                isHidden = true;
-            }
-        } else if (delta < 0) {
-            // scroll verso l'alto
-            accumulated = accumulated < 0 ? accumulated + delta : delta;
-            if (isHidden && accumulated < -1) {
-                burgerEl.classList.remove("nav-hidden");
-                burgerEl.classList.add("nav-visible");
-                isHidden = false;
-            }
-        }
-
-        lastScrollY = currentScrollY;
-        ticking = false;
-    };
-
-    window.addEventListener("scroll", () => {
-        if (!ticking) {
-            requestAnimationFrame(updateScroll);
-            ticking = true;
-        }
-    }, { passive: true });
+    // Nota: la logica di comparsa/scomparsa del burger allo scroll non vive
+    // qui: e' gestita da smartHeader.js insieme all'header, con una sola
+    // macchina a stati condivisa (initSmartHeader e' chiamato da header.js).
 }

@@ -2,14 +2,14 @@
    HERO
    ============================================================ */
 article .hero-panel {
-    margin: 1em auto 2em;
-    padding: 0 1rem;
+    margin: 1.5em auto 2.5em;
+    padding: 0 1.5rem;
     position: relative;
     z-index: 2;
     width: 95%;
 
     @media (max-width: 768px) {
-        padding: 0 0.5rem;
+        padding: 0 0.75rem;
     }
 }
 
@@ -17,39 +17,56 @@ article .hero-card {
     position: relative;
     overflow: hidden;
     display: grid;
-    gap: 1.5rem;
-    padding: clamp(1rem, 1.5vw, 1.5rem);
-    border-radius: 2em;
-    background: linear-gradient(135deg, rgba(52, 46, 55, 0.97), rgba(72, 64, 65, 0.9));
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    gap: 2rem;
+    padding: clamp(1.5rem, 3vw, 3rem);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--bg2), var(--bg1));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
 
     &::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(120deg, rgba(141, 153, 174, 0.14), transparent 60%);
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), transparent 50%);
         pointer-events: none;
     }
 
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    }
+
     .eyebrow {
-        display: inline-block;
-        margin-bottom: 0.75rem;
-        padding: 0.5rem 0.75rem;
-        border-radius: 1.5em;
-        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-full);
+        font-size: 0.75rem;
+        font-weight: 600;
         text-transform: uppercase;
-        color: var(--f_color);
-        background: rgba(255, 255, 255, 0.1);
+        letter-spacing: 0.1em;
+        color: var(--accent-light);
+        background: var(--accent-dim);
+        border: 1px solid var(--glass-border);
     }
 
     h1 {
-        margin-bottom: 0.7rem;
+        margin-bottom: 1rem;
         font-family: var(--fh);
-        font-size: clamp(2rem, 3.3vw, 2.8rem);
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        letter-spacing: var(--tracking-title);
         line-height: 1.1;
         color: white;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
     }
 }
 
@@ -58,24 +75,60 @@ article .hero-copy {
     z-index: 1;
 }
 
+/* Enhanced Button System */
 article .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 1rem;
-    border-radius: 1em;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
     text-decoration: none;
-    font-weight: bold;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(255, 255, 255, 0.08);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
     color: var(--f_color);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+        opacity: 0;
+        transition: opacity var(--transition-base);
+    }
 
     @media (hover: hover) and (pointer: fine) {
         &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
-            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            background: var(--glass-bg-hover);
+            border-color: var(--accent);
+
+            &::before {
+                opacity: 1;
+            }
+        }
+    }
+
+    /* Primary CTA button - Martial Arts Style */
+    &.btn-primary {
+        background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+        border-color: var(--accent);
+        color: white;
+        font-weight: 700;
+        box-shadow: var(--shadow-sm);
+
+        @media (hover: hover) and (pointer: fine) {
+            &:hover {
+                background: linear-gradient(135deg, var(--accent), var(--accent-light));
+                box-shadow: var(--shadow-md);
+                border-color: var(--accent-light);
+            }
         }
     }
 }
@@ -83,8 +136,8 @@ article .btn {
 article .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
 }
 
 article .hero-highlights {
@@ -93,7 +146,7 @@ article .hero-highlights {
     z-index: 1;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5em;
+    gap: 1em;
 
     @media (max-width: 900px) {
         grid-template-columns: 1fr;
@@ -103,35 +156,60 @@ article .hero-highlights {
 article .hero-highlight {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    padding: 0.6em 0.8em;
-    border-radius: 1em;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0.25rem;
+    padding: 1em 1.2em;
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-left: 3px solid var(--accent);
+    transition: all var(--transition-base);
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent);
+            border-left-color: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+    }
 
     strong {
         color: white;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        font-weight: 600;
     }
 
     span {
-        font-size: 0.8rem;
-        color: var(--f_color);
+        font-size: 0.85rem;
+        color: var(--f2_color);
+        line-height: 1.4;
     }
 }
 
 article .hero-cta {
     position: relative;
     z-index: 1;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     text-align: center;
+}
+
+article .hero-cta-text {
+    font-size: 1.1rem;
+    color: var(--f2_color);
+    max-width: 500px;
+}
+
+article .hero-cta-btn {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
 }
 
 article .hero-cta-text {
@@ -166,36 +244,51 @@ article hr {
 article #partecipare,
 article #orari,
 article #luogo {
-    padding: 1.25rem 1.25rem 1.5rem;
-    background: rgba(52, 46, 55, 0.99);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+    padding: 1.5rem 1.5rem 2rem;
+    background: linear-gradient(180deg, var(--bg2), var(--bg1));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-md);
 }
 
 article #partecipare{
-    margin-top: 1em;
-    border-top-left-radius: 2em;
-    border-top-right-radius: 2em;
+    margin-top: 1.5em;
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+    border-bottom: none;
 }
 
 article #luogo {
-    border-bottom-left-radius: 2em;
-    border-bottom-right-radius: 2em;
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+    border-top: none;
 
     @media (max-width: 768px) {
         margin-bottom: 0;
     }
 }
 
-article .lb_title {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.5em;
-    border-radius: 2em;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
-    font-size: 1.1em;
-    font-weight: bold;
+article #orari {
+    border-top: none;
     border-bottom: none;
+}
+
+article .lb_title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    margin-bottom: 0.75em;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, var(--glass-bg), var(--accent-dim));
+    font-size: 1.15em;
+    font-weight: bold;
+    color: var(--f_color);
+    border-bottom: none;
+}
+
+article .lb_title i {
+    color: var(--accent);
 }
 
 
@@ -238,12 +331,12 @@ article #orari .schedule-panel-kicker {
 }
 
 article #orari .schedule-layout {
-    --schedule-accent: var(--f2_color);
-    --schedule-surface: rgba(255, 255, 255, 0.045);
+    --schedule-accent: var(--accent);
+    --schedule-surface: var(--glass-bg);
     display: grid;
     grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.28fr);
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.5rem;
     width: min(100%, 66rem);
     margin: 1.5rem auto 0;
 }
@@ -525,8 +618,8 @@ article #luogo #map {
     display: grid;
     place-items: center;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--f2_color), #c9d3e4);
-    color: #111;
+    background: linear-gradient(135deg, var(--bg3), var(--bg2));
+    color: var(--f_color);
     font-size: 1.4em;
 }
 
@@ -549,12 +642,38 @@ article #luogo #map {
 }
 
 @media (max-width: 768px) {
+    article #luogo #map {
+        /* Su mobile il rapporto 21/9 schiaccia troppo il contenitore:
+           il placeholder (icona + testo + bottone) non ci sta.
+           Min-height garantisce una zona comoda anche prima del caricamento. */
+        min-height: 18em;
+    }
+
     .map-placeholder {
-        padding: 1.5em 1em;
+        padding: 1.5em 1.25em;
+        gap: 0.9em;
+    }
+
+    .map-placeholder-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2em;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-sm);
     }
 
     .map-placeholder-text {
         font-size: 0.9em;
+        line-height: 1.5;
+        max-width: 30em;
+    }
+
+    .map-placeholder-btn {
+        width: 100%;
+        max-width: 16em;
+        justify-content: center;
+        padding: 0.8em 1.25em;
+        font-size: 0.95em;
     }
 }
 
@@ -645,11 +764,11 @@ article #luogo #map {
 .annuncio-card {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(100deg, rgba(52, 46, 55, 0.98), rgba(72, 64, 65, 0.95));
-    border-left: 5px solid var(--f2_color);
+    background: linear-gradient(100deg, var(--bg2), var(--bg1));
+    border-left: 5px solid var(--accent);
     padding: 1em;
-    border-radius: 1em;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     flex: 0 0 85%;
     max-width: 32em;
 
@@ -760,7 +879,7 @@ article #luogo #map {
     padding: 1.5em 2.5em 1.5em 1.5em;
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 1em;
-    background: linear-gradient(135deg, rgba(52, 46, 55, 0.99), rgba(72, 64, 65, 0.98));
+    background: linear-gradient(135deg, var(--bg2), var(--bg1));
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 
     &::-webkit-scrollbar {

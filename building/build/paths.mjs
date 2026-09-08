@@ -24,7 +24,7 @@ export const OUTPUT_DIR = ROOT_DIR;
 
 // Colore di default per theme-color/manifest; sovrascrivibile
 // con settings.brand.themeColor.
-export const THEME_COLOR_DEFAULT = "#d9a441";
+export const THEME_COLOR_DEFAULT = "#1a1a1e";
 
 // Mapping giorni IT -> EN per OpeningHoursSpecification nel JSON-LD.
 export const GIORNI_IT_EN = {

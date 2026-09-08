@@ -17,6 +17,7 @@
     margin-top: 2em;
     margin-bottom: 0.5em;
     font-family: var(--fh);
+    letter-spacing: var(--tracking-title);
 }
 
 .legal-page h2:first-of-type {
