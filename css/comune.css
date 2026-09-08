@@ -18,6 +18,12 @@
     --f_color: #dadada;
     --f2_color: #8D99AE;
 
+    --accent: #d9a441;
+    --accent-dim: rgba(217, 164, 65, 0.3);
+
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+
     --f: tahoma;
     --fh: kusanagi;
     --fh2: impact;

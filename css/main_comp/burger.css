@@ -6,11 +6,16 @@
     position: fixed;
     top: 0;
     left: calc(var(--burger-size) / 2);
-    z-index: 10011;
+    z-index: 10015;
     height: var(--header-height);
     display: flex;
     align-items: center;
     transition: transform 0.35s ease-in-out;
+    pointer-events: none;
+}
+
+#burger > * {
+    pointer-events: auto;
 }
 
 #burger.nav-hidden {
@@ -64,9 +69,8 @@
 
 .burger-icon.active {
     border-color: var(--f_color);
-    /* Sposta l'icona a destra per non sovrapporsi al menu aperto,
-     * ma senza andare fino al bordo del sidebar (che su mobile è 90vw). */
-    transform: translateX(14rem);
+    transform: translateX(13rem);
+    z-index: 10013;
 }
 
 .burger-line {
@@ -105,7 +109,7 @@
     left: 0;
     width: clamp(14rem, 90vw, 20rem);
     height: 100vh;
-    z-index: 1;
+    z-index: 10012;
     background: var(--bg1);
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
     display: flex;

@@ -5,12 +5,24 @@ import { genNavBarLinks } from "../utilities/utils.js";
 // Usa position:fixed sul body per evitare il salto in cima alla pagina
 // e lo scroll-lock via overflow come fallback per browser meno recenti.
 const scrollLock = (() => {
+    let scrollY = 0;
+
     return {
         save() {
+            scrollY = window.scrollY;
             document.body.classList.add("menu-open");
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.left = "0";
+            document.body.style.right = "0";
+            document.body.style.position = "fixed";
         },
         restore() {
             document.body.classList.remove("menu-open");
+            document.body.style.top = "";
+            document.body.style.left = "";
+            document.body.style.right = "";
+            document.body.style.position = "";
+            window.scrollTo(0, scrollY);
         }
     };
 })();
@@ -32,14 +44,13 @@ export function genBurger() {
                     <rect class="burger-line line3" x="0" y="18" width="24" height="4" rx="2"></rect>
                 </svg>
             </button>
-
-            <ul id="burger-links" class="burger-nav links-off" role="list" aria-label="Menu di navigazione">
-                ${genNavBarLinks().map(({href, name}) => `
-                <li class="burger-nav__item">
-                    <a href="${href}" class="burger-nav__link">${name}</a>
-                </li>`).join("")}
-            </ul>
-        </div>`;
+        </div>
+        <ul id="burger-links" class="burger-nav links-off" role="list" aria-label="Menu di navigazione">
+            ${genNavBarLinks().map(({href, name}) => `
+            <li class="burger-nav__item">
+                <a href="${href}" class="burger-nav__link">${name}</a>
+            </li>`).join("")}
+        </ul>`;
 }
 
 
@@ -99,7 +110,9 @@ export function initBurger() {
     // (l'evento colpisce l'overlay, mai gli elementi sottostanti).
     overlay.addEventListener("click", () => toggleMenu(false));
     document.addEventListener("click", (e) => { 
-        if (isMenuOpen && !document.getElementById("burger").contains(e.target)) 
+        const burgerEl = document.getElementById("burger");
+        const burgerNav = document.getElementById("burger-links");
+        if (isMenuOpen && !burgerEl.contains(e.target) && !burgerNav.contains(e.target)) 
             toggleMenu(false); 
     });
     document.addEventListener("keydown", (e) => { 
