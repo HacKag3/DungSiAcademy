@@ -2,12 +2,14 @@ import { loadSiteConfig } from "../../data-loader.js";
 import { initAnnouncements } from "./announcements.js";
 import { initOrari } from "./orari.js";
 import { initLuogo } from "./luogo.js";
+import { initScrollHighlight } from "./scrollHighlight.js";
 
 async function loadIndex() {
     initAnnouncements().catch((error) => console.error("[Annunci] Sezione annunci non disponibile:", error));
 
     const orariRoot = document.getElementById("orari-selector-menu");
     const luogoRoot = document.getElementById("luogo");
+
     if (!orariRoot && !luogoRoot) return;
 
     try {
@@ -19,4 +21,8 @@ async function loadIndex() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadIndex);
+document.addEventListener("DOMContentLoaded", () => {
+    initScrollHighlight();
+    loadIndex();
+});
+

@@ -1,3 +1,21 @@
+.highlight-pulse {
+    animation: pulse-highlight 0.6s ease-out;
+}
+
+@keyframes pulse-highlight {
+    0% {
+        transform: scale(1) translateX(0);
+        filter: brightness(1.4) drop-shadow(0 0 0.5rem var(--accent));
+    }
+    25% {
+        filter: brightness(1.6) drop-shadow(0 0 0.8rem var(--accent));
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1) drop-shadow(0 0 0.2rem transparent);
+    }
+}
+
 article .hero-panel {
     margin: 1.5em auto 2.5em;
     padding: 0 1.5rem;
