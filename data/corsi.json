@@ -2,7 +2,7 @@
     "disciplina": [
         {
             "key": "arte-marziale",
-            "titolo": "Arti Marziale",
+            "titolo": "Arte Marziale",
             "icona": "fas fa-person-running",
             "description": "Il percorso di arti marziali tradizionali vietnamite sviluppa tecnica, disciplina e consapevolezza attraverso un allenamento progressivo del corpo e della mente.",
             "fascia": {

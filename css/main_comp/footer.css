@@ -286,6 +286,33 @@ footer::before {
     .footer-social-icons {
         justify-content: center;
     }
+
+    /* Il footer è già impilato in colonna: la sezione legale segue la stessa
+       logica. Ogni informazione legale sta su una riga propria e centrata:
+       la riga inline con separatori "·" ha senso solo su desktop, dove
+       legal-info e link stanno su due colonne contrapposte. */
+    .footer-legal {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-md);
+    }
+
+    .footer-legal-info {
+        flex-direction: column;
+        gap: 0.35em;
+    }
+
+    .footer-legal-info span {
+        padding: 0;
+    }
+
+    .footer-legal-info span:not(:last-child)::after {
+        content: none;
+    }
+
+    .footer-legal-links {
+        justify-content: center;
+    }
 }
 
 @media (max-width: 768px) {
@@ -301,19 +328,5 @@ footer::before {
 
     .footer-brand-name {
         font-size: 1.5em;
-    }
-
-    .footer-legal {
-        flex-direction: column;
-        text-align: center;
-        gap: var(--space-md);
-    }
-
-    .footer-legal-info {
-        justify-content: center;
-    }
-
-    .footer-legal-links {
-        justify-content: center;
     }
 }
