@@ -1,15 +1,20 @@
 import { loadHeader } from "./header.js";
 import { loadFooter } from "./footer.js";
+import { loadData } from "../data-loader.js";
 
-function loadDevelopmentAlert() {
+async function loadDevelopmentAlert() {
     if (document.querySelector(".development-alert")) {
         return;
     }
 
+    const settings = await loadData("settings");
+    const alertText = settings.ui?.developmentAlert;
+    if (!alertText) return;
+
     const alertEl = document.createElement("div");
     alertEl.className = "development-alert";
     alertEl.setAttribute("role", "alert");
-    alertEl.textContent = "Sito ancora in fase di sviluppo: le informazioni potrebbero non essere complete o fittizie.";
+    alertEl.textContent = alertText;
 
     const headerEl = document.querySelector("header");
     if (headerEl) {
@@ -20,8 +25,7 @@ function loadDevelopmentAlert() {
 }
 
 export function loadLayout() {
-    loadHeader();
-    loadDevelopmentAlert();
-    loadFooter();
+    loadHeader().catch((error) => console.error("[Header] Caricamento non riuscito:", error));
+    loadDevelopmentAlert().catch((error) => console.error("[Layout] Alert di sviluppo non caricato:", error));
+    loadFooter().catch((error) => console.error("[Footer] Caricamento non riuscito:", error));
 }
-

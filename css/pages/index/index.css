@@ -1,15 +1,30 @@
-/* ============================================================
-   HERO
-   ============================================================ */
+.highlight-pulse {
+    animation: pulse-highlight 0.6s ease-out;
+}
+
+@keyframes pulse-highlight {
+    0% {
+        transform: scale(1) translateX(0);
+        filter: brightness(1.4) drop-shadow(0 0 0.5rem var(--accent));
+    }
+    25% {
+        filter: brightness(1.6) drop-shadow(0 0 0.8rem var(--accent));
+    }
+    100% {
+        transform: scale(1);
+        filter: brightness(1) drop-shadow(0 0 0.2rem transparent);
+    }
+}
+
 article .hero-panel {
-    margin: 1em auto 2em;
-    padding: 0 1rem;
+    margin: 1.5em auto 2.5em;
+    padding: 0 1.5rem;
     position: relative;
     z-index: 2;
     width: 95%;
 
     @media (max-width: 768px) {
-        padding: 0 0.5rem;
+        padding: 0 0.75rem;
     }
 }
 
@@ -17,39 +32,56 @@ article .hero-card {
     position: relative;
     overflow: hidden;
     display: grid;
-    gap: 1.5rem;
-    padding: clamp(1rem, 1.5vw, 1.5rem);
-    border-radius: 2em;
-    background: linear-gradient(135deg, rgba(52, 46, 55, 0.97), rgba(72, 64, 65, 0.9));
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    gap: 2rem;
+    padding: clamp(1.5rem, 3vw, 3rem);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--bg2), var(--bg1));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
 
     &::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(120deg, rgba(141, 153, 174, 0.14), transparent 60%);
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), transparent 50%);
         pointer-events: none;
     }
 
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    }
+
     .eyebrow {
-        display: inline-block;
-        margin-bottom: 0.75rem;
-        padding: 0.5rem 0.75rem;
-        border-radius: 1.5em;
-        font-size: 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-full);
+        font-size: 0.75rem;
+        font-weight: 600;
         text-transform: uppercase;
-        color: var(--f_color);
-        background: rgba(255, 255, 255, 0.1);
+        letter-spacing: 0.1em;
+        color: var(--accent-light);
+        background: var(--accent-dim);
+        border: 1px solid var(--glass-border);
     }
 
     h1 {
-        margin-bottom: 0.7rem;
+        margin-bottom: 1rem;
         font-family: var(--fh);
-        font-size: clamp(2rem, 3.3vw, 2.8rem);
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        letter-spacing: var(--tracking-title);
         line-height: 1.1;
         color: white;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
     }
 }
 
@@ -62,20 +94,38 @@ article .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 1rem;
-    border-radius: 1em;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
     text-decoration: none;
-    font-weight: bold;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(255, 255, 255, 0.08);
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
     color: var(--f_color);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, color 0.25s ease;
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+        opacity: 0;
+        transition: opacity var(--transition-base);
+    }
 
     @media (hover: hover) and (pointer: fine) {
         &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
-            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            background: var(--glass-bg-hover);
+            border-color: var(--accent);
+
+            &::before {
+                opacity: 1;
+            }
         }
     }
 }
@@ -83,8 +133,8 @@ article .btn {
 article .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 1rem;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
 }
 
 article .hero-highlights {
@@ -93,7 +143,7 @@ article .hero-highlights {
     z-index: 1;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5em;
+    gap: 1em;
 
     @media (max-width: 900px) {
         grid-template-columns: 1fr;
@@ -103,29 +153,43 @@ article .hero-highlights {
 article .hero-highlight {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    padding: 0.6em 0.8em;
-    border-radius: 1em;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0.25rem;
+    padding: 1em 1.2em;
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-left: 3px solid var(--accent);
+    transition: all var(--transition-base);
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent);
+            border-left-color: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+    }
 
     strong {
         color: white;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        font-weight: 600;
     }
 
     span {
-        font-size: 0.8rem;
-        color: var(--f_color);
+        font-size: 0.85rem;
+        color: var(--f2_color);
+        line-height: 1.4;
     }
 }
 
 article .hero-cta {
     position: relative;
     z-index: 1;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
 
     display: flex;
     flex-direction: column;
@@ -139,6 +203,7 @@ article .hero-cta-text {
     margin: 0;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
 }
 
 article .hero-cta-btn {
@@ -146,10 +211,6 @@ article .hero-cta-btn {
     font-size: 1.05rem;
 }
 
-
-/* ============================================================
-   ORARI + LUOGO — guscio condiviso delle due card
-   ============================================================ */
 article #partecipare,
 article #orari,
 article #luogo,
@@ -166,39 +227,52 @@ article hr {
 article #partecipare,
 article #orari,
 article #luogo {
-    padding: 1.25rem 1.25rem 1.5rem;
-    background: rgba(52, 46, 55, 0.99);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+    padding: 1.5rem 1.5rem 2rem;
+    background: linear-gradient(180deg, var(--bg2), var(--bg1));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-md);
 }
 
 article #partecipare{
-    margin-top: 1em;
-    border-top-left-radius: 2em;
-    border-top-right-radius: 2em;
+    margin-top: 1.5em;
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+    border-bottom: none;
 }
 
 article #luogo {
-    border-bottom-left-radius: 2em;
-    border-bottom-right-radius: 2em;
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+    border-top: none;
 
     @media (max-width: 768px) {
         margin-bottom: 0;
     }
 }
 
-article .lb_title {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    margin-bottom: 0.5em;
-    border-radius: 2em;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
-    font-size: 1.1em;
-    font-weight: bold;
+article #orari {
+    border-top: none;
     border-bottom: none;
 }
 
+article .lb_title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    margin-bottom: 0.75em;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, var(--glass-bg), var(--accent-dim));
+    font-size: 1.15em;
+    font-weight: bold;
+    color: var(--f_color);
+    border-bottom: none;
+}
 
+article .lb_title i {
+    color: var(--accent);
+}
 
 article #partecipare {
     div {
@@ -211,10 +285,104 @@ article #partecipare {
     }
 }
 
+article #orari .schedule-selector-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.82rem;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+}
 
-/* ============================================================
-   ORARI — selettore a tab (età/categoria)
-   ============================================================ */
+article #orari .schedule-panel-kicker {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: var(--schedule-accent);
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 0.16em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+article #orari .schedule-layout {
+    --schedule-accent: var(--accent);
+    --schedule-surface: var(--glass-bg);
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.28fr);
+    align-items: center;
+    gap: 1.5rem;
+    width: min(100%, 66rem);
+    margin: 1.5rem auto 0;
+}
+
+article #orari .discipline-description {
+    width: min(100%, 54ch);
+    margin: 1rem auto 0;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.5;
+    text-align: center;
+}
+
+article #orari .schedule-selector-group {
+    min-width: 0;
+}
+
+article #orari .discipline-panel {
+    align-self: start;
+    padding: 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.5rem;
+    background: var(--schedule-surface);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.12);
+}
+
+article #orari .discipline-panel .selector ul {
+    display: grid;
+    gap: 0.45rem;
+}
+
+article #orari .discipline-panel li,
+article #orari .discipline-panel li:not(.off) {
+    border-radius: 0.45rem;
+}
+
+article #orari .discipline-panel .topic-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.65rem;
+    min-height: 2.8rem;
+    text-align: left;
+}
+
+article #orari .discipline-panel .topic-btn i {
+    width: 1.25rem;
+    color: currentColor;
+    text-align: center;
+}
+
+article #orari .discipline-panel li:not(.off) {
+    color: #fff;
+    background: var(--schedule-accent);
+    border-color: var(--schedule-accent);
+    box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.2);
+}
+
+article #orari .schedule-results {
+    min-width: 0;
+    padding: 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+article #orari .age-selector {
+    margin-bottom: 1rem;
+}
+
 article #orari .selector {
     justify-content: center;
     display: flex;
@@ -232,7 +400,7 @@ article #orari .selector {
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 2em;
-        transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 
         &.off {
             color: var(--f2_color);
@@ -240,23 +408,22 @@ article #orari .selector {
             cursor: pointer;
 
             &:hover {
-                transform: translateY(-4px);
                 background: rgba(255, 255, 255, 0.12);
                 border-color: rgba(255, 255, 255, 0.2);
             }
         }
 
         &:not(.off) {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
-            border-bottom-color: rgba(255, 255, 255, 0.03);
-            border-bottom-width: 4px;
-            border-radius: 1.5em 1.5em 0 0;
+            color: var(--bg);
+            background: var(--f2_color);
+            border-color: var(--f2_color);
+            border-bottom-width: 1px;
+            border-radius: 2em;
+            box-shadow: 0 0.25rem 0.8rem rgba(0, 0, 0, 0.18);
         }
     }
 }
 
-/* Condiviso con altri selettori a tab del sito (es. whoweare) */
 button.topic-btn {
     padding: 0.65rem 1.1rem;
     width: 100%;
@@ -276,112 +443,89 @@ button.topic-btn {
     }
 }
 
-
-/* ============================================================
-   ORARI — tabella
-   ============================================================ */
 article #orari .content {
-    display: flex;
-    gap: 1rem;
     width: 100%;
-    justify-content: center;
 
-    .table-wrapper {
-        position: relative;
-        width: 65ch;
-        background: rgba(255, 255, 255, 0.04);
-        border-radius: 1em;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+    .schedule-description {
+        width: min(100%, 72ch);
+        margin: 0 0 1.15rem;
+        padding-left: 0.85rem;
+        border-left: 2px solid var(--schedule-accent);
+        color: rgba(255, 255, 255, 0.72);
+        line-height: 1.55;
     }
 
-    table {
-        background-color: rgba(255, 255, 255, 0.04);
-        width: 100%;
-        border-radius: 1em;
-        border-collapse: collapse;
+    .schedule-table-card {
+        position: relative;
+        width: min(100%, 42rem);
+        margin: 0;
+        min-width: 0;
+        background: var(--schedule-surface);
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.14);
         overflow: hidden;
     }
 
-    th {
+    .schedule-table-card h3 {
+        margin: 0;
+        padding: 0.9rem 1rem;
+        background: rgba(255, 255, 255, 0.07);
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+        text-align: left;
+    }
+
+    .schedule-table {
+        background-color: rgba(255, 255, 255, 0.04);
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .schedule-table th {
         border-bottom: rgba(255, 255, 255, 0.18) solid 2px;
         padding: 0.85em 0.65em;
     }
 
-    td {
+    .schedule-table tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.035);
+    }
+
+    .schedule-table td {
         text-align: center;
         padding: 0.7em 0.65em;
     }
 
-    .giorno {
+    .schedule-empty {
+        margin: 0;
+        padding: 2rem 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+    }
+
+    .schedule-table .giorno {
         text-align: left;
-        width: 70%;
+        width: 45%;
         border-right: solid 2px rgba(255, 255, 255, 0.08);
     }
-}
 
-
-/* ============================================================
-   INFO BOX — icona con popup/overlay a schermo intero
-   ============================================================ */
-.info {
-    position: absolute;
-    top: -1.25em;
-    right: -1em;
-    z-index: 50;
-    pointer-events: auto;
-    font-family: 'Roboto';
-
-    &:hover .info-icon {
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 1);
+    .orario-disciplina {
+        white-space: nowrap;
     }
 }
 
-.info-icon {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, var(--f2_color), #c9d3e4);
-    color: #111;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-weight: bold;
+@media (max-width: 768px) {
+    article #orari .schedule-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    article #orari .selector ul {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
 }
 
-.info-box {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: min(92vw, 320px);
-    background: linear-gradient(135deg, rgba(52, 46, 55, 0.98), rgba(72, 64, 65, 0.95));
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    padding: 20px;
-    border-radius: 2em;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-    z-index: 9999;
-    color: var(--f_color);
-    line-height: 1.6;
-}
-
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.86);
-    backdrop-filter: blur(5px);
-    z-index: 9998;
-}
-
-
-/* ============================================================
-   LUOGO — indirizzo e mappa
-   ============================================================ */
 article #luogo #indirizzo {
     padding: 0.5rem 2rem;
     line-height: 1.8;
@@ -403,9 +547,6 @@ article #luogo #map {
     }
 }
 
-/* ============================================================
-   LUOGO — placeholder mappa (click-to-load)
-   ============================================================ */
 .map-placeholder {
     width: 100%;
     height: 100%;
@@ -438,8 +579,8 @@ article #luogo #map {
     display: grid;
     place-items: center;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--f2_color), #c9d3e4);
-    color: #111;
+    background: linear-gradient(135deg, var(--bg3), var(--bg2));
+    color: var(--f_color);
     font-size: 1.4em;
 }
 
@@ -455,25 +596,43 @@ article #luogo #map {
     display: inline-flex;
     align-items: center;
     gap: 0.5em;
-
-    &:hover {
-        cursor: pointer;
-    }
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
+    article #luogo #map {
+        
+        min-height: 18em;
+    }
+
     .map-placeholder {
-        padding: 1.5em 1em;
+        padding: 1.5em 1.25em;
+        gap: 0.9em;
+    }
+
+    .map-placeholder-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2em;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-sm);
     }
 
     .map-placeholder-text {
         font-size: 0.9em;
+        line-height: 1.5;
+        max-width: 30em;
+    }
+
+    .map-placeholder-btn {
+        width: 100%;
+        max-width: 16em;
+        justify-content: center;
+        padding: 0.8em 1.25em;
+        font-size: 0.95em;
     }
 }
 
-/* ============================================================
-   ANNUNCI (carosello scorrevole di card)
-   ============================================================ */
 #sezione-annunci {
     width: 100%;
     margin: 0 auto;
@@ -512,7 +671,7 @@ article #luogo #map {
     scroll-behavior: smooth;
     padding: 1em;
     cursor: grab;
-    touch-action: pan-y;
+    touch-action: pan-x;
 
     &.dragging {
         cursor: grabbing;
@@ -558,11 +717,11 @@ article #luogo #map {
 .annuncio-card {
     display: flex;
     flex-direction: column;
-    background: linear-gradient(100deg, rgba(52, 46, 55, 0.98), rgba(72, 64, 65, 0.95));
-    border-left: 5px solid var(--f2_color);
+    background: linear-gradient(100deg, var(--bg2), var(--bg1));
+    border-left: 5px solid var(--accent);
     padding: 1em;
-    border-radius: 1em;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
     flex: 0 0 85%;
     max-width: 32em;
 
@@ -673,7 +832,7 @@ article #luogo #map {
     padding: 1.5em 2.5em 1.5em 1.5em;
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 1em;
-    background: linear-gradient(135deg, rgba(52, 46, 55, 0.99), rgba(72, 64, 65, 0.98));
+    background: linear-gradient(135deg, var(--bg2), var(--bg1));
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 
     &::-webkit-scrollbar {

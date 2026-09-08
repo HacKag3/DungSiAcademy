@@ -4,12 +4,11 @@ const carousels = new Map();
 
 let folderIndexPromise = null;
 
-
 async function getFolderIndex() {
     if (!folderIndexPromise) {
         folderIndexPromise = fetch(`${CAROSELLI_ROOT}manifest.json`)
             .then(res => {
-                if (!res.ok) throw new Error("index.json non trovato");
+                if (!res.ok) throw new Error("manifest.json dei caroselli non trovato");
                 return res.json();
             })
             .catch(err => {
@@ -29,7 +28,7 @@ async function resolveFolderName(caroselloNum) {
 async function getImages(caroselloNum) {
     const folderName = await resolveFolderName(caroselloNum);
     if (!folderName) {
-        console.warn(`Nessuna cartella trovata per il carosello ${caroselloNum} (prefisso "${caroselloNum}_" assente in index.json).`);
+        console.warn(`Nessuna cartella trovata per il carosello ${caroselloNum} (prefisso "${caroselloNum}_" assente in ${CAROSELLI_ROOT}manifest.json).`);
         return [];
     }
 
@@ -84,7 +83,7 @@ function buildPaginationMarkup(images) {
         </button>`).join("");
 }
 
-async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = {}) {
+export async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = {}) {
     const root = document.querySelector(`#carosello${caroselloNum}`);
     if (!root) {
         console.error(`Carosello ${caroselloNum} non trovato nel DOM.`);
@@ -109,13 +108,15 @@ async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = 
         paginationEl.innerHTML = buildPaginationMarkup(images);
     }
 
+    const previous = carousels.get(caroselloNum);
+    if (previous?.timer) clearInterval(previous.timer);
+
     const state = {
         index: 0,
         slides: root.querySelectorAll(".slide"),
         items: paginationEl ? root.querySelectorAll(".item") : [],
         timer: null,
-        interval,
-        simple
+        interval
     };
     carousels.set(caroselloNum, state);
 
@@ -133,18 +134,16 @@ async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = 
         }
         const pageBtn = e.target.closest("[data-slide-index]");
         if (pageBtn) {
-            goToSlide(caroselloNum, Number(pageBtn.dataset.slideIndex));
+            setSlide(caroselloNum, Number(pageBtn.dataset.slideIndex));
         }
     });
 
-    // Navigazione da tastiera
     root.setAttribute("tabindex", "0");
     root.addEventListener("keydown", (e) => {
         if (e.key === "ArrowLeft") changeSlide(caroselloNum, -1);
         if (e.key === "ArrowRight") changeSlide(caroselloNum, 1);
     });
 
-    // Swipe touch
     let touchStartX = 0;
     root.addEventListener("touchstart", (e) => {
         touchStartX = e.changedTouches[0].clientX;
@@ -164,22 +163,19 @@ function render(state) {
     });
 }
 
-function changeSlide(caroselloNum, n) {
+function setSlide(caroselloNum, index) {
     const state = carousels.get(caroselloNum);
     if (!state) return;
     stopAutoPlay(caroselloNum);
-    state.index = (state.index + n + state.slides.length) % state.slides.length;
+    state.index = ((index % state.slides.length) + state.slides.length) % state.slides.length;
     render(state);
     startAutoPlay(caroselloNum);
 }
 
-function goToSlide(caroselloNum, n) {
+function changeSlide(caroselloNum, n) {
     const state = carousels.get(caroselloNum);
     if (!state) return;
-    stopAutoPlay(caroselloNum);
-    state.index = n;
-    render(state);
-    startAutoPlay(caroselloNum);
+    setSlide(caroselloNum, state.index + n);
 }
 
 function startAutoPlay(caroselloNum) {
@@ -194,9 +190,10 @@ function stopAutoPlay(caroselloNum) {
     if (state?.timer) clearInterval(state.timer);
 }
 
-/* inizializza automaticamente tutti i caroselli presenti nella pagina corrente */
-function initAllCarousels() {
+export function initAllCarousels() {
     document.querySelectorAll('.slideshow[id^="carosello"]').forEach((section) => {
+        if (section.querySelector(".slideshow-inner")) return;
+
         const num = section.id.replace(/^carosello/, "");
         const simple = section.dataset.simple === "true";
         const interval = section.dataset.interval ? Number(section.dataset.interval) : undefined;
@@ -205,10 +202,3 @@ function initAllCarousels() {
 }
 
 document.addEventListener("DOMContentLoaded", () => initAllCarousels());
-
-
-// Esportate per eventuale controllo/inizializzazione programmatica esterna.
-window.initCarousel = initCarousel;
-window.initAllCarousels = initAllCarousels;
-window.changeSlide = changeSlide;
-window.goToSlide = goToSlide;

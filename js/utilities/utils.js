@@ -1,6 +1,6 @@
-import { CONFIG } from "../config.js";
+import { getNavigation } from "../data-loader.js";
 
-export function getCurrentPage() {
+function getCurrentPage() {
     const { pathname } = window.location;
     return pathname.substring(pathname.lastIndexOf("/") + 1) || "index.html";
 }
@@ -8,7 +8,7 @@ export function getCurrentPage() {
 export function genNavBarLinks() {
     const currentPage = getCurrentPage();
 
-    return CONFIG.pages
+    return getNavigation()
         .filter(page => page.href !== `./${currentPage}`);
 }
 
@@ -19,3 +19,5 @@ const ESCAPE_MAP = {
     '"': '&quot;', 
     "'": '&#039;' };
 export const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (m) => ESCAPE_MAP[m]);
+
+export const telHref = (phone) => String(phone).replace(/[^0-9+]/g, "");

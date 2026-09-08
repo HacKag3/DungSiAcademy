@@ -1,6 +1,7 @@
-import { CONFIG } from "../config.js";
+import { loadData, buildBrand } from "../data-loader.js";
 import { genBurger, initBurger } from "./burger.js";
-import { getCurrentPage, genNavBarLinks } from "../utilities/utils.js";
+import { genNavBarLinks } from "../utilities/utils.js";
+import { initSmartHeader } from "../utilities/smartHeader.js";
 
 const MOBILE_BREAKPOINT = 767;
 
@@ -10,56 +11,6 @@ const debounce = (fn, wait) => {
     let timer;
     return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), wait); };
 };
-
-
-const SCROLL_DISTANCE_THRESHOLD = 8;
-
-function initScrollBehavior(headerEl) {
-    let lastScrollY = window.scrollY;
-    let accumulated = 0;
-    let isHidden = false;
-    let ticking = false;
- 
-    const update = () => {
-        const currentScrollY = Math.max(window.scrollY, 0);
-        const delta = currentScrollY - lastScrollY;
-        const headerHeight = headerEl.offsetHeight;
- 
-        if (currentScrollY <= headerHeight/3) {
-            headerEl.classList.remove("nav-hidden");
-            headerEl.classList.add("nav-visible");
-            isHidden = false;
-            accumulated = 0;
-        } else if (delta > 0) {
-            // scroll verso il basso
-            accumulated = accumulated > 0 ? accumulated + delta : delta;
-            if (!isHidden && accumulated > 1) {
-                headerEl.classList.add("nav-hidden");
-                headerEl.classList.remove("nav-visible");
-                isHidden = true;
-            }
-        } else if (delta < 0) {
-            // scroll verso l'alto
-            accumulated = accumulated < 0 ? accumulated + delta : delta;
-            if (isHidden && accumulated < -1) {
-                headerEl.classList.remove("nav-hidden");
-                headerEl.classList.add("nav-visible");
-                isHidden = false;
-            }
-        }
- 
-        lastScrollY = currentScrollY;
-        ticking = false;
-    };
- 
-    window.addEventListener("scroll", () => {
-        if (!ticking) {
-            requestAnimationFrame(update);
-            ticking = true;
-        }
-    }, { passive: true });
-}
-
 
 function checkDesktopFit(headerEl) {
     const titleEl = document.getElementById("titolo");
@@ -73,15 +24,14 @@ function checkDesktopFit(headerEl) {
 
     const spaceAvailable = headerEl.offsetWidth
         - (titleEl.offsetLeft + titleEl.offsetWidth)
-        - 20; // margine di sicurezza
+        - 20;
 
     headerEl.classList.toggle("nav-fallback", navEl.offsetWidth > spaceAvailable);
 }
 
-
-function genDesktopNav() {
+function genDesktopNav(ui) {
     return `
-        <nav class="desktop-nav" aria-label="Navigazione principale">
+        <nav class="desktop-nav" aria-label="${ui.navMainLabel}">
             ${genNavBarLinks().map(({ href, name }) =>
             `<a href="${href}" class="nav__link">
                 <span>${name}</span>
@@ -90,35 +40,62 @@ function genDesktopNav() {
     `;
 }
 
-const generateHeader = () => `
-    ${genBurger()}
+function generateHeader(brand, ui) {
+    const backToHomeAria = ui.backToHomeAria.replaceAll("{brand}", brand.name);
+    return `
+        <div id="titolo" class="nav-fallback">
+            <a href="${brand.home}" aria-label="${backToHomeAria}">
+                <img
+                    src="${brand.logo}"
+                    alt="Logo ${brand.name}"
+                    loading="eager"
+                    height="128"
+                    width="auto">
+                <span class="header-brand-name">${brand.name}</span>
+            </a>
+        </div>
 
-    <div id="titolo" class="nav-fallback">
-        <a href="${CONFIG.brand.home}" aria-label="Torna alla homepage di ${CONFIG.brand.name}">
-            <img
-                src="${CONFIG.brand.logo}"
-                alt="Logo ${CONFIG.brand.name}"
-                loading="eager"
-                height="128"
-                width="auto">
-            <span class="header-brand-name">${CONFIG.brand.name}</span>
-        </a>
-    </div>
+        ${genDesktopNav(ui)}
+    `;
+}
 
-    ${genDesktopNav()}
-`;
-
-
-export function loadHeader() {
+export async function loadHeader() {
     const headerEl = document.querySelector("header");
     if (!headerEl) {
         console.warn("[Header] Nessun elemento <header> trovato nel DOM.");
         return;
     }
 
+    const fallbackBrand = {
+        name: headerEl.dataset.brand || "",
+        logo: headerEl.dataset.logo || "",
+        home: headerEl.dataset.home || "./index.html"
+    };
+
+    let brand, ui;
+    try {
+        const settings = await loadData("settings");
+        brand = buildBrand(settings);
+        ui = settings.ui ?? {};
+    } catch (err) {
+        console.warn("[Header] Impossibile caricare settings.json, usando fallback inline:", err);
+        brand = fallbackBrand;
+        ui = {
+            navMainLabel: "Navigazione principale",
+            backToHomeAria: "Torna alla home"
+        };
+    }
+
+    let burgerInitialized = false;
+
     function render() {
-        headerEl.innerHTML = generateHeader();
-        initBurger();
+        if (!burgerInitialized) {
+            document.body.insertAdjacentHTML("afterbegin", genBurger());
+            initBurger();
+            burgerInitialized = true;
+        }
+
+        headerEl.innerHTML = generateHeader(brand, ui);
 
         requestAnimationFrame(() => {
             document.getElementById("burger-links")?.classList.add("has-transition");
@@ -132,15 +109,24 @@ export function loadHeader() {
     }
 
     render();
-    initScrollBehavior(headerEl);
+    initSmartHeader(headerEl, document.getElementById("burger"));
 
     let wasMobile = isMobile();
+
+    const closeMenuCompletely = () => {
+        const icon = document.querySelector(".burger-icon");
+        if (icon?.getAttribute("aria-expanded") === "true") {
+            const overlay = document.querySelector(".burger-overlay");
+            overlay?.click();
+        }
+    };
 
     const onResize = debounce(() => {
         const nowMobile = isMobile();
 
         if (nowMobile !== wasMobile) {
             wasMobile = nowMobile;
+            closeMenuCompletely();
             render();
         } else if (!nowMobile) {
             checkDesktopFit(headerEl);

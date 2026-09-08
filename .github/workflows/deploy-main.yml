@@ -1,12 +1,15 @@
-name: Deploy to Main (Clean Build)
+name: Remove dev-only files
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
-  build-and-clean-main:
+  remove-building:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,17 +24,20 @@ jobs:
       - name: Install dependencies & Run Build
         run: |
           if [ -f package.json ]; then
-            npm install
-            npm run build:seo
+            if [ -f package-lock.json ]; then 
+              npm ci --ignore-scripts; 
+            else 
+              npm install --ignore-scripts; 
+            fi
+            npm run build
           fi
 
-      - name: Remove building source files from staging
+      - name: Remove dev-only files
         run: |
-          # Rimuove chirurgicamente la cartella di sviluppo e i file di package dal branch main
           rm -rf building/
           rm -f package.json package-lock.json
 
-      - name: Commit cleaned production files to main
+      - name: Commit generated files to main
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(prod): aggiornamento automatico file di produzione compilati"

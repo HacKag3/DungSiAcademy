@@ -1,0 +1,75 @@
+{
+    "brand":  {
+                  "themeColor":  "#1a1a1e",
+                  "descrizione":  "Corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, per bambini, ragazzi e adulti.",
+                  "copertina":  {
+                                    "path":  "./media/social/copertina.png",
+                                    "alt":  "Copertina DŨNG SĨ Academy",
+                                    "width":  "1200",
+                                    "height":  "630"
+                                },
+                  "name":  "DŨNG SĨ Academy",
+                  "logo":  {
+                               "paths":  {
+                                             "android":  {
+                                                             "192":  "/media/loghi/icons/android/icon-192x192.png",
+                                                             "512":  "/media/loghi/icons/android/icon-512x512.png"
+                                                         },
+                                             "svg":  "/media/loghi/icons/source/logo-square.svg",
+                                             "browserconfig":  "/browserconfig.xml",
+                                             "favicon":  {
+                                                             "16":  "/media/loghi/icons/favicon/favicon-16x16.png",
+                                                             "32":  "/media/loghi/icons/favicon/favicon-32x32.png",
+                                                             "ico":  "/media/loghi/icons/favicon/favicon.ico",
+                                                             "48":  "/media/loghi/icons/favicon/favicon-48x48.png"
+                                                         },
+                                             "apple":  {
+                                                           "152":  "/media/loghi/icons/apple/apple-touch-icon-152x152.png",
+                                                           "180":  "/media/loghi/icons/apple/apple-touch-icon.png",
+                                                           "120":  "/media/loghi/icons/apple/apple-touch-icon-120x120.png"
+                                                       },
+                                             "og":  "./media/loghi/DungSi.svg",
+                                             "manifest":  "/site.webmanifest"
+                                         },
+                               "alt":  "Logo DŨNG SĨ Academy"
+                           }
+              },
+    "associazioni":  {
+                         "asi":  {
+                                     "subNum":  "[DA CONFERMARE] A0000000",
+                                     "logo":  "./media/loghi/Logo-ASI.webp",
+                                     "altText":  "logo asi"
+                                 }
+                     },
+    "ui":  {
+               "legalInfoAriaLabel":  "Informazioni legali",
+               "tesseraLabel":  "Tessera/Affiliazione",
+               "writeUsAria":  "Scrivi a {name}",
+               "backToHomeAria":  "Torna alla homepage di {brand}",
+               "affiliationCardAlt":  "Logo associazione affiliata",
+               "callUsAria":  "Chiamaci al {phone}",
+               "errorContactUs":  "Contattaci",
+               "errorContactIcon":  "fas fa-envelope",
+               "pendingContact":  "In aggiornamento",
+               "affiliationTitle":  "Affiliazione ente sportivo",
+               "socialAriaLabel":  "Social media",
+               "followUsAria":  "Seguici su {name}",
+               "developmentAlert":  "Sito ancora in fase di sviluppo: le informazioni potrebbero non essere complete o fittizie.",
+               "socialFollowTitle":  "Seguici sui Social",
+               "errorBackHome":  "Torna alla home",
+               "errorHomeIcon":  "fas fa-home",
+               "navMainLabel":  "Navigazione principale"
+           },
+    "legale":  {
+                   "partitaIva":  "[DA CONFERMARE, se presente]",
+                   "denominazione":  "[DA CONFERMARE: denominazione legale completa, es. A.S.D. DŨNG SĨ Academy]",
+                   "sedeLegale":  {
+                                      "cap":  "[DA CONFERMARE]",
+                                      "citta":  "[DA CONFERMARE]",
+                                      "via":  "[DA CONFERMARE]"
+                                  },
+                   "registrazione":  "[DA CONFERMARE: n. iscrizione RUNTS o registro CONI/ente affiliante]",
+                   "codiceFiscale":  "[DA CONFERMARE]",
+                   "rappresentanteLegale":  "[DA CONFERMARE: nome del Presidente/legale rappresentante]"
+               }
+}
