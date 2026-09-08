@@ -1,4 +1,4 @@
-﻿footer {
+footer {
     background: linear-gradient(180deg, var(--bg1), var(--bg));
     color: var(--f_color);
     font-family: var(--f);
@@ -29,10 +29,6 @@ footer::before {
     align-items: center;
     gap: var(--space-2xl);
 }
-
-/*
- * AFFILIAZIONE (sinistra)
- */
 
 .footer-affiliation {
     display: flex;
@@ -81,10 +77,6 @@ footer::before {
     opacity: 0.6;
 }
 
-/*
- * NOME PALESTRA (centro)
- */
-
 .footer-brand {
     display: flex;
     flex-direction: column;
@@ -129,10 +121,6 @@ footer::before {
     font-size: 0.85em;
     color: var(--accent);
 }
-
-/*
- * SOCIAL
- */
 
 .footer-social {
     display: flex;
@@ -190,10 +178,6 @@ footer::before {
     outline-offset: 3px;
 }
 
-/*
- * NOTE LEGALI
- */
-
 .footer-legal {
     max-width: 1200px;
     width: 100%;
@@ -246,10 +230,6 @@ footer::before {
     background: var(--glass-bg);
 }
 
-/*
- * COPYRIGHT
- */
-
 .footer-copyright {
     border-top: 1px solid var(--glass-border);
     padding-top: var(--space-lg);
@@ -263,10 +243,6 @@ footer::before {
     opacity: 0.5;
     letter-spacing: 0.05em;
 }
-
-/*
- * RESPONSIVE
- */
 
 @media (max-width: 900px) {
     .footer-inner {
@@ -287,10 +263,7 @@ footer::before {
         justify-content: center;
     }
 
-    /* Il footer è già impilato in colonna: la sezione legale segue la stessa
-       logica. Ogni informazione legale sta su una riga propria e centrata:
-       la riga inline con separatori "·" ha senso solo su desktop, dove
-       legal-info e link stanno su due colonne contrapposte. */
+    
     .footer-legal {
         flex-direction: column;
         text-align: center;

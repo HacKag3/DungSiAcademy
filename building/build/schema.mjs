@@ -1,7 +1,3 @@
-// building/build/schema.mjs
-// Costruzione del blocco schema.org (JSON-LD) integrato a priori nella
-// pagina index: deve essere presente nell'HTML per i crawler.
-
 import { GIORNI_IT_EN } from "./paths.mjs";
 
 export function buildAbsoluteAssetUrl(siteDomain, assetPath) {

@@ -1,6 +1,4 @@
-// building/build/checks.mjs
-// Controlli post-render e sui dati: token irrisolti, placeholder
-// "[DA CONFERMARE]"/"[...]" nei dati e nelle pagine generate.
+const PLACEHOLDER_PATTERN = /\[DA CONFERMARE[^\]]*\]|\[DA DEFINIRE[^\]]*\]|\[\.\.\.\]/gi;
 
 export function checkUnresolvedTokens(html, pageKey) {
     const leftover = html.match(/\{\{[A-Z_0-9]+\}\}/g);
@@ -12,19 +10,7 @@ export function checkUnresolvedTokens(html, pageKey) {
 }
 
 export function checkPlaceholderText(html, pageKey) {
-    const patterns = [
-        /\[DA CONFERMARE[^\]]*\]/gi,
-        /\[DA DEFINIRE[^\]]*\]/gi,
-        /\[\.\.\.\]/g
-    ];
-    const found = new Set();
-
-    for (const regex of patterns) {
-        const matches = html.match(regex);
-        if (matches) {
-            matches.forEach(match => found.add(match));
-        }
-    }
+    const found = new Set(html.match(PLACEHOLDER_PATTERN) ?? []);
 
     if (found.size > 0) {
         console.warn(`!!!! Pagina "${pageKey}": placeholder provvisori trovati nell'output -> ${[...found].join(", ")}`);
@@ -33,14 +19,12 @@ export function checkPlaceholderText(html, pageKey) {
     return false;
 }
 
-// Scansiona ricorsivamente un oggetto dati alla ricerca di placeholder.
 export function checkConfigPlaceholders(config) {
-    const placeholderRegex = /\[DA CONFERMARE[^\]]*\]|\[DA DEFINIRE[^\]]*\]|\[\.\.\.\]/gi;
     const issues = [];
 
     function scan(value, pathLabel) {
         if (typeof value === "string") {
-            const matches = value.match(placeholderRegex);
+            const matches = value.match(PLACEHOLDER_PATTERN);
             if (matches) {
                 matches.forEach(match => issues.push(`${pathLabel}: ${match}`));
             }

@@ -1,6 +1,3 @@
-/* ============================================================
-   HERO
-   ============================================================ */
 article .hero-panel {
     margin: 1.5em auto 2.5em;
     padding: 0 1.5rem;
@@ -75,7 +72,6 @@ article .hero-copy {
     z-index: 1;
 }
 
-/* Enhanced Button System */
 article .btn {
     display: inline-flex;
     align-items: center;
@@ -197,10 +193,6 @@ article .hero-cta-btn {
     font-size: 1.05rem;
 }
 
-
-/* ============================================================
-   ORARI + LUOGO — guscio condiviso delle due card
-   ============================================================ */
 article #partecipare,
 article #orari,
 article #luogo,
@@ -264,8 +256,6 @@ article .lb_title i {
     color: var(--accent);
 }
 
-
-
 article #partecipare {
     div {
         margin-left: 1em;
@@ -277,10 +267,6 @@ article #partecipare {
     }
 }
 
-
-/* ============================================================
-   ORARI — descrizioni e selettori
-   ============================================================ */
 article #orari .schedule-selector-label {
     display: block;
     margin-bottom: 0.4rem;
@@ -379,9 +365,6 @@ article #orari .age-selector {
     margin-bottom: 1rem;
 }
 
-/* ============================================================
-   ORARI — selettore a tab
-   ============================================================ */
 article #orari .selector {
     justify-content: center;
     display: flex;
@@ -423,7 +406,6 @@ article #orari .selector {
     }
 }
 
-/* Condiviso con altri selettori a tab del sito (es. whoweare) */
 button.topic-btn {
     padding: 0.65rem 1.1rem;
     width: 100%;
@@ -443,10 +425,6 @@ button.topic-btn {
     }
 }
 
-
-/* ============================================================
-   ORARI — tabella
-   ============================================================ */
 article #orari .content {
     width: 100%;
 
@@ -530,11 +508,6 @@ article #orari .content {
     }
 }
 
-
-
-/* ============================================================
-   LUOGO — indirizzo e mappa
-   ============================================================ */
 article #luogo #indirizzo {
     padding: 0.5rem 2rem;
     line-height: 1.8;
@@ -556,9 +529,6 @@ article #luogo #map {
     }
 }
 
-/* ============================================================
-   LUOGO — placeholder mappa (click-to-load)
-   ============================================================ */
 .map-placeholder {
     width: 100%;
     height: 100%;
@@ -608,17 +578,12 @@ article #luogo #map {
     display: inline-flex;
     align-items: center;
     gap: 0.5em;
-
-    &:hover {
-        cursor: pointer;
-    }
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
     article #luogo #map {
-        /* Su mobile il rapporto 21/9 schiaccia troppo il contenitore:
-           il placeholder (icona + testo + bottone) non ci sta.
-           Min-height garantisce una zona comoda anche prima del caricamento. */
+        
         min-height: 18em;
     }
 
@@ -650,9 +615,6 @@ article #luogo #map {
     }
 }
 
-/* ============================================================
-   ANNUNCI (carosello scorrevole di card)
-   ============================================================ */
 #sezione-annunci {
     width: 100%;
     margin: 0 auto;

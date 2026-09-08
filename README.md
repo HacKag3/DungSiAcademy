@@ -27,7 +27,7 @@ versionamento del codice):
 | `paths.mjs` | percorsi e costanti condivise (dir, file dati, colori, giorni IT→EN) |
 | `loadData.mjs` | caricamento dei JSON sorgente (`building/data/seo-data.json`, `data/*.json`) |
 | `validate.mjs` | validazione dati (errore = build interrotto) + asset locali |
-| `transforms.mjs` | trasformazioni dati → config virtuale + navigazione |
+| `transforms.mjs` | trasformazioni dati → config virtuale (solo schema/JSON-LD) + navigazione |
 | `schema.mjs` | JSON-LD / schema.org integrato a priori per i crawler |
 | `tokens.mjs` | calcolo token SEO/meta/icone/JSON-LD/navigazione |
 | `render.mjs` | applicazione partial annidati e token nei template |
@@ -61,7 +61,8 @@ head-error.html → head-common.html
 - `building/seo/`: sorgenti tecnici di sitemap e robots.
 - `building/build.mjs`: orchestratore del build; la logica vive in `building/build/*.mjs`.
 - `building/build/`: sottomoduli del generatore (paths, loadData, validate, transforms, schema, tokens, render, checks, output).
-- `js/data-loader.js`: fetch a runtime dei JSON in `data/` e trasformazioni dati.
+- `js/data-loader.js`: fetch a runtime dei JSON in `data/` (caricamento per
+	chiave con cache: ogni pagina scarica solo i dati che usa) e trasformazioni dati.
 - `js/pages/index/`: logica della home, divisa per sezione (`orari.js`,
 	`luogo.js`, `announcements.js` + `annuncioDettaglio.js` per la modale).
 - Root (`index.html`, `contacts.html`, `site.webmanifest`, ecc.): output generati, da non modificare manualmente.

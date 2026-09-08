@@ -1,22 +1,14 @@
-// js/utilities/carosello.js
-// Carosello a slideshow riutilizzabile: le immagini vivono in
-// media/caroselli/<N>_<nome>/ (indice dei numeri in media/caroselli/manifest.json).
-// Ogni sezione .slideshow con id "carosello<N>" presente nella pagina viene
-// inizializzata automaticamente al DOMContentLoaded; le funzioni sono però
-// esportate come moduli ES anche per controllo/inizializzazione programmatica.
-
 const CAROSELLI_ROOT = "./media/caroselli/";
 
 const carousels = new Map();
 
 let folderIndexPromise = null;
 
-
 async function getFolderIndex() {
     if (!folderIndexPromise) {
         folderIndexPromise = fetch(`${CAROSELLI_ROOT}manifest.json`)
             .then(res => {
-                if (!res.ok) throw new Error("index.json non trovato");
+                if (!res.ok) throw new Error("manifest.json dei caroselli non trovato");
                 return res.json();
             })
             .catch(err => {
@@ -36,7 +28,7 @@ async function resolveFolderName(caroselloNum) {
 async function getImages(caroselloNum) {
     const folderName = await resolveFolderName(caroselloNum);
     if (!folderName) {
-        console.warn(`Nessuna cartella trovata per il carosello ${caroselloNum} (prefisso "${caroselloNum}_" assente in index.json).`);
+        console.warn(`Nessuna cartella trovata per il carosello ${caroselloNum} (prefisso "${caroselloNum}_" assente in ${CAROSELLI_ROOT}manifest.json).`);
         return [];
     }
 
@@ -116,6 +108,9 @@ export async function initCarousel(caroselloNum, { simple = false, interval = 64
         paginationEl.innerHTML = buildPaginationMarkup(images);
     }
 
+    const previous = carousels.get(caroselloNum);
+    if (previous?.timer) clearInterval(previous.timer);
+
     const state = {
         index: 0,
         slides: root.querySelectorAll(".slide"),
@@ -143,14 +138,12 @@ export async function initCarousel(caroselloNum, { simple = false, interval = 64
         }
     });
 
-    // Navigazione da tastiera
     root.setAttribute("tabindex", "0");
     root.addEventListener("keydown", (e) => {
         if (e.key === "ArrowLeft") changeSlide(caroselloNum, -1);
         if (e.key === "ArrowRight") changeSlide(caroselloNum, 1);
     });
 
-    // Swipe touch
     let touchStartX = 0;
     root.addEventListener("touchstart", (e) => {
         touchStartX = e.changedTouches[0].clientX;
@@ -170,7 +163,6 @@ function render(state) {
     });
 }
 
-// Porta il carosello alla slide data (modulo la lunghezza) e riparte con l'autoplay.
 function setSlide(caroselloNum, index) {
     const state = carousels.get(caroselloNum);
     if (!state) return;
@@ -198,11 +190,8 @@ function stopAutoPlay(caroselloNum) {
     if (state?.timer) clearInterval(state.timer);
 }
 
-/* inizializza automaticamente tutti i caroselli presenti nella pagina corrente */
 export function initAllCarousels() {
     document.querySelectorAll('.slideshow[id^="carosello"]').forEach((section) => {
-        // Evita di reinizializzare un carosello già costruito
-        // (le sezioni possono essere inserite a runtime dai dati).
         if (section.querySelector(".slideshow-inner")) return;
 
         const num = section.id.replace(/^carosello/, "");

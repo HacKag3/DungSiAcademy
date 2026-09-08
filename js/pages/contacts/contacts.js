@@ -1,9 +1,5 @@
-// js/pages/contacts/contacts.js
-// La pagina "Contatti" viene costruita a runtime dai JSON in /data:
-// modificare data/contatti.json o data/personale.json aggiorna la pagina
-// senza rebuild.
-import { loadSiteData, buildContacts } from "../../data-loader.js";
-import { escapeHtml } from "../../utilities/utils.js";
+import { loadData, buildContacts } from "../../data-loader.js";
+import { escapeHtml, telHref } from "../../utilities/utils.js";
 
 const PLACEHOLDER_PHOTOS = {
     M: "./media/persone/placeholder-uomo.webp",
@@ -15,7 +11,7 @@ function contactLinks({ telefono, email, nome }) {
     const phone = telefono?.trim();
     const address = email?.trim();
     const links = [
-        phone && `<a class="contact-link" href="tel:${phone.replace(/[^0-9+]/g, "")}" aria-label="Chiama ${escapeHtml(nome)}"><i class="fas fa-phone-alt" aria-hidden="true"></i><span>${escapeHtml(phone)}</span></a>`,
+        phone && `<a class="contact-link" href="tel:${telHref(phone)}" aria-label="Chiama ${escapeHtml(nome)}"><i class="fas fa-phone-alt" aria-hidden="true"></i><span>${escapeHtml(phone)}</span></a>`,
         address && `<a class="contact-link" href="mailto:${escapeHtml(address)}" aria-label="Scrivi a ${escapeHtml(nome)}"><i class="fas fa-envelope" aria-hidden="true"></i><span>${escapeHtml(address)}</span></a>`
     ].filter(Boolean).join("");
     return links ? `<div class="person-contacts">${links}</div>` : "";
@@ -25,8 +21,8 @@ function renderPerson(person, index) {
     const { titolo, nome, cognome, foto, sesso, ruolo, descrizione } = person;
     if (!nome || !cognome) return "";
 
-    const photo = foto?.src?.trim() || PLACEHOLDER_PHOTOS[sesso] || PLACEHOLDER_PHOTOS.default;
     const fallback = PLACEHOLDER_PHOTOS[sesso] || PLACEHOLDER_PHOTOS.default;
+    const photo = foto?.src?.trim() || fallback;
     const classes = ["person-photo", foto?.cutout && "cutout", !foto?.src?.trim() && "placeholder"].filter(Boolean).join(" ");
 
     return `<div class="person-row ${index % 2 ? "reversed" : ""}">
@@ -56,10 +52,10 @@ async function renderContactsPage() {
     const root = document.querySelector("article#page-content");
     if (!root) return;
 
-    const data = await loadSiteData();
-    const contacts = buildContacts(data.contatti.email);
+    const [contatti, personale] = await Promise.all([loadData("contatti"), loadData("personale")]);
+    const contacts = buildContacts(contatti.email);
     const usefulContacts = Object.values(contacts).map(renderUsefulContact).filter(Boolean).join("");
-    const team = (data.personale ?? []).map(renderPerson).filter(Boolean).join("");
+    const team = (personale ?? []).map(renderPerson).filter(Boolean).join("");
 
     root.innerHTML = `<section id="contatti-utili" class="useful-contacts-section">
         <label class="lb_title">Contatti Utili</label>
@@ -71,4 +67,6 @@ async function renderContactsPage() {
     </section>`;
 }
 
-document.addEventListener("DOMContentLoaded", renderContactsPage);
+document.addEventListener("DOMContentLoaded", () => {
+    renderContactsPage().catch((error) => console.error("[Contatti] Impossibile caricare i dati:", error));
+});

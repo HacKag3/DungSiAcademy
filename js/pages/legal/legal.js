@@ -1,8 +1,4 @@
-// js/pages/legal/legal.js
-// Le pagine Privacy/Cookie contengono campi legali che arrivano da
-// data/settings.json (e l'email privacy da data/contatti.json):
-// vengono riempiti a runtime, quindi basta modificare i JSON senza rebuild.
-import { loadSiteData } from "../../data-loader.js";
+import { loadData } from "../../data-loader.js";
 
 function fillLegalFields(settings, contatti) {
     const legal = settings.legale ?? {};
@@ -35,8 +31,10 @@ function fillLegalFields(settings, contatti) {
 
 async function initLegal() {
     if (!document.querySelector("[data-legal-field], [data-legal-field-href]")) return;
-    const data = await loadSiteData();
-    fillLegalFields(data.settings, data.contatti);
+    const [settings, contatti] = await Promise.all([loadData("settings"), loadData("contatti")]);
+    fillLegalFields(settings, contatti);
 }
 
-document.addEventListener("DOMContentLoaded", initLegal);
+document.addEventListener("DOMContentLoaded", () => {
+    initLegal().catch((error) => console.error("[Legal] Impossibile caricare i dati legali:", error));
+});

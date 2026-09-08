@@ -1,6 +1,3 @@
-// js/pages/index/luogo.js
-// Sezione "Dove Siamo": indirizzo testuale e mappa Google.
-
 export function initLuogo(config) {
     const address = document.getElementById("indirizzo");
     const indirizzo = config.luogo?.indirizzo ?? {};
@@ -11,9 +8,6 @@ export function initLuogo(config) {
         address.innerHTML = `${via}, ${numero} <br>${cap} ${citta} (${provincia})`;
     }
 
-    // Non carichiamo subito l'iframe di Google Maps: mostriamo un placeholder
-    // e carichiamo la mappa (con conseguente invio di dati a Google) solo se
-    // l'utente clicca esplicitamente per vederla. (cookie e privacy choice)
     map.innerHTML = `
         <div class="map-placeholder">
             <div class="map-placeholder-icon">

@@ -1,40 +1,17 @@
-<!--
-    Per creare una nuova pagina:
-    1. Copia questo file in building/pages_template/nome-pagina.html e scrivi il contenuto in <article>.
-    2. Aggiungi una voce in building/data/seo-data.json (sezione "pages") con:
-         "key": "nome-pagina",
-         "template": "nome-pagina.html",
-         "output": "nome-pagina.html",
-         "title": "Titolo Breve Pagina",
-         "ogTitle": null,
-         "description": "Descrizione di massimo ~155 caratteri."
-    3. Esegui: npm run build
-    4. Il file nome-pagina.html comparirà nella root, pronto per il deploy.
-    5. Il sitemap viene aggiornato dal build usando building/seo/sitemap.xml.
-
-    {{HEAD_PAGES}} integra i partial dell'<head> (SEO, icone, navigazione,
-    js/main.js). {{BODY_OPEN}} e {{BODY_CLOSE}} integrano il guscio condiviso
-    del <body> (bg-layer + header, e footer + tag di chiusura).
-
-    Il build integra a priori solo SEO, struttura della pagina e navigazione
-    Header, footer e contenuti (orari, contatti, sede, social, dati legali,
-    team, annunci) sono caricati a runtime da data/*.json via js/data-loader.js:
-    modificare un JSON aggiorna le pagine SENZA rebuild. Non esiste js/config.js.
--->
 <!DOCTYPE html>
 <html lang="it">
 
 <head>
     {{HEAD_PAGES}}
 
-    <!-- Aggiungi js, css, etc. specifici -->
+    
 </head>
 
 <body>
     {{BODY_OPEN}}
 
     <article id="page-content">
-        <!-- contenuto pagina -->
+        
     </article>
 
     {{BODY_CLOSE}}

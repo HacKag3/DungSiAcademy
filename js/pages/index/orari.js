@@ -1,8 +1,3 @@
-// js/pages/index/orari.js
-// Selettore "Disciplina -> Fascia d'età" con tabella orari settimanale.
-// I dati arrivano dalla config runtime (js/data-loader.js -> loadSiteConfig).
-
-// Testi UI del selettore orari (costanti: non sono dati del sito).
 const ORARI_UI = {
     kickerSelezione: "Il tuo percorso",
     kickerRisultati: "Programma settimanale",
@@ -31,7 +26,7 @@ function renderOrariTabs(categorieKeys, orari) {
     return categorieKeys.map((chiave, index) => {
         const datiCategoria = orari[chiave];
         return `
-            <li class="topic ${index === 0 ? '' : 'off'}">
+            <li class="${index === 0 ? '' : 'off'}">
                 <button
                     type="button"
                     class="topic-btn"
@@ -95,16 +90,12 @@ export function initOrari(config) {
     let selectedDiscipline = disciplineKeys[0];
     let selectedCategory = "";
 
-    // Popola le tab delle fasce d'età per la disciplina selezionata
-    // e restituisce gli orari disponibili.
     function renderAgeTabs() {
         const orari = disciplines[selectedDiscipline]?.orari ?? {};
         menuUl.innerHTML = renderOrariTabs(Object.keys(orari), orari);
         return orari;
     }
 
-    // Mostra titolo/descrizione della disciplina corrente e la tabella
-    // della fascia scelta (o il messaggio di vuoto se non ci sono orari).
     function showSchedule(dati) {
         title.textContent = disciplines[selectedDiscipline]?.titolo || selectedDiscipline;
         disciplineDescription.textContent = disciplines[selectedDiscipline]?.descrizione || "";

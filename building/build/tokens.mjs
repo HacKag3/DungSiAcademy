@@ -1,14 +1,7 @@
-// building/build/tokens.mjs
-// Calcolo dei token sostituiti nei template: SEO/meta (head-common),
-// icone (partial icons.html), JSON-LD (partial jsonLD.html),
-// navigazione inline (#navigation-data in head-pages) e schema.org.
-
 import { buildAbsoluteAssetUrl, buildSchemaOrgJson } from "./schema.mjs";
 import { buildNavigation } from "./transforms.mjs";
 import { THEME_COLOR_DEFAULT } from "./paths.mjs";
 
-// Token per il partial icons.html: i path arrivano da data/settings.json
-// (brand.logo.paths).
 function buildIconTokens(settings) {
     const paths = settings.brand?.logo?.paths ?? {};
     const themeColor = settings.brand?.themeColor || THEME_COLOR_DEFAULT;
@@ -26,10 +19,6 @@ function buildIconTokens(settings) {
     };
 }
 
-// Token del partial jsonLD.html: i valori devono essere stringhe JSON
-// (con apici) perché finiscono dentro uno script ld+json. Attenzione:
-// "{{DESCRIPTION}}" è già racchiuso tra virgolette nel partial, quindi
-// vuole la stringa grezza e non JSON.stringify().
 function buildJsonLDTokens(site, settings, corsi, contatti) {
     const brand = settings.brand ?? {};
     const paths = brand.logo?.paths ?? {};
@@ -55,14 +44,16 @@ function buildJsonLDTokens(site, settings, corsi, contatti) {
     };
 }
 
-// Navigazione iniettata in ogni pagina come JSON inline (#navigation-data):
-// è struttura del sito, quindi "a priori" (aggiungere una pagina richiede build).
+let navigationJsonCache = null;
 function buildNavigationJson(pages) {
-    const nav = buildNavigation(pages);
-    return `<script type="application/json" id="navigation-data">${JSON.stringify(nav)}</script>`;
+    if (!navigationJsonCache) {
+        const nav = buildNavigation(pages);
+        navigationJsonCache = `<script type="application/json" id="navigation-data">${JSON.stringify(nav)}</script>`;
+    }
+    return navigationJsonCache;
 }
 
-export function computeTokens({ site, page, pages, runtimeConfig, settings, corsi, contatti }) {
+export function computeTokens({ site, page, pages, runtimeConfig, settings, corsi, contatti, withSchema = true }) {
     const brand = settings.brand ?? {};
     const brandName = brand.name ?? "";
     const copertina = brand.copertina ?? {};
@@ -71,10 +62,12 @@ export function computeTokens({ site, page, pages, runtimeConfig, settings, cors
     const pageUrl = `${site.domain}/${page.output}`;
 
     return {
-        "{{SITE_NAME}}": brandName,
+                "{{SITE_NAME}}": brandName,
         "{{SITE_LOCALE}}": site.locale ?? "",
         "{{SITE_DOMAIN}}": site.domain,
         "{{AUTHOR}}": site.author ?? "",
+        "{{BRAND_LOGO_OG}}": (settings.brand?.logo?.paths?.og ?? "/media/loghi/DungSi.svg"),
+        "{{HOME_URL}}": "./index.html",
         "{{COPERTINA_PATH}}": copertina.path ?? "",
         "{{COPERTINA_WIDTH}}": copertina.width ?? "",
         "{{COPERTINA_HEIGHT}}": copertina.height ?? "",
@@ -88,8 +81,10 @@ export function computeTokens({ site, page, pages, runtimeConfig, settings, cors
         "{{ERROR_TITLE}}": page.errorTitle ?? "",
         "{{ERROR_DESCRIPTION}}": page.errorDescription ?? "",
         ...buildIconTokens(settings),
-        ...buildJsonLDTokens(site, settings, corsi, contatti),
-        "{{SCHEMA_ORG_JSON}}": buildSchemaOrgJson(site, page, runtimeConfig),
+        ...(withSchema ? {
+            ...buildJsonLDTokens(site, settings, corsi, contatti),
+            "{{SCHEMA_ORG_JSON}}": buildSchemaOrgJson(site, page, runtimeConfig)
+        } : {}),
         "{{NAVIGATION_DATA}}": buildNavigationJson(pages)
     };
 }

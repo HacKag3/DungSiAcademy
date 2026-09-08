@@ -1,19 +1,3 @@
-// js/data-loader.js
-// Carica a runtime i dati del sito direttamente dai file JSON in /data.
-// In questo modo, modificando un file JSON i contenuti cambiano SENZA rebuild.
-//
-// Il build resta vincolato solo a ciò che deve essere integrato a priori
-// negli HTML: meta SEO, JSON-LD, struttura della pagina e navigazione
-// (quest'ultima arriva come <script type="application/json" id="navigation-data">).
-//
-// File dati letti qui:
-//   data/settings.json           -> brand, dati legali, affiliazioni
-//   data/contatti.json           -> social e contatti email
-//   data/corsi.json              -> discipline, orari e luogo
-//   data/personale.json          -> team
-//   data/annunci.json            -> annunci
-//   data/content/whoweare.json   -> pagina "Chi Siamo"
-
 const DATA_PATHS = {
     settings: "data/settings.json",
     contatti: "data/contatti.json",
@@ -23,7 +7,7 @@ const DATA_PATHS = {
     whoweare: "data/content/whoweare.json"
 };
 
-let siteDataPromise = null;
+const dataCache = new Map();
 
 async function fetchJson(url) {
     const res = await fetch(url);
@@ -31,21 +15,15 @@ async function fetchJson(url) {
     return res.json();
 }
 
-/** Carica (una sola volta, con cache) tutti i dati del sito. */
-export function loadSiteData() {
-    if (!siteDataPromise) {
-        siteDataPromise = Promise.all(
-            Object.entries(DATA_PATHS).map(async ([key, url]) => [key, await fetchJson(url)])
-        ).then((entries) => Object.fromEntries(entries));
+export function loadData(key) {
+    if (!DATA_PATHS[key]) {
+        throw new Error(`Chiave dati sconosciuta: "${key}" (disponibili: ${Object.keys(DATA_PATHS).join(", ")})`);
     }
-    return siteDataPromise;
+    if (!dataCache.has(key)) {
+        dataCache.set(key, fetchJson(DATA_PATHS[key]));
+    }
+    return dataCache.get(key);
 }
-
-// ---------------------------------------------------------------------------
-// Trasformazioni dati: stesse regole che il builder applica in building/build/
-// transforms.mjs, eseguite qui nel browser sui JSON originali. Esportate solo
-// le funzioni usate da altri moduli del browser, il resto resta interno.
-// ---------------------------------------------------------------------------
 
 function normalizeProvincia(provincia) {
     if (Array.isArray(provincia)) return provincia[0] ?? "";
@@ -70,7 +48,6 @@ function buildLuogo(luogo) {
     };
 }
 
-/** data/corsi.json (disciplina come array) -> mappa "discipline" del runtime. */
 function buildDisciplineMap(disciplinaList) {
     const discipline = {};
     for (const item of disciplinaList ?? []) {
@@ -92,7 +69,6 @@ function buildDisciplineMap(disciplinaList) {
     return discipline;
 }
 
-/** Aggiunge un id leggibile ai contatti (data/contatti.json non lo contiene). */
 export function buildContacts(emailMap) {
     const contacts = {};
     for (const [key, contact] of Object.entries(emailMap ?? {})) {
@@ -109,7 +85,6 @@ export function buildContacts(emailMap) {
     return contacts;
 }
 
-/** Gli annunci nel runtime espongono la data evento come "data". */
 export function buildAnnouncements(annunci) {
     return (annunci ?? []).map(({ dataEvento, ...annuncio }) => ({
         ...annuncio,
@@ -117,7 +92,6 @@ export function buildAnnouncements(annunci) {
     }));
 }
 
-/** Normalizza il brand da data/settings.json per header e footer. */
 export function buildBrand(settings) {
     const brand = settings.brand ?? {};
     const paths = brand.logo?.paths ?? {};
@@ -128,12 +102,13 @@ export function buildBrand(settings) {
     };
 }
 
-/**
- * Config nel formato usato dai moduli del browser (footer, pagina index),
- * calcolata a runtime dai JSON originali (così basta modificare i dati).
- */
 export async function loadSiteConfig() {
-    const { settings, contatti, corsi } = await loadSiteData();
+    const [settings, contatti, corsi] = await Promise.all([
+        loadData("settings"),
+        loadData("contatti"),
+        loadData("corsi")
+    ]);
+
     return {
         discipline: buildDisciplineMap(corsi.disciplina ?? []),
         luogo: buildLuogo(corsi.luogo),
@@ -144,15 +119,11 @@ export async function loadSiteConfig() {
             ...(settings.legale ?? {}),
             emailPrivacy: settings.legale?.emailPrivacy || contatti.email?.privacy?.email || ""
         },
-        associations: settings.associazioni ?? {}
+        associations: settings.associazioni ?? {},
+        ui: settings.ui ?? {}
     };
 }
 
-/**
- * Navigazione: la fornisce il builder dentro ogni pagina come
- * <script type="application/json" id="navigation-data">…</script>
- * (è struttura del sito, quindi "a priori": aggiungere una pagina richiede build).
- */
 export function getNavigation() {
     const el = document.getElementById("navigation-data");
     if (!el) return [];

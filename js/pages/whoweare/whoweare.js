@@ -1,21 +1,17 @@
-// Chi Siamo: i contenuti (intro, discipline, attività) arrivano a runtime da
-// data/content/whoweare.json. Modificando il JSON la pagina si aggiorna senza
-// rebuild. I caroselli vengono inizializzati dopo il rendering.
-import { loadSiteData } from "../../data-loader.js";
+import { loadData } from "../../data-loader.js";
 import { initAllCarousels } from "../../utilities/carosello.js";
 
 function renderActivity(activity) {
     return `<div class="activity">
         <h3 class="activity-title">${activity.title}</h3>
-        <section id="carosello${activity.carosello}" class="activity-media slideshow"><!-- auto-generated --></section>
+        <section id="carosello${activity.carosello}" class="activity-media slideshow"></section>
         <div class="activity-text">${activity.text}</div>
     </div>`;
 }
 
 function renderTopic(disciplina, index) {
-    // "carosello" della disciplina è il numero del carosello di introduzione.
     const introCarousel = disciplina.carosello
-        ? `<section id="carosello${disciplina.carosello}" class="activity-media slideshow"><!-- auto-generated --></section>`
+        ? `<section id="carosello${disciplina.carosello}" class="activity-media slideshow"></section>`
         : "";
 
     return `<div class="content topic" id="topic-${disciplina.key}" role="tabpanel" aria-labelledby="topic-tab-${index}"${index ? " hidden" : ""}>
@@ -69,24 +65,20 @@ function initTopicSwitcher() {
         if (!button) return;
         changeTopic(Number(button.dataset.topicIndex));
     });
-
-    changeTopic(0);
 }
 
 async function loadWhoWeAre() {
     const root = document.getElementById("page-content");
     if (!root) return;
 
-    const { whoweare } = await loadSiteData();
+    const whoweare = await loadData("whoweare");
     root.innerHTML = renderWhoWeAreContent(whoweare.intro, whoweare.disciplina);
 
     initTopicSwitcher();
 
-    // I caroselli ora sono nel DOM: se l'auto-init di carosello.js (al
-    // DOMContentLoaded) è già passato, li re-inizializza; in caso contrario
-    // li prenderà il suo listener (il guard su .slideshow-inner evita i
-    // doppi init in entrambi gli ordini).
     initAllCarousels();
 }
 
-document.addEventListener("DOMContentLoaded", loadWhoWeAre);
+document.addEventListener("DOMContentLoaded", () => {
+    loadWhoWeAre().catch((error) => console.error("[WhoWeAre] Impossibile caricare i contenuti:", error));
+});

@@ -1,12 +1,7 @@
-// js/pages/index/announcements.js
-// Sezione "Annunci": card scorrevoli (drag con il mouse) generate a runtime
-// da data/annunci.json. La modale di dettaglio vive in annuncioDettaglio.js.
-import { loadSiteData, buildAnnouncements } from "../../data-loader.js";
+import { loadData, buildAnnouncements } from "../../data-loader.js";
 import { escapeHtml } from "../../utilities/utils.js";
 import { setupDettaglio } from "./annuncioDettaglio.js";
 
-// Il dettaglio è opzionale: prima di mostrare il bottone "Dettagli"
-// verifichiamo con una richiesta HEAD che il file esista davvero.
 async function verificaFileDettaglio(annunciAttivi) {
     return Promise.all(
         annunciAttivi.map(async (a) => {
@@ -46,7 +41,7 @@ export async function initAnnouncements() {
     const annunciContainer = document.getElementById("sezione-annunci");
     if (!annunciContainer) return;
 
-    const annunci = buildAnnouncements((await loadSiteData()).annunci);
+    const annunci = buildAnnouncements(await loadData("annunci"));
     const annunciAttivi = annunci.filter(a => a.attivo);
     if (annunciAttivi.length === 0) {
         annunciContainer.style.display = "none";
@@ -69,9 +64,6 @@ export async function initAnnouncements() {
 
     const dettaglio = setupDettaglio(annunciContainer);
 
-    // Drag orizzontale della lista con il mouse (touch usa lo scroll nativo):
-    // al rilascio sopprime il click che seguirebbe un trascinamento, per non
-    // aprire il dettaglio dopo uno swipe.
     const carouselWrapper = annunciContainer.querySelector("#carouselWrapper");
     let suppressClickAfterDrag = false;
 
@@ -127,7 +119,6 @@ export async function initAnnouncements() {
         carouselWrapper.addEventListener("pointercancel", endDrag, { passive: true });
     }
 
-    // Apertura dettaglio via delegazione sul contenitore.
     annunciContainer.addEventListener("click", (event) => {
         const button = event.target.closest("[data-annuncio-id]");
         if (!button) return;

@@ -30,11 +30,6 @@ header {
     transition: transform 0.35s ease, background 0.3s ease;
 }
 
-
-/* 
- * TITLE 
- */
-
 #titolo {
     padding: 0.25em 1em;
     flex-shrink: 0;
@@ -80,11 +75,6 @@ header {
     background-clip: text;
     letter-spacing: var(--tracking-display);
 }
-
-
-/* 
- * DESKTOP NAVIGATION 
- */
 
 .desktop-nav {
     display: flex;
@@ -138,11 +128,6 @@ header {
     outline-offset: 3px;
 }
 
-
-/* 
- * HIDING 
- */
-
 header.nav-hidden {
     transform: translateY(-100%);
     transition: transform 0.35s ease-in-out;
@@ -159,12 +144,6 @@ header.nav-visible {
         transition: none;
     }
 }
-
-
-
-/* 
- * RESPONSIVE : Desktop Like
- */
 
 @media (min-width: 768px) {
     header {
@@ -192,11 +171,6 @@ header.nav-visible {
         transform: translate(-50%, -50%);
     }
 }
-
-
-/* 
- * RESPONSIVE : Mobile Like
- */
 
 @media (max-width: 767px) {
     header {

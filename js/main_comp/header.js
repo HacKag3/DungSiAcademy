@@ -1,7 +1,4 @@
-// Header generato a runtime dai dati in /data (brand da settings.json,
-// navigazione da #navigation-data). Modificando i JSON i contenuti cambiano
-// senza rebuild.
-import { loadSiteData, buildBrand } from "../data-loader.js";
+import { loadData, buildBrand } from "../data-loader.js";
 import { genBurger, initBurger } from "./burger.js";
 import { genNavBarLinks } from "../utilities/utils.js";
 import { initSmartHeader } from "../utilities/smartHeader.js";
@@ -15,7 +12,6 @@ const debounce = (fn, wait) => {
     return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), wait); };
 };
 
-
 function checkDesktopFit(headerEl) {
     const titleEl = document.getElementById("titolo");
     const navEl   = document.querySelector(".desktop-nav");
@@ -28,15 +24,14 @@ function checkDesktopFit(headerEl) {
 
     const spaceAvailable = headerEl.offsetWidth
         - (titleEl.offsetLeft + titleEl.offsetWidth)
-        - 20; // margine di sicurezza
+        - 20;
 
     headerEl.classList.toggle("nav-fallback", navEl.offsetWidth > spaceAvailable);
 }
 
-
-function genDesktopNav() {
+function genDesktopNav(ui) {
     return `
-        <nav class="desktop-nav" aria-label="Navigazione principale">
+        <nav class="desktop-nav" aria-label="${ui.navMainLabel}">
             ${genNavBarLinks().map(({ href, name }) =>
             `<a href="${href}" class="nav__link">
                 <span>${name}</span>
@@ -45,10 +40,11 @@ function genDesktopNav() {
     `;
 }
 
-function generateHeader(brand) {
+function generateHeader(brand, ui) {
+    const backToHomeAria = ui.backToHomeAria.replaceAll("{brand}", brand.name);
     return `
         <div id="titolo" class="nav-fallback">
-            <a href="${brand.home}" aria-label="Torna alla homepage di ${brand.name}">
+            <a href="${brand.home}" aria-label="${backToHomeAria}">
                 <img
                     src="${brand.logo}"
                     alt="Logo ${brand.name}"
@@ -59,10 +55,9 @@ function generateHeader(brand) {
             </a>
         </div>
 
-        ${genDesktopNav()}
+        ${genDesktopNav(ui)}
     `;
 }
-
 
 export async function loadHeader() {
     const headerEl = document.querySelector("header");
@@ -71,25 +66,36 @@ export async function loadHeader() {
         return;
     }
 
-    const { settings } = await loadSiteData();
-    const brand = buildBrand(settings);
+    const fallbackBrand = {
+        name: headerEl.dataset.brand || "",
+        logo: headerEl.dataset.logo || "",
+        home: headerEl.dataset.home || "./index.html"
+    };
+
+    let brand, ui;
+    try {
+        const settings = await loadData("settings");
+        brand = buildBrand(settings);
+        ui = settings.ui ?? {};
+    } catch (err) {
+        console.warn("[Header] Impossibile caricare settings.json, usando fallback inline:", err);
+        brand = fallbackBrand;
+        ui = {
+            navMainLabel: "Navigazione principale",
+            backToHomeAria: "Torna alla home"
+        };
+    }
 
     let burgerInitialized = false;
 
     function render() {
-        // Il burger vive nel <body>, fuori dall'header: così può stare
-        // sopra l'overlay a tutto schermo (z-index > header) e restare
-        // cliccabile anche quando l'overlay oscura la pagina e l'header.
-        // Il burger viene creato una sola volta (i suoi contenuti non cambiano
-        // a runtime); solo l'header viene ricreato su resize. initBurger()
-        // registra i listener una sola volta per evitare accumuli.
         if (!burgerInitialized) {
             document.body.insertAdjacentHTML("afterbegin", genBurger());
             initBurger();
             burgerInitialized = true;
         }
 
-        headerEl.innerHTML = generateHeader(brand);
+        headerEl.innerHTML = generateHeader(brand, ui);
 
         requestAnimationFrame(() => {
             document.getElementById("burger-links")?.classList.add("has-transition");
@@ -103,23 +109,11 @@ export async function loadHeader() {
     }
 
     render();
-    // Header e burger condividono la stessa logica di comparsa/scomparsa
-    // (smartHeader): una sola macchina a stati, niente copie che divergono.
-    // Il burger esiste già: render() lo crea prima di riempire l'header.
     initSmartHeader(headerEl, document.getElementById("burger"));
 
     let wasMobile = isMobile();
 
     const closeMenuCompletely = () => {
-        // Chiude il menu e ripristina lo scroll: usato quando la modalità
-        // mobile cambia (es. rotazione telefono) per evitare che il body
-        // resti bloccato (menu-open) con il menu invisibile su desktop.
-        // Simuliamo un click sull'overlay: questo chiama toggleMenu(false)
-        // che aggiorna anche lo stato interno isMenuOpen, quindi il prossimo
-        // click sull'icona riapre correttamente il menu.
-        // Lo facciamo solo se il menu è effettivamente aperto, altrimenti
-        // toggleMenu(false) chiamerebbe scrollLock.restore() e scrollerebbe
-        // in cima alla pagina.
         const icon = document.querySelector(".burger-icon");
         if (icon?.getAttribute("aria-expanded") === "true") {
             const overlay = document.querySelector(".burger-overlay");

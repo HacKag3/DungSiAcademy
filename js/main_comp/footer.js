@@ -1,22 +1,20 @@
-// Footer generato a runtime dai dati in /data (social, contatti, legal,
-// affiliazioni). Modificando i JSON i contenuti cambiano senza rebuild.
 import { loadSiteConfig } from "../data-loader.js";
-import { escapeHtml } from "../utilities/utils.js";
+import { escapeHtml, telHref } from "../utilities/utils.js";
 
-
-function renderSocialItem({ name, url, icon, color }) {
+function renderSocialItem({ name, url, icon, color }, ui) {
     const safeName = escapeHtml(name || "");
     const safeUrl = escapeHtml(url);
     const safeIcon = escapeHtml(icon);
 
-    const dataAttr = (name || "").toLowerCase() === "tiktok" ? ' data-platform="tiktok"' : "";
+        const dataAttr = (name || "").toLowerCase() === "tiktok" ?  `data-platform="tiktok"` : "";
+    const followAria = ui.followUsAria.replaceAll("{name}", safeName);
 
     return `
         <li style="--hover-color: ${escapeHtml(color)};">
             <a href="${safeUrl}"
                target="_blank"
                rel="noopener noreferrer"
-               aria-label="Seguici su ${safeName}"
+               aria-label="${followAria}"
                class="social-link"
                ${dataAttr}>
                 <i class="${safeIcon}" aria-hidden="true"></i>
@@ -24,54 +22,54 @@ function renderSocialItem({ name, url, icon, color }) {
         </li>`;
 }
 
-function renderSocialBox(config) {
+function renderSocialBox(config, ui) {
     if (!config.social?.length) return "";
 
     return `
-        <nav class="footer-social" aria-label="Social media">
-            <p class="footer-social-title" aria-hidden="true">Seguici sui Social</p>
+        <nav class="footer-social" aria-label="${ui.socialAriaLabel}">
+            <p class="footer-social-title" aria-hidden="true">${ui.socialFollowTitle}</p>
             <ul class="footer-social-icons" role="list">
-                ${config.social.map(renderSocialItem).join("")}
+                ${config.social.map(s => renderSocialItem(s, ui)).join("")}
             </ul>
         </nav>`;
 }
 
-function renderPhoneLink(config) {
+function renderPhoneLink(config, ui) {
     const phone = config.contacts?.generale?.telefono?.trim();
-
     const digitsOnly = (phone || "").replace(/\D/g, "");
     if (!phone || digitsOnly.length < 8) return "";
 
     const safePhone = escapeHtml(phone);
+    const callAria = ui.callUsAria.replaceAll("{phone}", safePhone);
     return `
-        <a href="tel:${digitsOnly}" class="footer-phone" aria-label="Chiamaci al ${safePhone}">
+        <a href="tel:${telHref(phone)}" class="footer-phone" aria-label="${callAria}">
             <i class="fas fa-phone-alt" aria-hidden="true"></i>
             <span>${safePhone}</span>
         </a>`;
 }
 
-function renderAffiliation(config) {
+function renderAffiliation(config, ui) {
     const { logo, altText, subNum } = config.associations.asi ?? {};
 
     return `
         <div class="footer-affiliation">
-            <span class="footer-affiliation-title">Affiliazione ente sportivo</span>
-            <img src="${escapeHtml(logo)}" alt="${escapeHtml(altText || "Logo associazione affiliata")}" loading="lazy" width="auto" height="72">
-            ${subNum ? `<span class="footer-asi-subnum">Tessera/Affiliazione ${escapeHtml(subNum)}</span>` : ""}
+            <span class="footer-affiliation-title">${ui.affiliationTitle}</span>
+            <img src="${escapeHtml(logo)}" alt="${escapeHtml(altText || ui.affiliationCardAlt)}" loading="lazy" width="auto" height="72">
+            ${subNum ? `<span class="footer-asi-subnum">${ui.tesseraLabel} ${escapeHtml(subNum)}</span>` : ""}
         </div>`;
 }
 
-function renderBrand(config) {
+function renderBrand(config, ui) {
     const { name } = config.brand;
 
     return `
         <address class="footer-brand">
             <span class="footer-brand-name">${escapeHtml(name)}</span>
-            ${renderPhoneLink(config)}
+            ${renderPhoneLink(config, ui)}
         </address>`;
 }
 
-function renderNoteLegali(config) {
+function renderNoteLegali(config, ui) {
     const legal = config.legal ?? {};
     const sede = legal.sedeLegale;
     const sedeTesto = sede ? `${sede.via}, ${sede.cap} ${sede.citta}` : null;
@@ -92,25 +90,25 @@ function renderNoteLegali(config) {
     return `
         <div class="footer-legal">
             ${infoHtml}
-            <nav class="footer-legal-links" aria-label="Informazioni legali">
+            <nav class="footer-legal-links" aria-label="${ui.legalInfoAriaLabel}">
                 <a href="./privacy.html">Privacy Policy</a>
-                <span aria-hidden="true">·</span>
+                <span aria-hidden="true">&middot;</span>
                 <a href="./cookie.html">Cookie Policy</a>
             </nav>
         </div>`;
 }
 
-
-export function genFooter(config) {
+function genFooter(config) {
     const year = new Date().getFullYear();
+    const ui = config.ui ?? {};
 
     return `
         <div class="footer-inner">
-            ${renderAffiliation(config)}
-            ${renderBrand(config)}
-            ${renderSocialBox(config)}
+            ${renderAffiliation(config, ui)}
+            ${renderBrand(config, ui)}
+            ${renderSocialBox(config, ui)}
         </div>
-        ${renderNoteLegali(config)}
+        ${renderNoteLegali(config, ui)}
         <div class="footer-copyright">
             <small>&copy; ${year} ${escapeHtml(config.brand.name)}. Tutti i diritti riservati.</small>
         </div>`;
@@ -119,13 +117,21 @@ export function genFooter(config) {
 export async function loadFooter() {
     const footerEl = document.querySelector("footer");
     if (!footerEl) {
-        console.warn("[Footer] Nessun footer trovato del DOM.");
+        console.warn("[Footer] Nessun footer trovato nel DOM.");
         return;
     }
 
-    const config = await loadSiteConfig();
-
-    requestAnimationFrame(() => {
-        footerEl.innerHTML = genFooter(config);
-    });
+    try {
+        const config = await loadSiteConfig();
+        requestAnimationFrame(() => {
+            footerEl.innerHTML = genFooter(config);
+        });
+    } catch (err) {
+        console.warn("[Footer] Impossibile caricare i dati del footer, usando fallback inline:", err);
+        requestAnimationFrame(() => {
+            const year = new Date().getFullYear();
+            const brandName = footerEl.dataset.brand || "";
+            footerEl.innerHTML = `<div class="footer-copyright"><small>&copy; ${year} ${brandName}. Tutti i diritti riservati.</small></div>`;
+        });
+    }
 }

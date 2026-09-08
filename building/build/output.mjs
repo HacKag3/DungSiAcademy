@@ -1,13 +1,7 @@
-// building/build/output.mjs
-// Scrittura dei file generati (pagine HTML, sitemap, robots, manifest)
-// con protezione "sola lettura" per scoraggiare modifiche manuali
-// (vanno editati i template, non gli output).
-
 import fs from "node:fs";
 import path from "node:path";
 import { OUTPUT_DIR, SEO_TEMPLATES_DIR, THEME_COLOR_DEFAULT } from "./paths.mjs";
 
-// Toglie il flag "sola lettura" se il file esiste già.
 function makeWritable(filePath) {
     if (!fs.existsSync(filePath)) return;
     try {
@@ -17,7 +11,6 @@ function makeWritable(filePath) {
     }
 }
 
-// Imposta il file come sola lettura.
 function makeReadOnly(filePath) {
     try {
         fs.chmodSync(filePath, 0o444);
@@ -39,7 +32,6 @@ export function writePage(page, finalHtml) {
     return writeGeneratedFile(page.output, finalHtml, `pages_template -> ${page.output}`);
 }
 
-// Genera sitemap.xml e robots.txt usando il dominio da building/data/seo-data.json.
 export function buildAuxiliaryFiles(site) {
     const siteUrl = site.domain;
     const auxFiles = ["sitemap.xml", "robots.txt"];
@@ -59,8 +51,6 @@ export function buildAuxiliaryFiles(site) {
     }
 }
 
-// Genera site.webmanifest e browserconfig.xml usando i path delle icone
-// presenti in data/settings.json (brand.logo.paths), referenziati dal head.
 export function buildManifestFiles(settings) {
     const brand = settings.brand ?? {};
     const paths = brand.logo?.paths ?? {};

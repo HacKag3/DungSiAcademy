@@ -1,32 +1,6 @@
 #!/usr/bin/env bash
-#
-# gen-icons.sh
-#
-# Genera tutte le icone necessarie per un sito web (favicon, apple-touch-icon,
-# icone PWA/manifest, tile Windows) a partire da un logo SVG, anche se non
-# quadrato: l'area di esportazione viene centrata automaticamente.
-#
-# Le icone vengono organizzate in sottocartelle per categoria:
-#   icons/
-#     favicon/    -> favicon-16x16.png, favicon-32x32.png, favicon-48x48.png,
-#                    favicon-96x96.png, favicon.ico
-#     apple/      -> apple-touch-icon-120x120.png, ...180x180.png (default)
-#     android/    -> icon-192x192.png, icon-512x512.png
-#     windows/    -> mstile-150x150.png
-#     source/     -> logo-square.svg (versione quadrata master)
-#
-# Requisiti: inkscape, imagemagick (per favicon.ico, opzionale)
-#
-# Uso:
-#   ./gen-icons.sh logo.svg [cartella_output]
-#
-# Esempio:
-#   ./gen-icons.sh DungSi.svg
-#   ./gen-icons.sh DungSi.svg img/favicons
 
 set -euo pipefail
-
-# ---------- Controlli iniziali ----------
 
 if [ $# -lt 1 ]; then
   echo "Uso: $0 percorso/al/logo.svg [cartella_output]"
@@ -56,8 +30,6 @@ if ! command -v convert >/dev/null 2>&1; then
   echo "           o: brew install imagemagick        (macOS)"
 fi
 
-# ---------- Struttura cartelle organizzata per categoria ----------
-
 DIR_FAVICON="${OUTROOT}/favicon"
 DIR_APPLE="${OUTROOT}/apple"
 DIR_ANDROID="${OUTROOT}/android"
@@ -65,8 +37,6 @@ DIR_WINDOWS="${OUTROOT}/windows"
 DIR_SOURCE="${OUTROOT}/source"
 
 mkdir -p "$DIR_FAVICON" "$DIR_APPLE" "$DIR_ANDROID" "$DIR_WINDOWS" "$DIR_SOURCE"
-
-# ---------- Rilevamento dimensioni del documento SVG ----------
 
 echo "Rilevo dimensioni del documento SVG..."
 W=$(inkscape "$SRC" --query-width --query-id="" 2>/dev/null || true)
@@ -78,13 +48,10 @@ if [ -z "$W" ] || [ -z "$H" ]; then
   read -rp "Altezza documento SVG (px): " H
 fi
 
-# Arrotonda a interi
 W=$(printf "%.0f" "$W")
 H=$(printf "%.0f" "$H")
 
 echo "Dimensioni rilevate: ${W} x ${H}"
-
-# ---------- Calcolo area quadrata centrata ----------
 
 if [ "$W" -ge "$H" ]; then
   SIDE=$W
@@ -105,8 +72,6 @@ fi
 EXPORT_AREA="${X0}:${Y0}:${X1}:${Y1}"
 echo "Area di esportazione quadrata calcolata: $EXPORT_AREA (lato ${SIDE}px)"
 
-# ---------- Funzione di esportazione PNG ----------
-
 export_png () {
   local size="$1"
   local name="$2"
@@ -119,8 +84,6 @@ export_png () {
     --export-filename="${folder}/${name}" >/dev/null 2>&1
 }
 
-echo ""
-echo "Genero favicon classici -> ${DIR_FAVICON}"
 export_png 16 favicon-16x16.png "$DIR_FAVICON"
 export_png 32 favicon-32x32.png "$DIR_FAVICON"
 export_png 48 favicon-48x48.png "$DIR_FAVICON"
@@ -153,13 +116,3 @@ fi
 echo ""
 echo "Fatto. Struttura generata in: ${OUTROOT}/"
 find "$OUTROOT" -type f | sort
-
-echo ""
-echo "Ricorda di controllare visivamente favicon-16x16.png a dimensione reale:"
-echo "se il dettaglio del logo si perde, considera una versione semplificata."
-echo ""
-echo "Percorsi da usare nell'HTML (adatta il prefisso alla tua struttura sito):"
-echo "  /icons/favicon/favicon-32x32.png"
-echo "  /icons/apple/apple-touch-icon.png"
-echo "  /icons/android/icon-192x192.png"
-echo "  /icons/windows/mstile-150x150.png"

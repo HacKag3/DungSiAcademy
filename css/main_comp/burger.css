@@ -1,16 +1,11 @@
 :root {
     --burger-size: 46px;
 
-    /* Transizione condivisa icona/sidebar/overlay: stessa durata e curva,
-       così durante l'apertura/chiusura i tre elementi restano sincronizzati. */
+    
     --burger-transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     --burger-fade: opacity 0.35s ease, visibility 0.35s ease;
 }
 
-/* Su desktop la scrollbar verticale classica sparisce quando il JS applica
-   body { position: fixed } all'apertura del menu, causando un layout-shift
-   che fa "scattare" la pagina durante l'animazione. Riservare lo spazio
-   della scrollbar elimina il salto. */
 html {
     scrollbar-gutter: stable;
 }
@@ -23,8 +18,7 @@ html {
     height: var(--header-height);
     display: flex;
     align-items: center;
-    /* Stessa curva condivisa di icona/sidebar: anche lo slide di hide/show
-       allo scroll resta coerente con il resto delle animazioni. */
+    
     transition: var(--burger-transition);
     pointer-events: none;
 }
@@ -41,27 +35,16 @@ html {
     transform: translateY(0);
 }
 
-@media (max-width: 767px) {
-    #burger {
-        left: calc(var(--burger-size) / 2);
-    }
-}
-
 @media (min-width: 768px) {
     #burger {
         display: none;
     }
 
+    
     body:has(header.nav-fallback) #burger {
         display: flex;
-        left: calc(var(--burger-size) / 2);
     }
 }
-
-
-/* 
- * ICON 
- */
 
 .burger-icon {
     position: relative;
@@ -76,9 +59,7 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* La trasformazione usa la durata/curva condivisa con la sidebar:
-       durata diversa = movimento "staccato" rispetto al pannello.
-       Colori/bordi animano invece rapidamente (0.15s) per non rallentare. */
+    
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
                 border-color var(--transition-fast),
                 background var(--transition-fast),
@@ -122,11 +103,6 @@ html {
 .burger-icon.active .line2 { opacity: 0; }
 .burger-icon.active .line3 { transform: translateY(-8px) rotate(-45deg); }
 
-
-/* 
- * SIDEBAR 
- */
-
 .burger-nav {
     position: fixed;
     top: 0;
@@ -145,8 +121,7 @@ html {
     visibility: hidden;
     transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s ease;
     overflow-y: auto;
-    /* Anticipa al browser che il transform cambierà: forza il layer GPU
-       e evita il ri-layout a ogni frame (soprattutto visibile su desktop). */
+    
     will-change: transform;
     backface-visibility: hidden;
 }
@@ -203,11 +178,6 @@ html {
     }
 }
 
-
-/* 
- * OVERLAY
- */
-
 .burger-overlay {
     position: fixed;
     inset: 0;
@@ -218,15 +188,10 @@ html {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    /* Solo opacità/visibilità (via variabile condivisa): l'eventuale
-       backdrop-filter resta statico e non viene ricalcolato a ogni frame. */
+    
     transition: var(--burger-fade);
 }
 
-/* Su desktop (Windows/mouse) il blur full-screen su un elemento che cambia
-   opacità ricalcola tutto il frame ed è la causa principale degli scatti.
-   Lo si elimina qui, compensando con una velatura leggermente più scura;
-   su mobile il blur è gestito in modo nativo e si mantiene. */
 @media (min-width: 768px) {
     .burger-overlay {
         backdrop-filter: none;

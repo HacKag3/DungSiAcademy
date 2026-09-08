@@ -1,14 +1,8 @@
-// building/build/validate.mjs
-// Validazione dei dati: un errore interrompe il build, i placeholder
-// "[DA CONFERMARE]" generano solo warning.
-
 import fs from "node:fs";
 import path from "node:path";
 import { ROOT_DIR } from "./paths.mjs";
 
 export function validateData(site, pages, settings, contatti, corsi) {
-    // Nota: il nome del sito ora vive in data/settings.json (brand.name);
-    // da seo-data.json servono dominio, locale e autore.
     if (!site?.domain) {
         throw new Error("building/data/seo-data.json: site.domain è obbligatorio.");
     }

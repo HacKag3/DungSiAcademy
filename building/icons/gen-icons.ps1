@@ -1,29 +1,3 @@
-# gen-icons.ps1
-#
-# Genera tutte le icone necessarie per un sito web (favicon, apple-touch-icon,
-# icone PWA/manifest, tile Windows) a partire da un logo SVG, anche se non
-# quadrato: l'area di esportazione viene centrata automaticamente.
-#
-# Le icone vengono organizzate in sottocartelle per categoria:
-#   icons/
-#     favicon/    -> favicon-16x16.png, favicon-32x32.png, favicon-48x48.png,
-#                    favicon-96x96.png, favicon.ico
-#     apple/      -> apple-touch-icon-120x120.png, ...180x180.png (default)
-#     android/    -> icon-192x192.png, icon-512x512.png
-#     windows/    -> mstile-150x150.png
-#     source/     -> logo-square.svg (versione quadrata master)
-#
-# Requisiti:
-#   - Inkscape installato (https://inkscape.org) e raggiungibile da PowerShell
-#   - ImageMagick per generare favicon.ico (https://imagemagick.org) - opzionale
-#
-# Uso:
-#   .\gen-icons.ps1 -Src "logo.svg"
-#
-# Se PowerShell blocca l'esecuzione di script, apri PowerShell come amministratore
-# ed esegui una volta:
-#   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-
 param(
     [Parameter(Mandatory = $true)]
     [string]$Src,
@@ -33,14 +7,11 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-# ---------- Controlli iniziali ----------
-
 if (-not (Test-Path $Src)) {
     Write-Host "Errore: file non trovato: $Src" -ForegroundColor Red
     exit 1
 }
 
-# Trova l'eseguibile di Inkscape
 $InkscapeExe = $null
 if (Get-Command inkscape -ErrorAction SilentlyContinue) {
     $InkscapeExe = "inkscape"
@@ -62,8 +33,6 @@ if (-not (Get-Command magick -ErrorAction SilentlyContinue)) {
     Write-Host "Installa da https://imagemagick.org/script/download.php#windows"
 }
 
-# ---------- Struttura cartelle organizzata per categoria ----------
-
 $Dirs = @{
     Favicon = Join-Path $OutRoot "favicon"
     Apple   = Join-Path $OutRoot "apple"
@@ -75,8 +44,6 @@ $Dirs = @{
 foreach ($d in $Dirs.Values) {
     New-Item -ItemType Directory -Force -Path $d | Out-Null
 }
-
-# ---------- Rilevamento dimensioni del documento SVG ----------
 
 Write-Host "Rilevo dimensioni del documento SVG..."
 
@@ -98,8 +65,6 @@ $H = [math]::Round([double]$H)
 
 Write-Host "Dimensioni rilevate: $W x $H"
 
-# ---------- Calcolo area quadrata centrata ----------
-
 if ($W -ge $H) {
     $Side = $W
     $MarginY = [math]::Floor(($Side - $H) / 2)
@@ -118,8 +83,6 @@ if ($W -ge $H) {
 
 $ExportArea = "${X0}:${Y0}:${X1}:${Y1}"
 Write-Host "Area di esportazione quadrata calcolata: $ExportArea (lato ${Side}px)"
-
-# ---------- Funzione di esportazione PNG ----------
 
 function Export-Png {
     param(

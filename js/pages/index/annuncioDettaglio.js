@@ -1,21 +1,13 @@
-// js/pages/index/annuncioDettaglio.js
-// Modale di dettaglio di un annuncio: vive nel <body> (fuori dalla lista),
-// gestisce apertura, caricamento del contenuto e chiusura (sfondo, bottone
-// o tasto Esc). announcements.js la usa tramite l'oggetto restituito.
 import { escapeHtml } from "../../utilities/utils.js";
 
 export function setupDettaglio(container) {
     const dettaglio = container.querySelector("#annuncio-dettaglio");
     if (!dettaglio) return null;
 
-    // Sposta la modale nel <body>: è un overlay fixed a tutto schermo e non
-    // deve ereditare trasformazioni/filtri del contenitore della lista.
     document.body.appendChild(dettaglio);
 
     let ultimoBottoneAttivo = null;
 
-    // Chiusura: ripristina aria-expanded sui bottoni "Dettagli" e riporta
-    // il focus sull'ultimo bottone usato per aprire la modale.
     function chiudi() {
         dettaglio.hidden = true;
         document.body.classList.remove("annuncio-alert-aperto");
@@ -51,13 +43,11 @@ export function setupDettaglio(container) {
         }
     }
 
-    // Chiusura al click su sfondo o bottone "×".
     dettaglio.addEventListener("click", (event) => {
         if (event.target !== dettaglio && !event.target.closest(".annuncio-chiudi")) return;
         chiudi();
     });
 
-    // Chiusura da tastiera.
     document.addEventListener("keydown", (event) => {
         if (event.key !== "Escape" || dettaglio.hidden) return;
         chiudi();

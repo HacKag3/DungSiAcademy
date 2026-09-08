@@ -1,7 +1,3 @@
-// building/build/loadData.mjs
-// Caricamento dei file JSON sorgente (building/data/seo-data.json + data/*.json).
-// L'unico punto d'accesso è loadSiteData(): i singoli loader restano interni.
-
 import fs from "node:fs";
 import {
     ANNUNCI_PATH, CORSI_PATH, CONTATTI_PATH, PERSONALE_PATH,
@@ -15,7 +11,6 @@ function loadJson(filePath) {
     return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
 
-// Carica tutti i dati del sito in un unico oggetto.
 export function loadSiteData() {
     return {
         siteData: loadJson(SEO_DATA_PATH),

@@ -1,4 +1,3 @@
-
 article .lb_title {
     display: inline-flex;
     align-items: center;
@@ -114,7 +113,6 @@ article .lb_title i {
     white-space: nowrap;
 }
 
-/* Su mobile: impila verticalmente invece di forzare 3 colonne strette */
 @media (max-width: 600px) {
     .useful-contact-row {
         flex-wrap: wrap;
