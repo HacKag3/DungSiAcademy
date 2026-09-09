@@ -27,11 +27,11 @@ versionamento del codice):
 | `paths.mjs` | percorsi e costanti condivise (dir, file dati, colori, giorni IT→EN) |
 | `loadData.mjs` | caricamento dei JSON sorgente (`building/data/seo-data.json`, `data/*.json`) |
 | `validate.mjs` | validazione dati (errore = build interrotto) + asset locali |
-| `transforms.mjs` | trasformazioni dati → config virtuale (solo schema/JSON-LD) + navigazione |
-| `schema.mjs` | JSON-LD / schema.org integrato a priori per i crawler |
-| `tokens.mjs` | calcolo token SEO/meta/icone/JSON-LD/navigazione |
-| `render.mjs` | applicazione partial annidati e token nei template |
-| `checks.mjs` | controllo token irrisolti e placeholder nei dati/output |
+| `transforms.mjs` | trasformazioni dati → config virtuale (runtime) + navigazione |
+| `schema.mjs` | frammenti JSON (`{{SCHEMA_*}}`: logo, indirizzo, geo, contatti, orari, sameAs) per il JSON-LD della home |
+| `tokens.mjs` | calcolo token SEO/meta/icone/JSON-LD (`{{JSON_LD_HOME}}`) + navigazione |
+| `render.mjs` | applicazione partial annidati e token nei template (con seconda passata per i token dentro il JSON-LD) |
+| `checks.mjs` | controllo token irrisolti, placeholder e SEO/output (JSON-LD unico solo in home, canonical, og:image) |
 | `output.mjs` | scrittura pagine + sitemap/robots/manifest (sola lettura) |
 
 Struttura dei partial (annidati, risolti in più passate dal builder):
@@ -39,9 +39,11 @@ Struttura dei partial (annidati, risolti in più passate dal builder):
 ```
 head-pages.html → head-common.html → icons.html
 head-error.html → head-common.html
-{{JSON_LD}} (partial jsonLD.html, usato nel template index)
+index.html include `{{JSON_LD_HOME}}` → partial `json-ld-home.html`
+(unico blocco `<script type="application/ld+json">` con la sola
+SportsActivityLocation della scuola, solo nella home)
 {{BODY_OPEN}} (partial body-open.html: bg-layer + header)
-{{BODY_CLOSE}} (partial body-close.html: footer + chiusura documento)
+(chiusura `<body>`/`<html>` con footer integrata direttamente in ogni template)
 ```
 
 ## Dove modificare cosa
@@ -55,10 +57,18 @@ head-error.html → head-common.html
 - `data/annunci.json`: annunci pubblicati. (runtime)
 - `data/content/whoweare.json`: contenuti della pagina Chi Siamo e numeri dei caroselli
 	(`intro`, `disciplina[]` con `carosello` di introduzione e `activities[].carosello`). (runtime)
-- `building/pages_template/`: template HTML tecnici delle pagine (il guscio
-	`<body>` condiviso arriva dai partial `body-open.html`/`body-close.html`).
-- `building/pages_template/_partials/`: blocchi HTML condivisi (head, body, JSON-LD, ecc.).
-- `building/seo/`: sorgenti tecnici di sitemap e robots.
+- `building/pages_template/`: template HTML tecnici delle pagine (il footer con
+	chiusura `<body>`/`<html>` è integrato direttamente in ogni template;
+	il `body-open.html` condiviso fornisce bg-layer + header).
+- `building/pages_template/_partials/`: blocchi HTML condivisi (head, body, ecc.).
+	Il JSON-LD vive solo nella home: `building/pages_template/index.html` include
+	`{{JSON_LD_HOME}}` dal file di facile modifica `json-ld-home.html`
+	(sola `SportsActivityLocation` della scuola); `schema.mjs` fornisce solo
+	i frammenti dati `{{SCHEMA_*}}` (indirizzo, orari, contatti, sameAs...).
+- `building/seo/`: sorgente tecnica di robots (`sitemap.xml` è generata
+	dinamicamente da `seo-data.json`: solo pagine senza `errorCode`, con
+	canonical `/` per la home, `lastmod` = data del build, `priority` e
+	`changefreq` per importanza).
 - `building/build.mjs`: orchestratore del build; la logica vive in `building/build/*.mjs`.
 - `building/build/`: sottomoduli del generatore (paths, loadData, validate, transforms, schema, tokens, render, checks, output).
 - `js/data-loader.js`: fetch a runtime dei JSON in `data/` (caricamento per

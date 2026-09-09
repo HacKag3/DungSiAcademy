@@ -1,6 +1,8 @@
-import { buildAbsoluteAssetUrl, buildSchemaOrgJson } from "./schema.mjs";
+import fs from "node:fs";
+import path from "node:path";
+import { buildSchemaFragments, buildCanonicalPageUrl, buildAbsoluteAssetUrl } from "./schema.mjs";
 import { buildNavigation } from "./transforms.mjs";
-import { THEME_COLOR_DEFAULT } from "./paths.mjs";
+import { PARTIALS_DIR, THEME_COLOR_DEFAULT } from "./paths.mjs";
 
 function buildIconTokens(settings) {
     const paths = settings.brand?.logo?.paths ?? {};
@@ -19,31 +21,6 @@ function buildIconTokens(settings) {
     };
 }
 
-function buildJsonLDTokens(site, settings, corsi, contatti) {
-    const brand = settings.brand ?? {};
-    const paths = brand.logo?.paths ?? {};
-    const indirizzo = corsi.luogo?.indirizzo ?? {};
-    const via = [indirizzo.via, indirizzo.numero].filter(Boolean).join(" ");
-    const socials = (contatti.social ?? [])
-        .map(s => s.url)
-        .filter(url => url && !url.includes("..."));
-
-    return {
-        "{{BRAND_NAME}}": JSON.stringify(brand.name ?? ""),
-        "{{DOMAIN}}": JSON.stringify(site.domain),
-        "{{ICON_ANDROID_512}}": JSON.stringify(
-            buildAbsoluteAssetUrl(site.domain, paths.android?.["512"])
-        ),
-        "{{DESCRIPTION}}": brand.descrizione ?? "",
-        "{{INDIRIZZO}}": JSON.stringify(via),
-        "{{COMUNE}}": JSON.stringify(indirizzo.citta ?? ""),
-        "{{PROVINCIA}}": JSON.stringify(Array.isArray(indirizzo.provincia) ? (indirizzo.provincia[0] ?? "") : (indirizzo.provincia ?? "")),
-        "{{CAP}}": JSON.stringify(indirizzo.cap ?? ""),
-        "{{COUNTRY}}": JSON.stringify(indirizzo.paese ?? "IT"),
-        "{{SOCIALS}}": socials.map(url => JSON.stringify(url)).join(", ")
-    };
-}
-
 let navigationJsonCache = null;
 function buildNavigationJson(pages) {
     if (!navigationJsonCache) {
@@ -53,22 +30,44 @@ function buildNavigationJson(pages) {
     return navigationJsonCache;
 }
 
-export function computeTokens({ site, page, pages, runtimeConfig, settings, corsi, contatti, withSchema = true }) {
+const jsonLdPartialCache = new Map();
+function readJsonLdPartial(fileName) {
+    if (!jsonLdPartialCache.has(fileName)) {
+        const fullPath = path.join(PARTIALS_DIR, fileName);
+        if (!fs.existsSync(fullPath)) {
+            console.warn(`!!!! Partial JSON-LD mancante: ${fullPath}`);
+            jsonLdPartialCache.set(fileName, "");
+        } else {
+            jsonLdPartialCache.set(fileName, fs.readFileSync(fullPath, "utf-8"));
+        }
+    }
+    return jsonLdPartialCache.get(fileName);
+}
+
+function buildJsonLdHomeBlock(site, page) {
+    const isHome = !page.output || page.output === "index.html";
+    if (!isHome) return "";
+    return readJsonLdPartial("json-ld-home.html");
+}
+
+export function computeTokens({ site, page, pages, runtimeConfig, settings }) {
     const brand = settings.brand ?? {};
     const brandName = brand.name ?? "";
     const copertina = brand.copertina ?? {};
+    const isHome = !page.output || page.output === "index.html";
     const pageTitleTag = page.title ? `${brandName} - ${page.title}` : brandName;
-    const pageOgTitle = page.ogTitle || pageTitleTag;
-    const pageUrl = `${site.domain}/${page.output}`;
+    const pageOgTitle = page.ogTitle || (isHome ? "DŨNG SĨ Academy - Arti Marziali e Difesa Personale ad Arcole (VR)" : pageTitleTag);
+    const pageUrl = buildCanonicalPageUrl(site.domain, page.output);
+    const ogImage = copertina.path ? buildAbsoluteAssetUrl(site.domain, copertina.path) : "";
 
     return {
-                "{{SITE_NAME}}": brandName,
+        "{{SITE_NAME}}": brandName,
         "{{SITE_LOCALE}}": site.locale ?? "",
         "{{SITE_DOMAIN}}": site.domain,
         "{{AUTHOR}}": site.author ?? "",
         "{{BRAND_LOGO_OG}}": (settings.brand?.logo?.paths?.og ?? "/media/loghi/DungSi.svg"),
         "{{HOME_URL}}": "./index.html",
-        "{{COPERTINA_PATH}}": copertina.path ?? "",
+        "{{COPERTINA_PATH}}": ogImage,
         "{{COPERTINA_WIDTH}}": copertina.width ?? "",
         "{{COPERTINA_HEIGHT}}": copertina.height ?? "",
         "{{COPERTINA_ALT}}": copertina.alt ?? "",
@@ -81,10 +80,8 @@ export function computeTokens({ site, page, pages, runtimeConfig, settings, cors
         "{{ERROR_TITLE}}": page.errorTitle ?? "",
         "{{ERROR_DESCRIPTION}}": page.errorDescription ?? "",
         ...buildIconTokens(settings),
-        ...(withSchema ? {
-            ...buildJsonLDTokens(site, settings, corsi, contatti),
-            "{{SCHEMA_ORG_JSON}}": buildSchemaOrgJson(site, page, runtimeConfig)
-        } : {}),
+        ...buildSchemaFragments(site, page, runtimeConfig),
+        "{{JSON_LD_HOME}}": buildJsonLdHomeBlock(site, page),
         "{{NAVIGATION_DATA}}": buildNavigationJson(pages)
     };
 }

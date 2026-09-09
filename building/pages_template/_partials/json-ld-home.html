@@ -1,0 +1,21 @@
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "SportsActivityLocation",
+            "@id": "{{SITE_DOMAIN}}/#organization",
+            "name": "{{SITE_NAME}}",
+            "description": "{{PAGE_DESCRIPTION}}",
+            "url": "{{SITE_DOMAIN}}/",
+            "logo": "{{SCHEMA_LOGO}}",
+            "image": "{{SCHEMA_IMAGE}}",
+            "address": {{SCHEMA_ADDRESS_JSON}},
+            "geo": {{SCHEMA_GEO_JSON}},
+            {{SCHEMA_CONTACT_LINES}}
+            "openingHoursSpecification": {{SCHEMA_HOURS_JSON}},
+            "sameAs": {{SCHEMA_SAMEAS_JSON}}
+        }
+    ]
+}
+</script>

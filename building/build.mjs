@@ -6,7 +6,7 @@ import { validateData, validateContent, validateLocalAssets } from "./build/vali
 import { buildRuntimeConfig } from "./build/transforms.mjs";
 import { computeTokens } from "./build/tokens.mjs";
 import { applyPartials, applyTokens } from "./build/render.mjs";
-import { checkUnresolvedTokens, checkPlaceholderText, checkConfigPlaceholders } from "./build/checks.mjs";
+import { checkUnresolvedTokens, checkPlaceholderText, checkConfigPlaceholders, checkSeoOutput } from "./build/checks.mjs";
 import { writePage, buildAuxiliaryFiles, buildManifestFiles } from "./build/output.mjs";
 
 function build() {
@@ -40,20 +40,18 @@ function build() {
         const raw = fs.readFileSync(templatePath, "utf-8");
         const withPartials = applyPartials(raw);
 
-        const withSchema = withPartials.includes("{{SCHEMA_ORG_JSON}}")
-            || withPartials.includes("{{BRAND_NAME}}");
-
-        const tokens = computeTokens({ site, page, pages, runtimeConfig, settings, corsi, contatti, withSchema });
+        const tokens = computeTokens({ site, page, pages, runtimeConfig, settings });
         const finalHtml = applyTokens(withPartials, tokens);
 
         checkUnresolvedTokens(finalHtml, page.key);
         checkPlaceholderText(finalHtml, page.key);
+        checkSeoOutput(finalHtml, page.key);
 
         writePage(page, finalHtml);
         generated++;
     }
 
-    buildAuxiliaryFiles(site);
+    buildAuxiliaryFiles(site, pages);
     buildManifestFiles(settings);
 
     console.log(`\nFatto: ${generated} pagina/e generate su ${pages.length} definite.`);

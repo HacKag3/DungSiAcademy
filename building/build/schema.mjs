@@ -7,11 +7,42 @@ export function buildAbsoluteAssetUrl(siteDomain, assetPath) {
         return assetPath;
     }
 
-    const cleanPath = assetPath.replace(/^\.?\//, "");
-    return `${siteDomain}/${cleanPath}`;
+    const cleanDomain = String(siteDomain ?? "").replace(/\/+$/, "");
+    const cleanPath = String(assetPath).replace(/^\.?\/+/, "");
+    return `${cleanDomain}/${cleanPath}`;
+}
+
+export function buildCanonicalPageUrl(siteDomain, pageOutput) {
+    const cleanDomain = String(siteDomain ?? "").replace(/\/+$/, "");
+    if (!pageOutput || pageOutput === "index.html") {
+        return `${cleanDomain}/`;
+    }
+    const cleanOutput = String(pageOutput).replace(/^\/+/, "");
+    return `${cleanDomain}/${cleanOutput}`;
+}
+
+function isPlaceholderContactValue(value) {
+    if (!value) return true;
+    const v = String(value).trim();
+    if (!v) return true;
+    return (
+        v.includes("...") ||
+        v.includes("[DA CONFERMARE") ||
+        v.includes("[DA DEFINIRE") ||
+        /telefono/i.test(v) ||
+        /email@email/i.test(v) ||
+        v === "+39" ||
+        v === "@..."
+    );
+}
+
+function cleanContactValue(value) {
+    if (isPlaceholderContactValue(value)) return undefined;
+    return String(value).trim();
 }
 
 function buildOpeningHours(config) {
+    const seen = new Set();
     const specs = [];
 
     for (const disciplina of Object.values(config.discipline ?? {})) {
@@ -21,6 +52,10 @@ function buildOpeningHours(config) {
                 const [opens, closes] = (ora || "").split("-").map(s => s.trim());
 
                 if (!dayOfWeek || !opens || !closes) continue;
+
+                const dedupeKey = `${dayOfWeek}|${opens}|${closes}`;
+                if (seen.has(dedupeKey)) continue;
+                seen.add(dedupeKey);
 
                 specs.push({
                     "@type": "OpeningHoursSpecification",
@@ -37,25 +72,45 @@ function buildOpeningHours(config) {
 function buildSameAs(config) {
     return (config.social ?? [])
         .map(s => s.url)
-        .filter(url => url && !url.includes("..."));
+        .filter(url => url && !url.includes("...") && !url.includes("[DA "));
 }
 
-export function buildSchemaOrgJson(site, page, config) {
+function pruneEmpty(value) {
+    if (Array.isArray(value)) {
+        const cleaned = value.map(pruneEmpty).filter(v => v !== undefined);
+        return cleaned.length > 0 ? cleaned : undefined;
+    }
+    if (value && typeof value === "object") {
+        const out = {};
+        for (const [key, nested] of Object.entries(value)) {
+            const cleaned = pruneEmpty(nested);
+            if (cleaned !== undefined && cleaned !== "") {
+                out[key] = cleaned;
+            }
+        }
+        return Object.keys(out).length > 0 ? out : undefined;
+    }
+    if (value === undefined || value === "") return undefined;
+    return value;
+}
+
+export function buildSchemaFragments(site, page, config) {
     const luogo = config.luogo ?? {};
     const indirizzo = luogo.indirizzo ?? {};
     const generale = config.contacts?.generale ?? {};
     const copertina = config.brand?.copertina ?? {};
-    const pageUrl = `${site.domain}/${page.output}`;
-    const address = indirizzo.via
-        ? {
-            "@type": "PostalAddress",
-            streetAddress: `${indirizzo.via}${indirizzo.numero ? ` ${indirizzo.numero}` : ""}`,
-            addressLocality: indirizzo.citta ?? "",
-            addressRegion: indirizzo.provincia ?? "",
-            postalCode: indirizzo.cap ?? "",
-            addressCountry: indirizzo.paese ?? "IT"
-        }
-        : undefined;
+    const cleanDomain = String(site.domain ?? "").replace(/\/+$/, "");
+    const pageUrl = buildCanonicalPageUrl(site.domain, page.output);
+    const isHome = !page.output || page.output === "index.html";
+
+    const address = pruneEmpty({
+        "@type": "PostalAddress",
+        streetAddress: `${indirizzo.via ?? ""}${indirizzo.numero ? ` ${indirizzo.numero}` : ""}`.trim(),
+        addressLocality: indirizzo.citta ?? "",
+        addressRegion: indirizzo.provincia ?? "",
+        postalCode: indirizzo.cap ?? "",
+        addressCountry: indirizzo.paese ?? "IT"
+    }) ?? null;
     const geo = (
         typeof luogo.lat === "number" &&
         typeof luogo.lng === "number"
@@ -65,39 +120,37 @@ export function buildSchemaOrgJson(site, page, config) {
             latitude: luogo.lat,
             longitude: luogo.lng
         }
-        : undefined;
-    const telephone = generale.telefono?.trim() || undefined;
-    const email = generale.email?.trim() || undefined;
+        : null;
 
-    const schema = {
-        "@context": "https://schema.org",
-        "@type": "SportsActivityLocation",
-        name: config.brand?.name,
-        description: page.description ?? "",
-        url: pageUrl,
-        image: copertina.path
-            ? buildAbsoluteAssetUrl(site.domain, copertina.path)
-            : undefined,
-        logo: config.brand?.logo
-            ? buildAbsoluteAssetUrl(site.domain, config.brand.logo)
-            : undefined,
-        address,
-        geo,
-        telephone,
-        email,
-        openingHoursSpecification: buildOpeningHours(config),
-        sameAs: buildSameAs(config)
+    const telephone = cleanContactValue(generale.telefono);
+    const email = cleanContactValue(generale.email);
+    const contactLines = [
+        telephone ? `                "telephone": ${JSON.stringify(telephone)},` : "",
+        email ? `                "email": ${JSON.stringify(email)},` : ""
+    ].filter(Boolean).join("\n");
+
+    const breadcrumbItems = isHome
+        ? [{ "@type": "ListItem", position: 1, name: "Home", item: pageUrl }]
+        : [
+            { "@type": "ListItem", position: 1, name: "Home", item: `${cleanDomain}/` },
+            { "@type": "ListItem", position: 2, name: page.navLabel || page.title || page.ogTitle || "Pagina", item: pageUrl }
+        ];
+
+    const logoUrl = config.brand?.logoPng
+        ? buildAbsoluteAssetUrl(site.domain, config.brand.logoPng)
+        : "";
+    const imageUrl = copertina.path
+        ? buildAbsoluteAssetUrl(site.domain, copertina.path)
+        : "";
+
+    return {
+        "{{SCHEMA_LOGO}}": logoUrl,
+        "{{SCHEMA_IMAGE}}": imageUrl,
+        "{{SCHEMA_ADDRESS_JSON}}": JSON.stringify(address, null, 4),
+        "{{SCHEMA_GEO_JSON}}": JSON.stringify(geo, null, 4),
+        "{{SCHEMA_CONTACT_LINES}}": contactLines ? `${contactLines}\n` : "",
+        "{{SCHEMA_HOURS_JSON}}": JSON.stringify(buildOpeningHours(config), null, 4),
+        "{{SCHEMA_SAMEAS_JSON}}": JSON.stringify(buildSameAs(config), null, 4),
+        "{{SCHEMA_BREADCRUMB_JSON}}": JSON.stringify({ "@type": "BreadcrumbList", itemListElement: breadcrumbItems }, null, 4)
     };
-
-    Object.keys(schema).forEach(key => {
-        if (
-            schema[key] === undefined ||
-            schema[key] === "" ||
-            (Array.isArray(schema[key]) && schema[key].length === 0)
-        ) {
-            delete schema[key];
-        }
-    });
-
-    return JSON.stringify(schema, null, 4);
 }

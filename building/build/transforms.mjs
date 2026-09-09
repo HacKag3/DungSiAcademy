@@ -64,7 +64,9 @@ function buildBrand(settings) {
     const copertina = brand.copertina ?? {};
     return {
         name: brand.name ?? "",
+        descrizione: brand.descrizione ?? "",
         logo: paths.og || paths.svg || "",
+        logoPng: paths.android?.["512"] || paths.og || paths.svg || "",
         copertina: {
             path: copertina.path ?? "",
             width: copertina.width ?? "",

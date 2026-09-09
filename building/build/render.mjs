@@ -7,9 +7,7 @@ const PARTIALS = {
     "{{HEAD_ERROR}}": "head-error.html",
     "{{ICONS}}": "icons.html",
     "{{HEAD_COMMON}}": "head-common.html",
-    "{{JSON_LD}}": "jsonLD.html",
-    "{{BODY_OPEN}}": "body-open.html",
-    "{{BODY_CLOSE}}": "body-close.html"
+    "{{BODY_OPEN}}": "body-open.html"
 };
 
 const partialCache = new Map();
@@ -50,7 +48,17 @@ export function applyPartials(html, maxDepth = 5) {
 
 export function applyTokens(content, tokens) {
     let out = content;
+    const ordered = Object.entries(tokens).sort(([a], [b]) => {
+        if (a === "{{JSON_LD_HOME}}") return -1;
+        if (b === "{{JSON_LD_HOME}}") return 1;
+        return 0;
+    });
+    for (const [token, value] of ordered) {
+        out = out.split(token).join(value ?? "");
+    }
+    
     for (const [token, value] of Object.entries(tokens)) {
+        if (token === "{{JSON_LD_HOME}}" || !out.includes(token)) continue;
         out = out.split(token).join(value ?? "");
     }
     return out;
