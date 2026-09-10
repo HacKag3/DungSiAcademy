@@ -1,3 +1,3 @@
-import { loadLayout } from "./main_comp/layout.js";
+import { loadHeader } from "./main_comp/header.js";
 
-document.addEventListener("DOMContentLoaded", loadLayout);
+document.addEventListener("DOMContentLoaded", loadHeader);

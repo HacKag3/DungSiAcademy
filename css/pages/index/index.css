@@ -383,6 +383,10 @@ article #orari .age-selector {
     margin-bottom: 1rem;
 }
 
+article #orari .orari-selector-menu[hidden] {
+    display: none !important;
+}
+
 article #orari .selector {
     justify-content: center;
     display: flex;
@@ -668,6 +672,7 @@ article #luogo #map {
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, .35) transparent;
+    scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     padding: 1em;
     cursor: grab;
@@ -676,6 +681,8 @@ article #luogo #map {
     &.dragging {
         cursor: grabbing;
         user-select: none;
+        scroll-behavior: auto;
+        scroll-snap-type: none;
     }
 
     &::-webkit-scrollbar {
@@ -724,6 +731,7 @@ article #luogo #map {
     box-shadow: var(--shadow-md);
     flex: 0 0 85%;
     max-width: 32em;
+    scroll-snap-align: center;
 
     @media (max-width: 768px) {
         flex-basis: calc(100vw - 8em);
@@ -746,12 +754,6 @@ article #luogo #map {
     gap: 1em;
     margin-top: auto;
     padding-top: 0.75em;
-}
-
-.annuncio-date-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
 }
 
 .annuncio-data {

@@ -37,6 +37,7 @@ function renderCard(a) {
         </div>`;
 }
 
+
 export async function initAnnouncements() {
     const annunciContainer = document.getElementById("sezione-annunci");
     if (!annunciContainer) return;
@@ -69,50 +70,37 @@ export async function initAnnouncements() {
 
     if (carouselWrapper) {
         let isDragging = false;
-        let hasDragged = false;
         let startX = 0;
         let startScrollLeft = 0;
+
+        carouselWrapper.addEventListener("pointerdown", (event) => {
+            if (event.pointerType === "mouse" && event.button !== 0) return;
+            if (event.target.closest("button, a, input, select, textarea")) return;
+
+            isDragging = true;
+            startX = event.clientX;
+            startScrollLeft = carouselWrapper.scrollLeft;
+            carouselWrapper.classList.add("dragging");
+            try { carouselWrapper.setPointerCapture?.(event.pointerId); } catch {}
+        }, { passive: true });
+
+        carouselWrapper.addEventListener("pointermove", (event) => {
+            if (!isDragging) return;
+            const deltaX = event.clientX - startX;
+            if (Math.abs(deltaX) > 3) {
+                suppressClickAfterDrag = true;
+                carouselWrapper.scrollLeft = startScrollLeft - deltaX;
+            }
+        }, { passive: true });
 
         const endDrag = () => {
             if (!isDragging) return;
             isDragging = false;
             carouselWrapper.classList.remove("dragging");
-            if (hasDragged) {
-                suppressClickAfterDrag = true;
-                window.setTimeout(() => {
-                    suppressClickAfterDrag = false;
-                }, 80);
+            if (suppressClickAfterDrag) {
+                window.setTimeout(() => { suppressClickAfterDrag = false; }, 150);
             }
-            hasDragged = false;
         };
-
-        carouselWrapper.addEventListener("pointerdown", (event) => {
-            if (event.pointerType === "mouse" && event.button !== 0) return;
-
-            if (event.target.closest("button, a, input, select, textarea")) {
-                return;
-            }
-
-            isDragging = true;
-            hasDragged = false;
-            startX = event.clientX;
-            startScrollLeft = carouselWrapper.scrollLeft;
-
-            carouselWrapper.classList.add("dragging");
-            carouselWrapper.setPointerCapture?.(event.pointerId);
-        }, { passive: true });
-
-        carouselWrapper.addEventListener("pointermove", (event) => {
-            if (!isDragging) return;
-
-            const deltaX = event.clientX - startX;
-
-            if (Math.abs(deltaX) > 4) {
-                hasDragged = true;
-                suppressClickAfterDrag = true;
-                carouselWrapper.scrollLeft = startScrollLeft - deltaX;
-            }
-        }, { passive: true });
 
         carouselWrapper.addEventListener("pointerup", endDrag, { passive: true });
         carouselWrapper.addEventListener("pointerleave", endDrag, { passive: true });

@@ -1,4 +1,4 @@
-import { genNavBarLinks } from "../utilities/utils.js";
+// Markup burger compilato dal build: qui resta solo il comportamento del menu.
 import { smartHeaderMenuOpened, smartHeaderMenuClosed } from "../utilities/smartHeader.js";
 
 const scrollLock = (() => {
@@ -23,31 +23,6 @@ const scrollLock = (() => {
         }
     };
 })();
-
-export function genBurger() {
-    return `
-        <div id="burger">
-            <button
-              class="burger-icon"
-              aria-label="Menu"
-              aria-expanded="false"
-              aria-controls="burger-links">
-                <svg
-                  class="burger-svg"
-                  viewBox="0 0 24 24">
-                    <rect class="burger-line line1" x="0" y="2"  width="24" height="4" rx="2"></rect>
-                    <rect class="burger-line line2" x="0" y="10" width="24" height="4" rx="2"></rect>
-                    <rect class="burger-line line3" x="0" y="18" width="24" height="4" rx="2"></rect>
-                </svg>
-            </button>
-        </div>
-        <ul id="burger-links" class="burger-nav links-off" role="list" aria-label="Menu di navigazione">
-            ${genNavBarLinks().map(({href, name}) => `
-            <li class="burger-nav__item">
-                <a href="${href}" class="burger-nav__link">${name}</a>
-            </li>`).join("")}
-        </ul>`;
-}
 
 function ensureOverlay() {
     document.getElementById("burger-overlay")?.remove();
