@@ -24,9 +24,28 @@ function normalizeProvincia(provincia) {
     return provincia ?? "";
 }
 
+function parseMapInput(mapInput) {
+    if (!mapInput) return {};
+    const trimmed = mapInput.trim();
+
+    // Estrai src da un tag iframe completo
+    const iframeMatch = trimmed.match(/<iframe[^>]+src=["']([^"']+)["']/i);
+    const src = iframeMatch ? iframeMatch[1] : trimmed;
+
+    // Estrai lat/lng dall'URL Google Maps embed (!2d = lng, !3d = lat)
+    const coords = {};
+    const lngMatch = src.match(/!2d(-?\d+\.\d+)/);
+    const latMatch = src.match(/!3d(-?\d+\.\d+)/);
+    if (lngMatch) coords.lng = parseFloat(lngMatch[1]);
+    if (latMatch) coords.lat = parseFloat(latMatch[1]);
+
+    return { src, ...coords };
+}
+
 export function buildLuogo(luogo) {
     if (!luogo) return {};
     const indirizzo = luogo.indirizzo ?? {};
+    const mapData = parseMapInput(luogo.map);
     return {
         indirizzo: {
             via: indirizzo.via ?? "",
@@ -36,9 +55,9 @@ export function buildLuogo(luogo) {
             cap: indirizzo.cap ?? "",
             paese: indirizzo.paese ?? "IT"
         },
-        lat: luogo.lat,
-        lng: luogo.lng,
-        map: luogo.map
+        lat: luogo.lat ?? mapData.lat,
+        lng: luogo.lng ?? mapData.lng,
+        map: mapData.src
     };
 }
 
