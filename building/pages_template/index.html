@@ -87,48 +87,20 @@
         <section id="orari">
             <label class="lb_title"><i class="fa-solid fa-clock"></i> Orari delle Lezioni</label>
 
-            <div class="schedule-layout">
-                <div class="discipline-panel schedule-selector-group">
-                    <span class="schedule-panel-kicker" id="schedule-selection-kicker"></span>
-                    <span class="schedule-selector-label" id="schedule-discipline-label"></span>
-                    <div class="selector">
-                        <ul id="disciplina-selector-menu" role="tablist"></ul>
-                    </div>
-                    <p class="discipline-description" id="discipline-description"></p>
-                </div>
-
-                <div class="schedule-results">
-                    <div class="schedule-selector-group age-selector">
-                        <span class="schedule-selector-label" id="schedule-age-label"></span>
-                        <div class="selector">
-                            <ul id="orari-selector-menu" role="tablist"></ul>
-                        </div>
-                    </div>
-
-                    <div class="content">
-                        <span class="schedule-panel-kicker" id="schedule-results-kicker"></span>
-                        <p class="schedule-description" id="orari-description"></p>
-                        <div class="schedule-table-card">
-                            <h3 id="orari-table-title"></h3>
-                            <table class="schedule-table"></table>
-                            <p class="schedule-empty" id="orari-empty" hidden></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ORARI_CONTENT}}
         </section>
 
         <hr>
         <section id="luogo">
             <label class="lb_title"><i class="fa-solid fa-location-dot"></i> Dove Siamo</label>
-            <div id="indirizzo"></div>
-            <div id="map"></div>
+
+            {{LUOGO_CONTENT}}
         </section>
 
         <div id="sezione-annunci">  </div>
     </article>
 
-    <footer id="footer" data-brand="{{SITE_NAME}}"></footer>
+    <footer id="footer">{{FOOTER_CONTENT}}</footer>
 </body>
 
 </html>

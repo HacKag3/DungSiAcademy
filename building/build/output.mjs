@@ -1,4 +1,4 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import path from "node:path";
 import { OUTPUT_DIR, SEO_TEMPLATES_DIR, THEME_COLOR_DEFAULT } from "./paths.mjs";
 import { formatHtml, formatJson, formatText, formatXml } from "./format.mjs";
@@ -57,7 +57,7 @@ export function buildAuxiliaryFiles(site, pages) {
 
     const templatePath = path.join(SEO_TEMPLATES_DIR, "robots.txt");
     if (!fs.existsSync(templatePath)) {
-        console.warn(`!!!! File ausiliario mancante: ${SEO_TEMPLATES_DIR}/robots.txt — saltato.`);
+        console.warn(`!!!! File ausiliario mancante: ${SEO_TEMPLATES_DIR}/robots.txt â€” saltato.`);
         return;
     }
 
@@ -96,6 +96,6 @@ export function buildManifestFiles(settings) {
 </browserconfig>
 `;
 
-    writeGeneratedFile("site.webmanifest", formatJson(manifest), "site.webmanifest (generato dalle icone in data/settings.json)");
-    writeGeneratedFile("browserconfig.xml", formatXml(browserconfig), "browserconfig.xml (generato dalle icone in data/settings.json)");
+    writeGeneratedFile("site.webmanifest", formatJson(manifest), "site.webmanifest (generato dalle icone in building/data/settings.json)");
+    writeGeneratedFile("browserconfig.xml", formatXml(browserconfig), "browserconfig.xml (generato dalle icone in building/data/settings.json)");
 }

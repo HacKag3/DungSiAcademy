@@ -1,4 +1,4 @@
-function buildDisciplineMap(disciplinaList) {
+export function buildDisciplineMap(disciplinaList) {
     const discipline = {};
     for (const item of disciplinaList) {
         const orari = {};
@@ -24,7 +24,7 @@ function normalizeProvincia(provincia) {
     return provincia ?? "";
 }
 
-function buildLuogo(luogo) {
+export function buildLuogo(luogo) {
     if (!luogo) return {};
     const indirizzo = luogo.indirizzo ?? {};
     return {
@@ -42,7 +42,7 @@ function buildLuogo(luogo) {
     };
 }
 
-function buildContacts(emailMap) {
+export function buildContacts(emailMap) {
     const contacts = {};
     for (const [key, contact] of Object.entries(emailMap ?? {})) {
         contacts[key] = {
@@ -76,6 +76,20 @@ function buildBrand(settings) {
     };
 }
 
+// HTML compilato per pagina: il build genera l'HTML finale nei punti esatti
+// delle pagine (header, burger, footer, sezioni). Le funzioni di compilazione
+// vivono in compile.mjs; qui resta solo l'assemblaggio del config.
+import {
+    compileHeaderInner,
+    compileBurger,
+    compileDevAlert,
+    compileFooter,
+    compileOrari,
+    compileLuogo,
+    compileContactsPage,
+    compileWhoweare
+} from "./compile.mjs";
+
 export function buildRuntimeConfig({ settings, contatti, corsi }) {
     return {
         discipline: buildDisciplineMap(corsi.disciplina ?? []),
@@ -93,4 +107,35 @@ export function buildNavigation(pages) {
             name: navLabel || title,
             href: `./${output}`
         }));
+}
+
+export function buildPageConfig({ settings, contatti, corsi }) {
+    return {
+        brand: { ...buildBrand(settings), home: "./index.html" },
+        ui: settings.ui ?? {},
+        contacts: buildContacts(contatti.email),
+        social: contatti.social ?? [],
+        legal: {
+            ...(settings.legale ?? {}),
+            emailPrivacy: settings.legale?.emailPrivacy || contatti.email?.privacy?.email || ""
+        },
+        associations: settings.associazioni ?? {}
+    };
+}
+
+export function buildPageHtml({ page, pages, settings, contatti, corsi, team, whoweare }) {
+    const config = buildPageConfig({ settings, contatti, corsi });
+    const nav = buildNavigation(pages);
+    const { brand, ui } = config;
+
+    return {
+        headerInner: compileHeaderInner(brand, ui, nav, page.output),
+        burger: compileBurger(ui, nav, page.output),
+        devAlert: compileDevAlert(ui),
+        footer: compileFooter(config, ui),
+        orari: page.key === "index" ? compileOrari(corsi) : "",
+        luogo: page.key === "index" ? compileLuogo(corsi) : "",
+        contacts: page.key === "contacts" ? compileContactsPage(contatti, team) : "",
+        whoweare: page.key === "whoweare" ? compileWhoweare(whoweare) : ""
+    };
 }

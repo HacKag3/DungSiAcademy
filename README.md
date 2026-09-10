@@ -10,11 +10,14 @@ navigazione. La navigazione viene iniettata ogni pagina come JSON
 (`#navigation-data`).
 
 Tutto il resto (brand, header/footer, orari, luogo, contatti, social, dati
-legali, team, annunci, pagina Chi Siamo) viene letto **a runtime** dai file
-JSON in `data/` tramite `js/data-loader.js`:
+legali, team, pagina Chi Siamo) viene **compilato dal build direttamente
+nelle pagine** (`<script type="application/json" id="site-data">`):
+`js/data-loader.js` legge quel blocco inline, senza alcun fetch di contenuto.
 
-- modificare un file JSON aggiorna il contenuto delle pagine **senza rebuild**;
-- il rebuild serve solo per cambi di struttura/SEO/navigazione.
+- modificare un file JSON richiede **un rebuild** per aggiornare le pagine;
+- unici contenuti ancora letti a runtime: gli annunci
+  (`media/annunci/annunci.json`, aggiornabili senza rebuild) e le immagini
+  dei caroselli (dai manifest in `media/caroselli/`).
 
 ## Architettura del build
 
@@ -25,7 +28,7 @@ versionamento del codice):
 | Sottomodulo | Responsabilità |
 |---|---|
 | `paths.mjs` | percorsi e costanti condivise (dir, file dati, colori, giorni IT→EN) |
-| `loadData.mjs` | caricamento dei JSON sorgente (`building/data/seo-data.json`, `data/*.json`) |
+| `loadData.mjs` | caricamento dei JSON sorgente (`building/data/*.json`) |
 | `validate.mjs` | validazione dati (errore = build interrotto) + asset locali |
 | `transforms.mjs` | trasformazioni dati → config virtuale (runtime) + navigazione |
 | `schema.mjs` | frammenti JSON (`{{SCHEMA_*}}`: logo, indirizzo, geo, contatti, orari, sameAs) per il JSON-LD della home |
@@ -50,13 +53,17 @@ SportsActivityLocation della scuola, solo nella home)
 
 - `building/data/seo-data.json`: dominio, elenco delle pagine, titoli, descrizioni e pagina iniziale.
 	Impostare `nav: true` e `navLabel` per includere una pagina nella navigazione.
-- `data/settings.json`: brand (nome, logo e icone), dati legali e affiliazioni. (runtime)
-- `data/contatti.json`: social e contatti email utili. (runtime)
-- `data/corsi.json`: discipline e orari (in `disciplina[].fascia` con `giorni[].ora`) e luogo della palestra. (runtime)
-- `data/personale.json`: persone e profili del team. (runtime)
-- `data/annunci.json`: annunci pubblicati. (runtime)
-- `data/content/whoweare.json`: contenuti della pagina Chi Siamo e numeri dei caroselli
-	(`intro`, `disciplina[]` con `carosello` di introduzione e `activities[].carosello`). (runtime)
+- `building/data/settings.json`: brand (nome, logo e icone), dati legali, affiliazioni e
+	stringhe UI. (sorgente del build → inline nelle pagine)
+- `building/data/contatti.json`: social e contatti email utili. (sorgente del build → inline)
+- `building/data/corsi.json`: discipline e orari (in `disciplina[].fascia` con `giorni[].ora`)
+	e luogo della palestra. (sorgente del build → inline nella home)
+- `building/data/personale.json`: persone e profili del team. (sorgente del build → inline in Contatti)
+- `media/annunci/annunci.json`: annunci pubblicati (fetch a runtime, aggiornabili
+	senza rebuild; le pagine di dettaglio vivono nella stessa cartella).
+- `building/data/content/whoweare.json`: contenuti della pagina Chi Siamo e numeri dei caroselli
+	(`intro`, `disciplina[]` con `carosello` di introduzione e `activities[].carosello`).
+	(sorgente del build → inline in Chi Siamo)
 - `building/pages_template/`: template HTML tecnici delle pagine (il footer con
 	chiusura `<body>`/`<html>` è integrato direttamente in ogni template;
 	il `body-open.html` condiviso fornisce bg-layer + header).
@@ -71,15 +78,17 @@ SportsActivityLocation della scuola, solo nella home)
 	`changefreq` per importanza).
 - `building/build.mjs`: orchestratore del build; la logica vive in `building/build/*.mjs`.
 - `building/build/`: sottomoduli del generatore (paths, loadData, validate, transforms, schema, tokens, render, checks, output).
-- `js/data-loader.js`: fetch a runtime dei JSON in `data/` (caricamento per
-	chiave con cache: ogni pagina scarica solo i dati che usa) e trasformazioni dati.
+- `js/data-loader.js`: legge i dati inline che il build incorpora in ogni pagina
+	(`<script type="application/json" id="site-data">`: nessun fetch per il
+	contenuto) e li trasforma per il runtime. Unico fetch: gli annunci da
+	`media/annunci/annunci.json` (e le immagini dei caroselli dai manifest).
 - `js/pages/index/`: logica della home, divisa per sezione (`orari.js`,
 	`luogo.js`, `announcements.js` + `annuncioDettaglio.js` per la modale).
 - Root (`index.html`, `contacts.html`, `site.webmanifest`, ecc.): output generati, da non modificare manualmente.
 
 ## Flusso di aggiornamento
 
-1. Per contenuti (orari, contatti, team, annunci, testi…): modificare il JSON in `data/`.
+1. Per contenuti (orari, contatti, team, testi…): modificare il JSON in `building/data/` e rieseguire il build. Per gli annunci: modificare `media/annunci/annunci.json` (senza rebuild).
 2. Per SEO, meta o struttura di pagina: modificare `building/data/seo-data.json` o un template e rieseguire `npm run build`.
 3. Controllare gli avvisi sui placeholder prima della pubblicazione.
 

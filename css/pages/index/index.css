@@ -383,6 +383,10 @@ article #orari .age-selector {
     margin-bottom: 1rem;
 }
 
+article #orari .orari-selector-menu[hidden] {
+    display: none !important;
+}
+
 article #orari .selector {
     justify-content: center;
     display: flex;
@@ -746,12 +750,6 @@ article #luogo #map {
     gap: 1em;
     margin-top: auto;
     padding-top: 0.75em;
-}
-
-.annuncio-date-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
 }
 
 .annuncio-data {

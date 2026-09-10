@@ -8,6 +8,7 @@ import { computeTokens } from "./build/tokens.mjs";
 import { applyPartials, applyTokens } from "./build/render.mjs";
 import { checkUnresolvedTokens, checkPlaceholderText, checkConfigPlaceholders, checkSeoOutput } from "./build/checks.mjs";
 import { writePage, buildAuxiliaryFiles, buildManifestFiles } from "./build/output.mjs";
+import { fillLegalFields } from "./build/compile.mjs";
 
 function build() {
     const {
@@ -40,8 +41,8 @@ function build() {
         const raw = fs.readFileSync(templatePath, "utf-8");
         const withPartials = applyPartials(raw);
 
-        const tokens = computeTokens({ site, page, pages, runtimeConfig, settings });
-        const finalHtml = applyTokens(withPartials, tokens);
+        const tokens = computeTokens({ site, page, pages, runtimeConfig, settings, contatti, corsi, team, whoweare });
+        const finalHtml = fillLegalFields(applyTokens(withPartials, tokens), settings, contatti);
 
         checkUnresolvedTokens(finalHtml, page.key);
         checkPlaceholderText(finalHtml, page.key);

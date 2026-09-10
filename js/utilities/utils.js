@@ -1,17 +1,3 @@
-import { getNavigation } from "../data-loader.js";
-
-function getCurrentPage() {
-    const { pathname } = window.location;
-    return pathname.substring(pathname.lastIndexOf("/") + 1) || "index.html";
-}
-
-export function genNavBarLinks() {
-    const currentPage = getCurrentPage();
-
-    return getNavigation()
-        .filter(page => page.href !== `./${currentPage}`);
-}
-
 const ESCAPE_MAP = { 
     '&': '&amp;', 
     '<': '&lt;', 

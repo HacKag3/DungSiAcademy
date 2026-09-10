@@ -83,7 +83,7 @@ function buildPaginationMarkup(images) {
         </button>`).join("");
 }
 
-export async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = {}) {
+async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = {}) {
     const root = document.querySelector(`#carosello${caroselloNum}`);
     if (!root) {
         console.error(`Carosello ${caroselloNum} non trovato nel DOM.`);

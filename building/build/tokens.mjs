@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { buildSchemaFragments, buildCanonicalPageUrl, buildAbsoluteAssetUrl } from "./schema.mjs";
-import { buildNavigation } from "./transforms.mjs";
+import { buildPageHtml } from "./transforms.mjs";
 import { PARTIALS_DIR, THEME_COLOR_DEFAULT } from "./paths.mjs";
 
 function buildIconTokens(settings) {
@@ -19,15 +19,6 @@ function buildIconTokens(settings) {
         "{{BROWSERCONFIG_PATH}}": paths.browserconfig ?? "/browserconfig.xml",
         "{{THEME_COLOR}}": themeColor
     };
-}
-
-let navigationJsonCache = null;
-function buildNavigationJson(pages) {
-    if (!navigationJsonCache) {
-        const nav = buildNavigation(pages);
-        navigationJsonCache = `<script type="application/json" id="navigation-data">${JSON.stringify(nav)}</script>`;
-    }
-    return navigationJsonCache;
 }
 
 const jsonLdPartialCache = new Map();
@@ -50,15 +41,15 @@ function buildJsonLdHomeBlock(site, page) {
     return readJsonLdPartial("json-ld-home.html");
 }
 
-export function computeTokens({ site, page, pages, runtimeConfig, settings }) {
+export function computeTokens({ site, page, pages, runtimeConfig, settings, contatti, corsi, team, whoweare }) {
     const brand = settings.brand ?? {};
     const brandName = brand.name ?? "";
     const copertina = brand.copertina ?? {};
-    const isHome = !page.output || page.output === "index.html";
     const pageTitleTag = page.title ? `${brandName} - ${page.title}` : brandName;
-    const pageOgTitle = page.ogTitle || (isHome ? "DŨNG SĨ Academy - Arti Marziali e Difesa Personale ad Arcole (VR)" : pageTitleTag);
+    const pageOgTitle = page.ogTitle || (page.output === "index.html" ? "DŨNG SĨ Academy - Arti Marziali e Difesa Personale ad Arcole (VR)" : pageTitleTag);
     const pageUrl = buildCanonicalPageUrl(site.domain, page.output);
     const ogImage = copertina.path ? buildAbsoluteAssetUrl(site.domain, copertina.path) : "";
+    const pageHtml = buildPageHtml({ page, pages, settings, contatti, corsi, team, whoweare });
 
     return {
         "{{SITE_NAME}}": brandName,
@@ -82,6 +73,13 @@ export function computeTokens({ site, page, pages, runtimeConfig, settings }) {
         ...buildIconTokens(settings),
         ...buildSchemaFragments(site, page, runtimeConfig),
         "{{JSON_LD_HOME}}": buildJsonLdHomeBlock(site, page),
-        "{{NAVIGATION_DATA}}": buildNavigationJson(pages)
+        "{{HEADER_INNER}}": pageHtml.headerInner,
+        "{{BURGER}}": pageHtml.burger,
+        "{{DEV_ALERT}}": pageHtml.devAlert,
+        "{{FOOTER_CONTENT}}": pageHtml.footer,
+        "{{ORARI_CONTENT}}": pageHtml.orari,
+        "{{LUOGO_CONTENT}}": pageHtml.luogo,
+        "{{CONTACTS_CONTENT}}": pageHtml.contacts,
+        "{{WHOWEARE_CONTENT}}": pageHtml.whoweare
     };
 }

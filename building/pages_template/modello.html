@@ -4,15 +4,33 @@
 <head>
     {{HEAD_PAGES}}
 
-    
+    <!-- CSS specifico della pagina: copia e adatta css/pages/<nome>/<nome>.css -->
+    <link rel="stylesheet" href="./css/pages/modello/modello.css" type="text/css" />
+
+    <!-- JS specifico della pagina (se necessario): -->
+    <!-- <script type="module" src="./js/pages/modello/modello.js"></script> -->
+
+    <!-- Carosello (se necessario): -->
+    <!-- <script type="module" src="./js/utilities/carosello.js"></script> -->
+    <!-- <link rel="stylesheet" href="./css/utilities/caroselloSimple.css" type="text/css" /> -->
 </head>
 
 <body>
     {{BODY_OPEN}}
 
-    <article id="page-content"></article>
+    <!--
+        Contenuto della pagina.
+        - Per contenuto compilato dal build (da JSON): usa un token {{NOME_TOKEN}}
+          e genera il contenuto nel build (vedi contacts.html / whoweare.html).
+        - Per contenuto statico: scrivi l'HTML direttamente qui (vedi index.html).
+    -->
+    <article id="page-content">
+        <label class="lb_title">Titolo della Pagina</label>
 
-    <footer id="footer" data-brand="{{SITE_NAME}}"></footer>
+        <p>Contenuto della pagina...</p>
+    </article>
+
+    <footer id="footer">{{FOOTER_CONTENT}}</footer>
 </body>
 
 </html>

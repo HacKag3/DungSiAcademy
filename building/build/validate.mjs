@@ -1,10 +1,10 @@
-import fs from "node:fs";
+﻿import fs from "node:fs";
 import path from "node:path";
 import { ROOT_DIR } from "./paths.mjs";
 
 export function validateData(site, pages, settings, contatti, corsi) {
     if (!site?.domain) {
-        throw new Error("building/data/seo-data.json: site.domain è obbligatorio.");
+        throw new Error("building/data/seo-data.json: site.domain Ã¨ obbligatorio.");
     }
     if (!Array.isArray(pages) || pages.length === 0) {
         throw new Error("building/data/seo-data.json: definire almeno una pagina.");
@@ -28,39 +28,39 @@ export function validateData(site, pages, settings, contatti, corsi) {
     }
 
     if (!settings || typeof settings !== "object") {
-        throw new Error("data/settings.json: il contenuto deve essere un oggetto JSON.");
+        throw new Error("building/data/settings.json: il contenuto deve essere un oggetto JSON.");
     }
     if (!settings.brand?.name) {
-        throw new Error("data/settings.json: brand.name è obbligatorio (usato come SITE_NAME/BRAND_NAME).");
+        throw new Error("building/data/settings.json: brand.name Ã¨ obbligatorio (usato come SITE_NAME/BRAND_NAME).");
     }
     if (!settings.brand?.logo?.paths?.svg) {
-        throw new Error("data/settings.json: brand.logo.paths.svg è obbligatorio.");
+        throw new Error("building/data/settings.json: brand.logo.paths.svg Ã¨ obbligatorio.");
     }
 
     if (!contatti || typeof contatti !== "object") {
-        throw new Error("data/contatti.json: il contenuto deve essere un oggetto JSON.");
+        throw new Error("building/data/contatti.json: il contenuto deve essere un oggetto JSON.");
     }
     if (!Array.isArray(contatti.social)) {
-        throw new Error("data/contatti.json: social deve essere un array.");
+        throw new Error("building/data/contatti.json: social deve essere un array.");
     }
     if (!contatti.email || typeof contatti.email !== "object") {
-        throw new Error("data/contatti.json: email è obbligatorio.");
+        throw new Error("building/data/contatti.json: email Ã¨ obbligatorio.");
     }
 
     if (!Array.isArray(corsi?.disciplina) || corsi.disciplina.length === 0) {
-        throw new Error("data/corsi.json: definire almeno una disciplina.");
+        throw new Error("building/data/corsi.json: definire almeno una disciplina.");
     }
     for (const disciplina of corsi.disciplina) {
         if (!disciplina.key || !disciplina.titolo || !disciplina.description || typeof disciplina.fascia !== "object") {
-            throw new Error(`data/corsi.json: disciplina non valida "${disciplina.key ?? "(senza key)"}".`);
+            throw new Error(`building/data/corsi.json: disciplina non valida "${disciplina.key ?? "(senza key)"}".`);
         }
         for (const [fasciaKey, fascia] of Object.entries(disciplina.fascia ?? {})) {
             if (!fascia?.id || !Array.isArray(fascia.giorni)) {
-                throw new Error(`data/corsi.json: fascia oraria non valida "${disciplina.key}.${fasciaKey}".`);
+                throw new Error(`building/data/corsi.json: fascia oraria non valida "${disciplina.key}.${fasciaKey}".`);
             }
             for (const entry of fascia.giorni) {
                 if (!entry?.giorno || !/^\d{2}:\d{2}-\d{2}:\d{2}$/.test(entry.ora || "")) {
-                    throw new Error(`data/corsi.json: orario non valido in "${disciplina.key}.${fasciaKey}".`);
+                    throw new Error(`building/data/corsi.json: orario non valido in "${disciplina.key}.${fasciaKey}".`);
                 }
             }
         }
@@ -69,32 +69,32 @@ export function validateData(site, pages, settings, contatti, corsi) {
 
 export function validateContent(team, whoweare, annunci) {
     if (!Array.isArray(team) || team.length === 0) {
-        throw new Error("data/personale.json: definire almeno una persona.");
+        throw new Error("building/data/personale.json: definire almeno una persona.");
     }
     for (const [index, person] of team.entries()) {
         if (!person.nome || !person.cognome) {
-            throw new Error(`data/personale.json[${index}]: nome e cognome sono obbligatori.`);
+            throw new Error(`building/data/personale.json[${index}]: nome e cognome sono obbligatori.`);
         }
     }
 
     if (!Array.isArray(annunci)) {
-        throw new Error("data/annunci.json: deve contenere un array.");
+        throw new Error("media/annunci/annunci.json: deve contenere un array.");
     }
 
     if (!whoweare?.intro?.text || !Array.isArray(whoweare.disciplina) || whoweare.disciplina.length === 0) {
-        throw new Error("data/content/whoweare.json: intro.text e disciplina sono obbligatori.");
+        throw new Error("building/data/content/whoweare.json: intro.text e disciplina sono obbligatori.");
     }
 
     const carouselNumbers = new Set([0]);
     for (const disciplina of whoweare.disciplina) {
         if (!disciplina.key || !disciplina.tabLabel || !disciplina.heading || !disciplina.intro || !Array.isArray(disciplina.activities)) {
-            throw new Error("data/content/whoweare.json: disciplina non valida.");
+            throw new Error("building/data/content/whoweare.json: disciplina non valida.");
         }
         const numbers = [disciplina.carosello, ...disciplina.activities.map((activity) => activity.carosello)];
         for (const number of numbers) {
             if (number == null) continue;
             if (carouselNumbers.has(number)) {
-                throw new Error(`data/content/whoweare.json: carosello duplicato "${number}".`);
+                throw new Error(`building/data/content/whoweare.json: carosello duplicato "${number}".`);
             }
             carouselNumbers.add(number);
         }
@@ -105,11 +105,11 @@ export function validateLocalAssets(settings, team) {
     const paths = settings.brand?.logo?.paths ?? {};
     const copertina = settings.brand?.copertina ?? {};
     const assets = [
-        ["data/settings.json: brand.logo.paths.og", paths.og],
-        ["data/settings.json: brand.logo.paths.svg", paths.svg],
-        ["data/settings.json: brand.copertina.path", copertina.path],
-        ["data/settings.json: associazioni.asi.logo", settings.associazioni?.asi?.logo],
-        ...team.map((person, index) => [`data/personale.json[${index}].foto.src`, person.foto?.src])
+        ["building/data/settings.json: brand.logo.paths.og", paths.og],
+        ["building/data/settings.json: brand.logo.paths.svg", paths.svg],
+        ["building/data/settings.json: brand.copertina.path", copertina.path],
+        ["building/data/settings.json: associazioni.asi.logo", settings.associazioni?.asi?.logo],
+        ...team.map((person, index) => [`building/data/personale.json[${index}].foto.src`, person.foto?.src])
     ];
 
     for (const [label, assetPath] of assets) {

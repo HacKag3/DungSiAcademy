@@ -45,23 +45,6 @@
 
         <link rel="canonical" href="https://dungsiacademy.it/" />
 
-        <script type="application/json" id="navigation-data">
-            [
-                {
-                    "name": "Home",
-                    "href": "./index.html"
-                },
-                {
-                    "name": "Chi Siamo",
-                    "href": "./whoweare.html"
-                },
-                {
-                    "name": "Contatti",
-                    "href": "./contacts.html"
-                }
-            ]
-        </script>
-
         <script type="module" src="./js/main.js"></script>
 
         <link rel="stylesheet" href="./css/pages/index/index.css" type="text/css" />
@@ -150,121 +133,404 @@
     <body>
         <div class="bg-layer"></div>
 
-        <header id="header" data-brand="DŨNG SĨ Academy" data-logo="./media/loghi/DungSi.svg" data-home="./index.html"></header>
+        <div id="burger">
+            <button
+            class="burger-icon"
+            aria-label="Menu"
+            aria-expanded="false"
+            aria-controls="burger-links">
+            <svg
+            class="burger-svg"
+            viewBox="0 0 24 24">
+            <rect class="burger-line line1" x="0" y="2"  width="24" height="4" rx="2"></rect>
+            <rect class="burger-line line2" x="0" y="10" width="24" height="4" rx="2"></rect>
+            <rect class="burger-line line3" x="0" y="18" width="24" height="4" rx="2"></rect>
+        </svg>
+    </button>
+</div>
+<ul id="burger-links" class="burger-nav links-off" role="list" aria-label="Menu di navigazione">
+    <li class="burger-nav__item">
+        <a href="./whoweare.html" class="burger-nav__link">Chi Siamo</a>
+    </li>
+    <li class="burger-nav__item">
+        <a href="./contacts.html" class="burger-nav__link">Contatti</a>
+    </li>
+</ul>
 
-        <article>
-            <section id="carosello0" class="slideshow">  </section>
+<header id="header">
+    <div id="titolo" class="nav-fallback">
+        <a href="./index.html" aria-label="Torna alla homepage di DŨNG SĨ Academy">
+            <img
+            src="./media/loghi/DungSi.svg"
+            alt="Logo DŨNG SĨ Academy"
+            loading="eager"
+            height="128"
+            width="auto">
+            <span class="header-brand-name">DŨNG SĨ Academy</span>
+        </a>
+    </div>
 
-            <section id="hero" class="hero-panel" aria-labelledby="hero-title">
-                <div class="hero-card">
-                    <div class="hero-copy">
-                        <p class="eyebrow"> Arte Marziale • Difesa Personale </p>
+    <nav class="desktop-nav" aria-label="Navigazione principale">
+        <a href="./whoweare.html" class="nav__link">
+            <span>Chi Siamo</span>
+        </a>
+        <a href="./contacts.html" class="nav__link">
+            <span>Contatti</span>
+        </a>
+    </nav>
+</header>
 
-                        <h1 id="hero-title">DŨNG SĨ Academy</h1>
-                        <p class="hero-text">
-                            Scuola di arti marziali tradizionali vietnamite e di difesa personale.
-                            Un percorso di crescita attraverso disciplina, tecnica e rispetto,
-                            aperto a chi desidera sviluppare consapevolezza, sicurezza e preparazione fisica.
-                        </p>
+<div class="development-alert" role="alert">Sito ancora in fase di sviluppo: le informazioni potrebbero non essere complete o fittizie.</div>
 
-                        <div class="hero-actions">
-                            <a href="#partecipare" class="btn">Come Partecipare</a>
-                            <a href="#orari" class="btn">Corsi e Orari</a>
-                            <a href="#sezione-annunci" class="btn">Annunci</a>
-                        </div>
-                    </div>
+<article>
+    <section id="carosello0" class="slideshow">  </section>
 
-                    <div class="hero-highlights">
-                        <div class="hero-highlight">
-                            <strong>+50 anni</strong>
-                            <span>di esperienza</span>
-                        </div>
-                        <div class="hero-highlight">
-                            <strong>Metodologia</strong>
-                            <span>chiara e progressiva</span>
-                        </div>
-                        <div class="hero-highlight">
-                            <strong>Ambiente</strong>
-                            <span>accogliente e motivante</span>
-                        </div>
-                    </div>
+    <section id="hero" class="hero-panel" aria-labelledby="hero-title">
+        <div class="hero-card">
+            <div class="hero-copy">
+                <p class="eyebrow"> Arte Marziale • Difesa Personale </p>
 
-                    <div class="hero-cta">
-                        <p class="hero-cta-text">
-                            La prima lezione è il modo migliore per conoscere
-                            l'ambiente, gli istruttori e il metodo della scuola.
-                        </p>
+                <h1 id="hero-title">DŨNG SĨ Academy</h1>
+                <p class="hero-text">
+                    Scuola di arti marziali tradizionali vietnamite e di difesa personale.
+                    Un percorso di crescita attraverso disciplina, tecnica e rispetto,
+                    aperto a chi desidera sviluppare consapevolezza, sicurezza e preparazione fisica.
+                </p>
 
-                        <a href="#luogo" class="btn hero-cta-btn">
-                            Ti aspettiamo in palestra
-                        </a>
-                    </div>
+                <div class="hero-actions">
+                    <a href="#partecipare" class="btn">Come Partecipare</a>
+                    <a href="#orari" class="btn">Corsi e Orari</a>
+                    <a href="#sezione-annunci" class="btn">Annunci</a>
                 </div>
-            </section>
+            </div>
 
-            <section id="partecipare">
-                <label class="lb_title">Come Partecipare</label>
-                <div>
-                    La DŨNG SĨ Academy propone corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, organizzati per fasce d'età.
-                    <ul>
-                        <li>
-                            Bambini e ragazzi (fino a 13 anni): corso di arti marziali.
+            <div class="hero-highlights">
+                <div class="hero-highlight">
+                    <strong>+50 anni</strong>
+                    <span>di esperienza</span>
+                </div>
+                <div class="hero-highlight">
+                    <strong>Metodologia</strong>
+                    <span>chiara e progressiva</span>
+                </div>
+                <div class="hero-highlight">
+                    <strong>Ambiente</strong>
+                    <span>accogliente e motivante</span>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <p class="hero-cta-text">
+                    La prima lezione è il modo migliore per conoscere
+                    l'ambiente, gli istruttori e il metodo della scuola.
+                </p>
+
+                <a href="#luogo" class="btn hero-cta-btn">
+                    Ti aspettiamo in palestra
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="partecipare">
+        <label class="lb_title">Come Partecipare</label>
+        <div>
+            La DŨNG SĨ Academy propone corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, organizzati per fasce d'età.
+            <ul>
+                <li>
+                    Bambini e ragazzi (fino a 13 anni): corso di arti marziali.
+                </li>
+                <li>
+                    Dai 14 anni in poi: arti marziali e difesa personale nello stesso percorso di allenamento.
+                </li>
+            </ul>
+            Consulta gli orari qui sotto e vieni a provare gratuitamente una lezione per conoscere la nostra scuola.<br />
+            Contattaci sui social o telefonicamente per ulteriori informazioni.
+        </div>
+    </section>
+
+    <hr>
+    <section id="orari">
+        <label class="lb_title"><i class="fa-solid fa-clock"></i> Orari delle Lezioni</label>
+
+        <div class="schedule-layout">
+            <div class="discipline-panel schedule-selector-group">
+                <span class="schedule-panel-kicker" id="schedule-selection-kicker">Il tuo percorso</span>
+                <span class="schedule-selector-label" id="schedule-discipline-label">Disciplina</span>
+                <div class="selector" aria-label="Seleziona disciplina">
+                    <ul id="disciplina-selector-menu" role="tablist">
+                        <li class="">
+                            <button type="button" class="topic-btn" role="tab" aria-selected="true" data-discipline="arte-marziale">
+                                <i class="fas fa-person-running" aria-hidden="true"></i>
+                                Arte Marziale
+                            </button>
                         </li>
-                        <li>
-                            Dai 14 anni in poi: arti marziali e difesa personale nello stesso percorso di allenamento.
+                        <li class="off">
+                            <button type="button" class="topic-btn" role="tab" aria-selected="false" data-discipline="difesa-personale">
+                                <i class="fas fa-shield-halved" aria-hidden="true"></i>
+                                Difesa Personale
+                            </button>
                         </li>
                     </ul>
-                    Consulta gli orari qui sotto e vieni a provare gratuitamente una lezione per conoscere la nostra scuola.<br />
-                    Contattaci sui social o telefonicamente per ulteriori informazioni.
                 </div>
-            </section>
+                <p class="discipline-description" data-discipline="arte-marziale">Il percorso di arti marziali tradizionali vietnamite sviluppa tecnica, disciplina e consapevolezza attraverso un allenamento progressivo del corpo e della mente.</p>
+                <p class="discipline-description" data-discipline="difesa-personale" hidden>Il percorso di difesa personale Close Combat insegna a riconoscere le situazioni di rischio e a gestirle con lucidità, fiducia e rispetto della propria sicurezza.</p>
+            </div>
 
-            <hr>
-            <section id="orari">
-                <label class="lb_title"><i class="fa-solid fa-clock"></i> Orari delle Lezioni</label>
+            <div class="schedule-results">
+                <div class="schedule-selector-group age-selector">
+                    <span class="schedule-selector-label" id="schedule-age-label">Fascia d'età</span>
+                    <div class="selector" aria-label="Seleziona fascia d'età">
+                        <ul class="orari-selector-menu" data-discipline="arte-marziale" role="tablist">
+                            <li class="">
+                                <button
+                                type="button"
+                                class="topic-btn"
+                                role="tab"
+                                aria-selected="true"
+                                aria-controls="schedule-arte-marziale-adulti"
+                                data-category-key="adulti">
+                                Adulti
+                            </button>
+                        </li>
+                        <li class="off">
+                            <button
+                            type="button"
+                            class="topic-btn"
+                            role="tab"
+                            aria-selected="false"
+                            aria-controls="schedule-arte-marziale-bambini"
+                            data-category-key="bambini">
+                            Bambini
+                        </button>
+                    </li>
+                </ul>
+                <ul class="orari-selector-menu" data-discipline="difesa-personale" role="tablist" hidden>
+                    <li class="">
+                        <button
+                        type="button"
+                        class="topic-btn"
+                        role="tab"
+                        aria-selected="true"
+                        aria-controls="schedule-difesa-personale-adulti"
+                        data-category-key="adulti">
+                        Adulti
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-                <div class="schedule-layout">
-                    <div class="discipline-panel schedule-selector-group">
-                        <span class="schedule-panel-kicker" id="schedule-selection-kicker"></span>
-                        <span class="schedule-selector-label" id="schedule-discipline-label"></span>
-                        <div class="selector">
-                            <ul id="disciplina-selector-menu" role="tablist"></ul>
-                        </div>
-                        <p class="discipline-description" id="discipline-description"></p>
-                    </div>
+    <div class="content">
+        <span class="schedule-panel-kicker" id="schedule-results-kicker">Programma settimanale</span>
+        <div class="orari-state" data-discipline="arte-marziale">
+            <div class="category-state" data-category="adulti" id="schedule-arte-marziale-adulti" role="tabpanel">
+                <p class="schedule-description">Lezioni per adulti e ragazzi di età superiore ai 14 anni (compresi).</p>
+                <div class="schedule-table-card">
+                    <h3>Arte Marziale</h3>
+                    <table class="schedule-table">
 
-                    <div class="schedule-results">
-                        <div class="schedule-selector-group age-selector">
-                            <span class="schedule-selector-label" id="schedule-age-label"></span>
-                            <div class="selector">
-                                <ul id="orari-selector-menu" role="tablist"></ul>
-                            </div>
-                        </div>
+                        <thead>
+                            <tr>
+                                <th class="giorno" scope="col">Giorno</th>
+                                <th scope="col">Orario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="giorno" scope="row">Lunedì</th>
+                                <td class="orario-disciplina">20:00-21:30</td>
+                            </tr>
+                            <tr>
+                                <th class="giorno" scope="row">Mercoledì</th>
+                                <td class="orario-disciplina">20:00-21:30</td>
+                            </tr>
+                            <tr>
+                                <th class="giorno" scope="row">Venerdì</th>
+                                <td class="orario-disciplina">20:00-21:30</td>
+                            </tr>
+                        </tbody>
 
-                        <div class="content">
-                            <span class="schedule-panel-kicker" id="schedule-results-kicker"></span>
-                            <p class="schedule-description" id="orari-description"></p>
-                            <div class="schedule-table-card">
-                                <h3 id="orari-table-title"></h3>
-                                <table class="schedule-table"></table>
-                                <p class="schedule-empty" id="orari-empty" hidden></p>
-                            </div>
-                        </div>
-                    </div>
+                    </table>
                 </div>
-            </section>
+            </div>
+            <div class="category-state" data-category="bambini" id="schedule-arte-marziale-bambini" role="tabpanel" hidden>
+                <p class="schedule-description">Lezioni per bambini di età inferiore ai 14 anni.</p>
+                <div class="schedule-table-card">
+                    <h3>Arte Marziale</h3>
+                    <table class="schedule-table">
 
-            <hr>
-            <section id="luogo">
-                <label class="lb_title"><i class="fa-solid fa-location-dot"></i> Dove Siamo</label>
-                <div id="indirizzo"></div>
-                <div id="map"></div>
-            </section>
+                        <thead>
+                            <tr>
+                                <th class="giorno" scope="col">Giorno</th>
+                                <th scope="col">Orario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="giorno" scope="row">Lunedì</th>
+                                <td class="orario-disciplina">19:00-20:00</td>
+                            </tr>
+                            <tr>
+                                <th class="giorno" scope="row">Mercoledì</th>
+                                <td class="orario-disciplina">19:00-20:00</td>
+                            </tr>
+                        </tbody>
 
-            <div id="sezione-annunci">  </div>
-        </article>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="orari-state" data-discipline="difesa-personale" hidden>
+            <div class="category-state" data-category="adulti" id="schedule-difesa-personale-adulti" role="tabpanel">
+                <p class="schedule-description">Lezioni di difesa personale Close Combat per adulti e ragazzi di età superiore ai 14 anni.</p>
+                <div class="schedule-table-card">
+                    <h3>Difesa Personale</h3>
+                    <table class="schedule-table">
 
-        <footer id="footer" data-brand="DŨNG SĨ Academy"></footer>
-    </body>
+                        <thead>
+                            <tr>
+                                <th class="giorno" scope="col">Giorno</th>
+                                <th scope="col">Orario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="giorno" scope="row">Lunedì</th>
+                                <td class="orario-disciplina">20:00-21:30</td>
+                            </tr>
+                            <tr>
+                                <th class="giorno" scope="row">Mercoledì</th>
+                                <td class="orario-disciplina">20:00-21:30</td>
+                            </tr>
+                            <tr>
+                                <th class="giorno" scope="row">Venerdì</th>
+                                <td class="orario-disciplina">20:00-21:30</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</section>
+
+<hr>
+<section id="luogo">
+    <label class="lb_title"><i class="fa-solid fa-location-dot"></i> Dove Siamo</label>
+
+    <div id="indirizzo">Scuole medie, Via Friuli, 9 <br>37040 Arcole (VR)</div>
+    <div id="map">
+        <iframe
+        src="&lt;iframe src=&quot;https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d897.085100866655!2d11.29127910901515!3d45.35786798512037!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477f4114e1748db3%3A0x239b9f730af2eed1!2sViet%20Vo%20Dao%20Dung%20Si!5e1!3m2!1sit!2sit!4v1728210616168!5m2!1sit!2sit&quot; width=&quot;600&quot; height=&quot;450&quot; style=&quot;border:0;&quot; allowfullscreen=&quot;&quot; loading=&quot;lazy&quot; referrerpolicy=&quot;no-referrer-when-downgrade&quot;&gt;&lt;/iframe&gt;"
+        title="Mappa della sede"
+        loading="lazy"
+        hidden></iframe>
+    <div class="map-placeholder">
+        <div class="map-placeholder-icon">
+            <i class="fas fa-map-location-dot" aria-hidden="true"></i>
+        </div>
+        <p class="map-placeholder-text">
+            Per rispetto della tua privacy, la mappa interattiva di Google Maps
+            viene caricata solo su tua richiesta.
+        </p>
+        <button type="button" id="loadMapBtn" class="btn map-placeholder-btn">
+            <i class="fas fa-map-pin" aria-hidden="true"></i>
+            Carica la mappa
+        </button>
+    </div></div>
+</section>
+
+<div id="sezione-annunci">  </div>
+</article>
+
+<footer id="footer">
+    <div class="footer-inner">
+
+        <div class="footer-affiliation">
+            <span class="footer-affiliation-title">Affiliazione ente sportivo</span>
+            <img src="./media/loghi/Logo-ASI.webp" alt="logo asi" loading="lazy" width="auto" height="72">
+            <span class="footer-asi-subnum">Tessera/Affiliazione [DA CONFERMARE] A0000000</span>
+        </div>
+
+        <address class="footer-brand">
+            <span class="footer-brand-name">DŨNG SĨ Academy</span>
+
+        </address>
+
+        <nav class="footer-social" aria-label="Social media">
+            <p class="footer-social-title" aria-hidden="true">Seguici sui Social</p>
+            <ul class="footer-social-icons" role="list">
+
+                <li style="--hover-color: #1877F2;">
+                    <a href="https://facebook.com/dungsiacademy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Seguici su Facebook"
+                    class="social-link"
+                    >
+                    <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li style="--hover-color: #E1306C;">
+                <a href="https://instagram.com/..."
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Seguici su Instagram"
+                class="social-link"
+                >
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li style="--hover-color: #000000;">
+            <a href="https://tiktok.com/@..."
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Seguici su TikTok"
+            class="social-link"
+            data-platform="tiktok">
+            <i class="fab fa-tiktok" aria-hidden="true"></i>
+        </a>
+    </li>
+    <li style="--hover-color: #FF0000;">
+        <a href="https://youtube.com/..."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Seguici su YouTube"
+        class="social-link"
+        >
+        <i class="fab fa-youtube" aria-hidden="true"></i>
+    </a>
+</li>
+<li style="--hover-color: #25D366;">
+    <a href="https://wa.me/39..."
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Seguici su WhatsApp"
+    class="social-link"
+    >
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+
+<div class="footer-legal">
+    <div class="footer-legal-info"><span>[DA CONFERMARE: denominazione legale completa, es. A.S.D. DŨNG SĨ Academy]</span><span>C.F. [DA CONFERMARE]</span><span>P.IVA [DA CONFERMARE, se presente]</span><span>Sede legale: [DA CONFERMARE], [DA CONFERMARE] [DA CONFERMARE]</span><span>Legale rappresentante: [DA CONFERMARE: nome del Presidente/legale rappresentante]</span><span>[DA CONFERMARE: n. iscrizione RUNTS o registro CONI/ente affiliante]</span></div>
+    <nav class="footer-legal-links" aria-label="Informazioni legali">
+        <a href="./privacy.html">Privacy Policy</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="./cookie.html">Cookie Policy</a>
+    </nav>
+</div>
+<div class="footer-copyright">
+    <small>&copy; 2026 DŨNG SĨ Academy. Tutti i diritti riservati.</small>
+</div></footer>
+</body>
 
 </html>

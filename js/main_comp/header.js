@@ -1,6 +1,6 @@
-import { loadData, buildBrand } from "../data-loader.js";
-import { genBurger, initBurger } from "./burger.js";
-import { genNavBarLinks } from "../utilities/utils.js";
+// Header compilato dal build: qui restano solo le interazioni
+// (burger, smart header, controllo fit della nav desktop).
+import { initBurger } from "./burger.js";
 import { initSmartHeader } from "../utilities/smartHeader.js";
 
 const MOBILE_BREAKPOINT = 767;
@@ -14,9 +14,9 @@ const debounce = (fn, wait) => {
 
 function checkDesktopFit(headerEl) {
     const titleEl = document.getElementById("titolo");
-    const navEl   = document.querySelector(".desktop-nav");
+    const navEl = document.querySelector(".desktop-nav");
     if (!titleEl || !navEl) {
-        console.warn("[Header] Nessun titolo o desktop-nav trovato del DOM.");
+        console.warn("[Header] Nessun titolo o desktop-nav trovato nel DOM (build non aggiornato?).");
         return;
     }
 
@@ -29,36 +29,6 @@ function checkDesktopFit(headerEl) {
     headerEl.classList.toggle("nav-fallback", navEl.offsetWidth > spaceAvailable);
 }
 
-function genDesktopNav(ui) {
-    return `
-        <nav class="desktop-nav" aria-label="${ui.navMainLabel}">
-            ${genNavBarLinks().map(({ href, name }) =>
-            `<a href="${href}" class="nav__link">
-                <span>${name}</span>
-            </a>`).join("")}
-        </nav>
-    `;
-}
-
-function generateHeader(brand, ui) {
-    const backToHomeAria = ui.backToHomeAria.replaceAll("{brand}", brand.name);
-    return `
-        <div id="titolo" class="nav-fallback">
-            <a href="${brand.home}" aria-label="${backToHomeAria}">
-                <img
-                    src="${brand.logo}"
-                    alt="Logo ${brand.name}"
-                    loading="eager"
-                    height="128"
-                    width="auto">
-                <span class="header-brand-name">${brand.name}</span>
-            </a>
-        </div>
-
-        ${genDesktopNav(ui)}
-    `;
-}
-
 export async function loadHeader() {
     const headerEl = document.querySelector("header");
     if (!headerEl) {
@@ -66,72 +36,27 @@ export async function loadHeader() {
         return;
     }
 
-    const fallbackBrand = {
-        name: headerEl.dataset.brand || "",
-        logo: headerEl.dataset.logo || "",
-        home: headerEl.dataset.home || "./index.html"
-    };
-
-    let brand, ui;
-    try {
-        const settings = await loadData("settings");
-        brand = buildBrand(settings);
-        ui = settings.ui ?? {};
-    } catch (err) {
-        console.warn("[Header] Impossibile caricare settings.json, usando fallback inline:", err);
-        brand = fallbackBrand;
-        ui = {
-            navMainLabel: "Navigazione principale",
-            backToHomeAria: "Torna alla home"
-        };
+    const burgerEl = document.getElementById("burger");
+    const burgerLinks = document.getElementById("burger-links");
+    if (!burgerEl || !burgerLinks) {
+        console.warn("[Header] Burger non trovato nel DOM (build non aggiornato?).");
+        return;
     }
 
-    let burgerInitialized = false;
+    initBurger();
+    requestAnimationFrame(() => {
+        burgerLinks.classList.add("has-transition");
+    });
 
-    function render() {
-        if (!burgerInitialized) {
-            document.body.insertAdjacentHTML("afterbegin", genBurger());
-            initBurger();
-            burgerInitialized = true;
-        }
-
-        headerEl.innerHTML = generateHeader(brand, ui);
-
-        requestAnimationFrame(() => {
-            document.getElementById("burger-links")?.classList.add("has-transition");
+    if (!isMobile()) {
+        document.fonts.ready.then(() => {
+            requestAnimationFrame(() => checkDesktopFit(headerEl));
         });
-
-        if (!isMobile()) {
-            document.fonts.ready.then(() => {
-                requestAnimationFrame(() => checkDesktopFit(headerEl));
-            });
-        }
     }
 
-    render();
-    initSmartHeader(headerEl, document.getElementById("burger"));
+    initSmartHeader(headerEl, burgerEl);
 
-    let wasMobile = isMobile();
-
-    const closeMenuCompletely = () => {
-        const icon = document.querySelector(".burger-icon");
-        if (icon?.getAttribute("aria-expanded") === "true") {
-            const overlay = document.querySelector(".burger-overlay");
-            overlay?.click();
-        }
-    };
-
-    const onResize = debounce(() => {
-        const nowMobile = isMobile();
-
-        if (nowMobile !== wasMobile) {
-            wasMobile = nowMobile;
-            closeMenuCompletely();
-            render();
-        } else if (!nowMobile) {
-            checkDesktopFit(headerEl);
-        }
-    }, 80);
-
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", debounce(() => {
+        if (!isMobile()) checkDesktopFit(headerEl);
+    }, 80));
 }

@@ -45,104 +45,221 @@
 
         <link rel="canonical" href="https://dungsiacademy.it/cookie.html" />
 
-        <script type="application/json" id="navigation-data">
-            [
-                {
-                    "name": "Home",
-                    "href": "./index.html"
-                },
-                {
-                    "name": "Chi Siamo",
-                    "href": "./whoweare.html"
-                },
-                {
-                    "name": "Contatti",
-                    "href": "./contacts.html"
-                }
-            ]
-        </script>
-
         <script type="module" src="./js/main.js"></script>
 
         <link rel="stylesheet" href="./css/pages/legal/legal.css" type="text/css" />
-        <script type="module" src="./js/pages/legal/legal.js"></script>
     </head>
 
     <body>
         <div class="bg-layer"></div>
 
-        <header id="header" data-brand="DŨNG SĨ Academy" data-logo="./media/loghi/DungSi.svg" data-home="./index.html"></header>
+        <div id="burger">
+            <button
+            class="burger-icon"
+            aria-label="Menu"
+            aria-expanded="false"
+            aria-controls="burger-links">
+            <svg
+            class="burger-svg"
+            viewBox="0 0 24 24">
+            <rect class="burger-line line1" x="0" y="2"  width="24" height="4" rx="2"></rect>
+            <rect class="burger-line line2" x="0" y="10" width="24" height="4" rx="2"></rect>
+            <rect class="burger-line line3" x="0" y="18" width="24" height="4" rx="2"></rect>
+        </svg>
+    </button>
+</div>
+<ul id="burger-links" class="burger-nav links-off" role="list" aria-label="Menu di navigazione">
+    <li class="burger-nav__item">
+        <a href="./index.html" class="burger-nav__link">Home</a>
+    </li>
+    <li class="burger-nav__item">
+        <a href="./whoweare.html" class="burger-nav__link">Chi Siamo</a>
+    </li>
+    <li class="burger-nav__item">
+        <a href="./contacts.html" class="burger-nav__link">Contatti</a>
+    </li>
+</ul>
 
-        <article class="legal-page">
-            <label class="lb_title">Cookie Policy</label>
+<header id="header">
+    <div id="titolo" class="nav-fallback">
+        <a href="./index.html" aria-label="Torna alla homepage di DŨNG SĨ Academy">
+            <img
+            src="./media/loghi/DungSi.svg"
+            alt="Logo DŨNG SĨ Academy"
+            loading="eager"
+            height="128"
+            width="auto">
+            <span class="header-brand-name">DŨNG SĨ Academy</span>
+        </a>
+    </div>
 
-            <p><em>Ultimo aggiornamento: da definire alla pubblicazione definitiva.</em></p>
+    <nav class="desktop-nav" aria-label="Navigazione principale">
+        <a href="./index.html" class="nav__link">
+            <span>Home</span>
+        </a>
+        <a href="./whoweare.html" class="nav__link">
+            <span>Chi Siamo</span>
+        </a>
+        <a href="./contacts.html" class="nav__link">
+            <span>Contatti</span>
+        </a>
+    </nav>
+</header>
 
-            <h2>1. Cosa sono i cookie</h2>
-            <p>
-                I cookie sono piccoli file di testo che i siti web possono salvare sul tuo dispositivo
-                per memorizzare informazioni sulle tue visite.
-            </p>
+<div class="development-alert" role="alert">Sito ancora in fase di sviluppo: le informazioni potrebbero non essere complete o fittizie.</div>
 
-            <h2>2. Cookie utilizzati da questo sito</h2>
-            <p>
-                Questo sito è statico (solo HTML/CSS/JavaScript) e non utilizza cookie propri di
-                profilazione, marketing o analytics. Non raccogliamo né condividiamo dati per scopi
-                pubblicitari o statistici.
-            </p>
-            <p>
-                Le icone e le risorse grafiche sono fornite tramite Font Awesome caricato localmente,
-                quindi non comportano l'invio di dati a servizi esterni.
-            </p>
-            <p>
-                Si precisa che il sito non utilizza cookie propri, ma il fornitore di hosting può
-                comunque registrare in autonomia dati tecnici di log del server (es. indirizzo IP,
-                data e ora della richiesta, pagina richiesta) per finalità di sicurezza e
-                funzionamento dell'infrastruttura. Questi dati non sono cookie, non vengono salvati
-                sul dispositivo dell'utente e sono trattati direttamente dal fornitore di hosting
-                secondo le proprie policy. Per maggiori informazioni si rimanda alla sezione dedicata
-                nella <a href="./privacy.html">Privacy Policy</a>.
-            </p>
+<article class="legal-page">
+    <label class="lb_title">Cookie Policy</label>
 
-            <h2>3. Contenuti di terze parti: Google Maps</h2>
-            <p>
-                Nella homepage è disponibile un pulsante per caricare la mappa interattiva di Google
-                Maps. La mappa non viene attivata automaticamente: l'utente deve cliccare esplicitamente
-                sul pulsante per visualizzarla.
-            </p>
-            <p>
-                Solo dopo il caricamento della mappa possono essere inviati dati a Google LLC e possono
-                essere impiegati cookie o tecnologie simili da parte di Google secondo le proprie
-                informative.
-            </p>
-            <ul>
-                <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Informativa privacy di Google</a></li>
-                <li><a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer">Informativa sui cookie di Google</a></li>
-            </ul>
-            <p>
-                Non abbiamo controllo diretto sui cookie impostati da Google né sulla gestione dei dati
-                da parte di terze parti.
-            </p>
+    <p><em>Ultimo aggiornamento: da definire alla pubblicazione definitiva.</em></p>
 
-            <h2>4. Come gestire i cookie dal browser</h2>
-            <p>
-                Puoi in qualsiasi momento eliminare i cookie già memorizzati o impedirne la registrazione
-                dalle impostazioni del tuo browser. Le procedure variano a seconda del browser utilizzato.
-                Consulta le guide ufficiali di Google Chrome, Mozilla Firefox, Safari o Microsoft Edge.
-            </p>
+    <h2>1. Cosa sono i cookie</h2>
+    <p>
+        I cookie sono piccoli file di testo che i siti web possono salvare sul tuo dispositivo
+        per memorizzare informazioni sulle tue visite.
+    </p>
 
-            <h2>5. Contatti</h2>
-            <p>
-                Per qualsiasi domanda su questa Cookie Policy puoi scrivere a:
-                <a data-legal-field-href="emailPrivacy" data-legal-field="emailPrivacy" href="mailto:" aria-label="Scrivici per domande sulla cookie policy"></a>.
-            </p>
-            <p>
-                Per informazioni più generali sul trattamento dei dati personali, consulta la
-                <a href="./privacy.html">Privacy Policy</a>.
-            </p>
-        </article>
+    <h2>2. Cookie utilizzati da questo sito</h2>
+    <p>
+        Questo sito Ã¨ statico (solo HTML/CSS/JavaScript) e non utilizza cookie propri di
+        profilazione, marketing o analytics. Non raccogliamo nÃ© condividiamo dati per scopi
+        pubblicitari o statistici.
+    </p>
+    <p>
+        Le icone e le risorse grafiche sono fornite tramite Font Awesome caricato localmente,
+        quindi non comportano l'invio di dati a servizi esterni.
+    </p>
+    <p>
+        Si precisa che il sito non utilizza cookie propri, ma il fornitore di hosting puÃ²
+        comunque registrare in autonomia dati tecnici di log del server (es. indirizzo IP,
+        data e ora della richiesta, pagina richiesta) per finalitÃ  di sicurezza e
+        funzionamento dell'infrastruttura. Questi dati non sono cookie, non vengono salvati
+        sul dispositivo dell'utente e sono trattati direttamente dal fornitore di hosting
+        secondo le proprie policy. Per maggiori informazioni si rimanda alla sezione dedicata
+        nella <a href="./privacy.html">Privacy Policy</a>.
+    </p>
 
-        <footer id="footer" data-brand="DŨNG SĨ Academy"></footer>
-    </body>
+    <h2>3. Contenuti di terze parti: Google Maps</h2>
+    <p>
+        Nella homepage Ã¨ disponibile un pulsante per caricare la mappa interattiva di Google
+        Maps. La mappa non viene attivata automaticamente: l'utente deve cliccare esplicitamente
+        sul pulsante per visualizzarla.
+    </p>
+    <p>
+        Solo dopo il caricamento della mappa possono essere inviati dati a Google LLC e possono
+        essere impiegati cookie o tecnologie simili da parte di Google secondo le proprie
+        informative.
+    </p>
+    <ul>
+        <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Informativa privacy di Google</a></li>
+        <li><a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer">Informativa sui cookie di Google</a></li>
+    </ul>
+    <p>
+        Non abbiamo controllo diretto sui cookie impostati da Google nÃ© sulla gestione dei dati
+        da parte di terze parti.
+    </p>
+
+    <h2>4. Come gestire i cookie dal browser</h2>
+    <p>
+        Puoi in qualsiasi momento eliminare i cookie giÃ  memorizzati o impedirne la registrazione
+        dalle impostazioni del tuo browser. Le procedure variano a seconda del browser utilizzato.
+        Consulta le guide ufficiali di Google Chrome, Mozilla Firefox, Safari o Microsoft Edge.
+    </p>
+
+    <h2>5. Contatti</h2>
+    <p>
+        Per qualsiasi domanda su questa Cookie Policy puoi scrivere a:
+        <a data-legal-field-href="emailPrivacy" data-legal-field="emailPrivacy" href="mailto:" aria-label="Scrivici per domande sulla cookie policy"></a>.
+    </p>
+    <p>
+        Per informazioni piÃ¹ generali sul trattamento dei dati personali, consulta la
+        <a href="./privacy.html">Privacy Policy</a>.
+    </p>
+</article>
+
+<footer id="footer">
+    <div class="footer-inner">
+
+        <div class="footer-affiliation">
+            <span class="footer-affiliation-title">Affiliazione ente sportivo</span>
+            <img src="./media/loghi/Logo-ASI.webp" alt="logo asi" loading="lazy" width="auto" height="72">
+            <span class="footer-asi-subnum">Tessera/Affiliazione [DA CONFERMARE] A0000000</span>
+        </div>
+
+        <address class="footer-brand">
+            <span class="footer-brand-name">DŨNG SĨ Academy</span>
+
+        </address>
+
+        <nav class="footer-social" aria-label="Social media">
+            <p class="footer-social-title" aria-hidden="true">Seguici sui Social</p>
+            <ul class="footer-social-icons" role="list">
+
+                <li style="--hover-color: #1877F2;">
+                    <a href="https://facebook.com/dungsiacademy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Seguici su Facebook"
+                    class="social-link"
+                    >
+                    <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li style="--hover-color: #E1306C;">
+                <a href="https://instagram.com/..."
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Seguici su Instagram"
+                class="social-link"
+                >
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li style="--hover-color: #000000;">
+            <a href="https://tiktok.com/@..."
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Seguici su TikTok"
+            class="social-link"
+            data-platform="tiktok">
+            <i class="fab fa-tiktok" aria-hidden="true"></i>
+        </a>
+    </li>
+    <li style="--hover-color: #FF0000;">
+        <a href="https://youtube.com/..."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Seguici su YouTube"
+        class="social-link"
+        >
+        <i class="fab fa-youtube" aria-hidden="true"></i>
+    </a>
+</li>
+<li style="--hover-color: #25D366;">
+    <a href="https://wa.me/39..."
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Seguici su WhatsApp"
+    class="social-link"
+    >
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+
+<div class="footer-legal">
+    <div class="footer-legal-info"><span>[DA CONFERMARE: denominazione legale completa, es. A.S.D. DŨNG SĨ Academy]</span><span>C.F. [DA CONFERMARE]</span><span>P.IVA [DA CONFERMARE, se presente]</span><span>Sede legale: [DA CONFERMARE], [DA CONFERMARE] [DA CONFERMARE]</span><span>Legale rappresentante: [DA CONFERMARE: nome del Presidente/legale rappresentante]</span><span>[DA CONFERMARE: n. iscrizione RUNTS o registro CONI/ente affiliante]</span></div>
+    <nav class="footer-legal-links" aria-label="Informazioni legali">
+        <a href="./privacy.html">Privacy Policy</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="./cookie.html">Cookie Policy</a>
+    </nav>
+</div>
+<div class="footer-copyright">
+    <small>&copy; 2026 DŨNG SĨ Academy. Tutti i diritti riservati.</small>
+</div></footer>
+</body>
 
 </html>
