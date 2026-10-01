@@ -116,3 +116,7 @@ fi
 echo ""
 echo "Fatto. Struttura generata in: ${OUTROOT}/"
 find "$OUTROOT" -type f | sort
+
+echo ""
+echo "Per usare il logo nel sito aggiungi in building/data/brand.json (logo.loghi):"
+echo "  { \"name\": \"$(basename "$OUTROOT")\", \"alt\": \"descrizione del logo\" }"

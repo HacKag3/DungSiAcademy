@@ -1,0 +1,46 @@
+{{!--
+    Annunci: letti a runtime da contenuti/annunci.json (modificabili anche
+    su main, senza rebuild). js/pages/index/announcements.js riempie la sezione
+    clonando questi <template> e i campi con data-campo (le chiavi di annunci.json).
+--}}
+<div id="sezione-annunci"></div>
+
+<template id="tpl-annunci">
+    <label><i class="fa-solid fa-bullhorn"></i> Annunci</label>
+    <div class="fade-content">
+        <div class="carousel-wrapper" id="carouselWrapper">
+            <div class="carousel-track"></div>
+        </div>
+        <section id="annuncio-dettaglio" class="annuncio-dettaglio" hidden aria-live="polite" aria-modal="true" role="dialog"></section>
+    </div>
+</template>
+
+<template id="tpl-annuncio-card">
+    <div class="annuncio-card">
+        <h2 data-campo="titolo"></h2>
+        <span class="annuncio-data annuncio-evento-data">
+            <i class="far fa-calendar-check" aria-hidden="true"></i>
+            <span data-campo="dataEvento"></span>
+        </span>
+        <p data-campo="testo"></p>
+        <div class="annuncio-footer">
+            <span class="annuncio-data annuncio-pubblicazione-data">
+                <i class="far fa-clock" aria-hidden="true"></i>
+                <span>Pubblicato il <span data-campo="dataPubblicazione"></span></span>
+            </span>
+            <button type="button" class="annuncio-apri" aria-controls="annuncio-dettaglio" aria-expanded="false">Dettagli</button>
+        </div>
+    </div>
+</template>
+
+<template id="tpl-annuncio-dettaglio">
+    <div class="annuncio-dettaglio-box">
+        <button type="button" class="annuncio-chiudi" aria-label="Chiudi dettaglio">&times;</button>
+        <div class="annuncio-dettaglio-date">
+            <span class="annuncio-dettaglio-data"><i class="far fa-calendar-check" aria-hidden="true"></i> Evento: <span data-campo="dataEvento"></span></span>
+            <span class="annuncio-dettaglio-data annuncio-pubblicazione-data"><i class="far fa-clock" aria-hidden="true"></i> Pubblicato il <span data-campo="dataPubblicazione"></span></span>
+        </div>
+        <h2 data-campo="titolo"></h2>
+        <div class="annuncio-dettaglio-contenuto" aria-live="polite" data-errore="Il dettaglio non è momentaneamente disponibile.">Caricamento...</div>
+    </div>
+</template>

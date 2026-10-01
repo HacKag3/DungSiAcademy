@@ -1,6 +1,16 @@
-import { loadData, buildAnnouncements } from "../../data-loader.js";
-import { escapeHtml } from "../../utilities/utils.js";
+import { clonaTemplate, riempi } from "../../utilities/template.js";
 import { setupDettaglio } from "./annuncioDettaglio.js";
+
+// Annunci letti a runtime da contenuti/annunci.json (le pagine di dettaglio sono
+// in contenuti/annunci/): si aggiornano anche su main, senza rebuild.
+// Il markup è nei <template> di building/pages/index/annunci.html.
+const ANNUNCI_URL = "contenuti/annunci.json";
+
+async function caricaAnnunci() {
+    const res = await fetch(ANNUNCI_URL, { cache: "no-cache" });
+    if (!res.ok) throw new Error(`HTTP ${res.status} caricando ${ANNUNCI_URL}`);
+    return res.json();
+}
 
 async function verificaFileDettaglio(annunciAttivi) {
     return Promise.all(
@@ -8,7 +18,7 @@ async function verificaFileDettaglio(annunciAttivi) {
             let fileEsiste = false;
             if (a.dettaglioUrl && String(a.dettaglioUrl).trim()) {
                 try {
-                    const res = await fetch(a.dettaglioUrl, { method: "HEAD" });
+                    const res = await fetch(a.dettaglioUrl, { method: "HEAD", cache: "no-cache" });
                     fileEsiste = res.ok;
                 } catch {
                     fileEsiste = false;
@@ -19,49 +29,31 @@ async function verificaFileDettaglio(annunciAttivi) {
     );
 }
 
-function renderCard(a) {
-    return `
-        <div class="annuncio-card">
-            <h2>${escapeHtml(a.titolo)}</h2>
-            <span class="annuncio-data annuncio-evento-data"><i class="far fa-calendar-check" aria-hidden="true"></i>
-            <span> ${escapeHtml(a.data)}</span></span>
-            <p>${escapeHtml(a.testo)}</p>
-            <div class="annuncio-footer">
-                <span class="annuncio-data annuncio-pubblicazione-data"><i class="far fa-clock" aria-hidden="true"></i><span>Pubblicato il ${escapeHtml(a.dataPubblicazione)}</span></span>
-                ${a.fileEsiste ? `
-                    <button type="button" class="annuncio-apri" data-annuncio-id="${escapeHtml(a.id)}" aria-controls="annuncio-dettaglio" aria-expanded="false">
-                        Dettagli
-                    </button>
-                ` : ""}
-            </div>
-        </div>`;
+function creaCard(annuncio) {
+    const card = riempi(clonaTemplate("tpl-annuncio-card"), annuncio);
+    const apri = card.querySelector(".annuncio-apri");
+    if (annuncio.fileEsiste) {
+        apri.dataset.annuncioId = annuncio.id;
+    } else {
+        apri.remove();
+    }
+    return card;
 }
-
 
 export async function initAnnouncements() {
     const annunciContainer = document.getElementById("sezione-annunci");
     if (!annunciContainer) return;
 
-    const annunci = buildAnnouncements(await loadData("annunci"));
-    const annunciAttivi = annunci.filter(a => a.attivo);
+    const annunciAttivi = (await caricaAnnunci()).filter(a => a.attivo);
     if (annunciAttivi.length === 0) {
         annunciContainer.style.display = "none";
         return;
     }
 
-    const annunciConVerifica = await verificaFileDettaglio(annunciAttivi);
+    const annunci = await verificaFileDettaglio(annunciAttivi);
 
-    annunciContainer.innerHTML = `
-        <label><i class="fa-solid fa-bullhorn"></i> Annunci</label>
-        <div class="fade-content">
-            <div class="carousel-wrapper" id="carouselWrapper">
-                <div class="carousel-track">
-                    ${annunciConVerifica.map(renderCard).join("")}
-                </div>
-            </div>
-            <section id="annuncio-dettaglio" class="annuncio-dettaglio" hidden aria-live="polite" aria-modal="true" role="dialog"></section>
-        </div>
-    `;
+    annunciContainer.replaceChildren(clonaTemplate("tpl-annunci"));
+    annunciContainer.querySelector(".carousel-track").append(...annunci.map(creaCard));
 
     const dettaglio = setupDettaglio(annunciContainer);
 

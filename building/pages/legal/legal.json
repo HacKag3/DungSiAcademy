@@ -1,0 +1,16 @@
+{
+    "pages": [
+        {
+            "output": "privacy.html",
+            "template": "privacy.html",
+            "title": "Privacy Policy",
+            "description": "Informativa sul trattamento dei dati personali della DŨNG SĨ Academy."
+        },
+        {
+            "output": "cookie.html",
+            "template": "cookie.html",
+            "title": "Cookie Policy",
+            "description": "Informativa sui cookie e sui contenuti di terze parti utilizzati dal sito della DŨNG SĨ Academy."
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{{!-- Dati legali (data/legale.json) e link a privacy e cookie policy. --}}
+<div class="footer-legal">
+    {{#if righe}}
+    <div class="footer-legal-info">
+        {{#each righe}}
+        <span>{{this}}</span>
+        {{/each}}
+    </div>
+    {{/if}}
+    <nav class="footer-legal-links" aria-label="Informazioni legali">
+        <a href="./privacy.html">Privacy Policy</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="./cookie.html">Cookie Policy</a>
+    </nav>
+</div>

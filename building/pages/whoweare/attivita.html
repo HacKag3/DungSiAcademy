@@ -1,0 +1,8 @@
+{{!-- Attività di una disciplina (voce di activities in whoweare.json). --}}
+<div class="activity">
+    <h3 class="activity-title">{{{title}}}</h3>
+    {{#if carosello}}
+    {{> carosello numero=carosello classe="activity-media"}}
+    {{/if}}
+    <div class="activity-text">{{{text}}}</div>
+</div>

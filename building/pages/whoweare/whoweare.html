@@ -1,0 +1,26 @@
+{{!--
+    Chi Siamo: contenuti da data/whoweare.json. Ogni disciplina è un argomento
+    (argomento.html) con le sue attività (attivita.html); js/pages/whoweare/whoweare.js
+    commuta solo i tab.
+--}}
+<article id="page-content">
+    <div id="descrizione">{{{whoweare.intro.text}}}</div>
+
+    <div id="topicSelector" role="tablist" aria-label="Seleziona argomento">
+        <ul>
+            {{#each argomenti}}
+            <li class="{{#unless attivo}}off{{/unless}}">
+                <button type="button" class="topic-btn" role="tab" aria-selected="{{attivo}}" aria-controls="topic-{{key}}" id="topic-tab-{{indice}}" data-topic-index="{{indice}}">{{tabLabel}}</button>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <div id="topicsContainer">
+        {{#each argomenti}}
+        {{> argomento}}
+        {{/each}}
+    </div>
+
+    {{> carosello/modelli}}
+</article>

@@ -1,0 +1,13 @@
+{{!-- Contatti utili (data/contatti.json, nel build) e team (contenuti/personale.json, a runtime). --}}
+<article id="page-content">
+    <section id="contatti-utili" class="useful-contacts-section">
+        <label class="lb_title">Contatti Utili</label>
+        <div class="useful-contacts-list">
+            {{#each contattiUtili}}
+            {{> contatto}}
+            {{/each}}
+        </div>
+    </section>
+
+    {{> team}}
+</article>

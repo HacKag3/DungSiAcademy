@@ -3,6 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "node building/build.mjs"
+        "build": "node building/build.mjs",
+        "icone": "node building/icons/genera.mjs"
     }
 }

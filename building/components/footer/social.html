@@ -1,0 +1,17 @@
+{{!--
+    Icone social: lette a runtime da contenuti/social.json (modificabile anche
+    su main, senza rebuild). js/main_comp/social.js clona il <template> per ogni
+    voce con un url e mostra il blocco solo se ce n'è almeno una.
+--}}
+<nav class="footer-social" aria-label="Social media" hidden>
+    <p class="footer-social-title" aria-hidden="true">Seguici sui Social</p>
+    <ul class="footer-social-icons" role="list"></ul>
+</nav>
+
+<template id="tpl-social">
+    <li>
+        <a target="_blank" rel="noopener noreferrer" class="social-link" data-aria="Seguici su">
+            <i aria-hidden="true"></i>
+        </a>
+    </li>
+</template>

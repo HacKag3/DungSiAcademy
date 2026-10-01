@@ -1,0 +1,88 @@
+{{!--
+    Orari delle lezioni: letti a runtime da contenuti/corsi.json (modificabili
+    anche su main, senza rebuild). js/pages/index/orari.js costruisce la sezione
+    clonando questi <template> (data-campo = chiavi di corsi.json) e poi commuta
+    discipline e fasce d'età.
+--}}
+<section id="orari">
+    <label class="lb_title"><i class="fa-solid fa-clock"></i> Orari delle Lezioni</label>
+
+    <div class="orari-contenuto"></div>
+    <p class="orari-errore" hidden>Gli orari non sono momentaneamente disponibili: contattaci per informazioni.</p>
+</section>
+
+<template id="tpl-orari">
+    <div class="schedule-layout">
+        <div class="discipline-panel schedule-selector-group">
+            <span class="schedule-panel-kicker" id="schedule-selection-kicker">Il tuo percorso</span>
+            <span class="schedule-selector-label" id="schedule-discipline-label">Disciplina</span>
+            <div class="selector" aria-label="Seleziona disciplina">
+                <ul id="disciplina-selector-menu" role="tablist"></ul>
+            </div>
+        </div>
+
+        <div class="schedule-results">
+            <div class="schedule-selector-group age-selector">
+                <span class="schedule-selector-label" id="schedule-age-label">Fascia d'età</span>
+                <div class="selector" aria-label="Seleziona fascia d'età"></div>
+            </div>
+
+            <div class="content">
+                <span class="schedule-panel-kicker" id="schedule-results-kicker">Programma settimanale</span>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="tpl-orari-disciplina">
+    <li>
+        <button type="button" class="topic-btn" role="tab">
+            <i aria-hidden="true"></i>
+            <span data-campo="titolo"></span>
+        </button>
+    </li>
+</template>
+
+<template id="tpl-orari-descrizione">
+    <p class="discipline-description" data-campo="descrizione"></p>
+</template>
+
+<template id="tpl-orari-menu-fasce">
+    <ul class="orari-selector-menu" role="tablist"></ul>
+</template>
+
+<template id="tpl-orari-fascia-tab">
+    <li>
+        <button type="button" class="topic-btn" role="tab" data-campo="nome"></button>
+    </li>
+</template>
+
+<template id="tpl-orari-stato">
+    <div class="orari-state"></div>
+</template>
+
+<template id="tpl-orari-fascia">
+    <div class="category-state" role="tabpanel">
+        <p class="schedule-description" data-campo="descrizione"></p>
+        <div class="schedule-table-card">
+            <h3 data-campo="disciplina"></h3>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th class="giorno" scope="col">Giorno</th>
+                        <th scope="col">Orario</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <p class="schedule-empty">Nessun corso disponibile per questa disciplina e fascia d'età.</p>
+        </div>
+    </div>
+</template>
+
+<template id="tpl-orari-riga">
+    <tr>
+        <th class="giorno" scope="row" data-campo="giorno"></th>
+        <td class="orario-disciplina" data-campo="ora"></td>
+    </tr>
+</template>

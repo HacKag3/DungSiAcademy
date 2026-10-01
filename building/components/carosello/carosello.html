@@ -1,0 +1,7 @@
+{{!--
+    Segnaposto di un carosello: js/utilities/carosello.js lo riempie a runtime
+    con le immagini di media/caroselli/<numero>_<nome>/ (vedi i manifest.json).
+    Uso: {{> carosello numero=3}} oppure {{> carosello numero=3 classe="activity-media"}}.
+    La pagina deve includere una volta {{> carosello/modelli}}.
+--}}
+<section id="carosello{{numero}}" class="{{#if classe}}{{classe}} {{/if}}slideshow"></section>

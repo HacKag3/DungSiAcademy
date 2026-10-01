@@ -1,41 +1,30 @@
 const ANCHOR_SELECTOR = 'a[href^="#"]';
-const HIGHLIGHT_CLASS = "highlight-pulse";
+const HIGHLIGHT_CLASS = "highlight-section";
+const HIGHLIGHT_MS = 1500;
 const SCROLL_OFFSET = 80;
 const SCROLL_ANIM_MS = 800;
 
-let currentTarget = null;
+// Sezione evidenziata in corso.
+let current = null;
+let clearTimer = null;
 
-function findTitleElement(hash) {
-    const targetId = hash.substring(1);
-    if (!targetId) return null;
-
-    const target = document.getElementById(targetId);
-    if (!target) return null;
-
-    return target.querySelector(".lb_title") || target;
-}
-
-function clearHighlight(el) {
-    if (!el) return;
-    el.classList.remove(HIGHLIGHT_CLASS);
-}
-
-function applyHighlight(titleEl) {
-    clearHighlight(currentTarget);
-    currentTarget = titleEl;
-    titleEl.classList.add(HIGHLIGHT_CLASS);
-    setTimeout(() => clearHighlight(titleEl), 1500);
+function clearHighlight() {
+    if (!current) return;
+    current.classList.remove(HIGHLIGHT_CLASS);
+    current = null;
+    clearTimeout(clearTimer);
 }
 
 function highlightSection(hash) {
-    if (!hash) {
-        clearHighlight(currentTarget);
-        currentTarget = null;
-        return;
-    }
+    clearHighlight();
+    const section = hash && hash.length > 1 ? document.getElementById(hash.substring(1)) : null;
+    if (!section) return;
 
-    const titleEl = findTitleElement(hash);
-    if (titleEl) applyHighlight(titleEl);
+    // Rilegge il layout per far ripartire l'animazione anche sulla stessa sezione.
+    void section.offsetWidth;
+    section.classList.add(HIGHLIGHT_CLASS);
+    current = section;
+    clearTimer = setTimeout(clearHighlight, HIGHLIGHT_MS);
 }
 
 function handleHashChange() {
@@ -61,7 +50,7 @@ function onLinkClick(e) {
     const target = document.getElementById(href.substring(1));
     if (!target) return;
 
-        e.preventDefault();
+    e.preventDefault();
     scrollToHash(href);
 
     setTimeout(() => highlightSection(href), SCROLL_ANIM_MS);

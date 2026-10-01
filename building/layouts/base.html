@@ -1,0 +1,40 @@
+{{!--
+    Layout delle pagine del sito: <head> completo, header, footer.
+    {{{content}}} è il contenuto della pagina (building/pages/<nome>/<nome>.html).
+    CSS e JS della pagina (page.css / page.js) si collegano da soli se esistono
+    css/pages/<nome>/<nome>.css e js/pages/<nome>/<nome>.js.
+--}}
+<!DOCTYPE html>
+<html lang="{{sito.lang}}">
+
+<head>
+    {{> head}}
+
+    <link rel="canonical" href="{{page.url}}" />
+
+    <script type="module" src="{{page.base}}js/main.js"></script>
+    {{#if page.css}}
+    <link rel="stylesheet" href="{{page.css}}" type="text/css" />
+    {{/if}}
+    {{#if page.js}}
+    <script type="module" src="{{page.js}}"></script>
+    {{/if}}
+    {{#if page.jsonLd}}
+
+    {{> head/json-ld}}
+    {{/if}}
+</head>
+
+<body>
+    <div class="bg-layer"></div>
+
+    {{> header}}
+
+    {{> avviso-sviluppo}}
+
+    {{{content}}}
+
+    {{> footer}}
+</body>
+
+</html>

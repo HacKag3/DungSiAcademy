@@ -114,7 +114,7 @@ body > *:not(header) {
     background: 
         radial-gradient(ellipse at 20% 20%, var(--accent-glow) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 80%, var(--accent2-glow) 0%, transparent 50%),
-        url("../media/bg.svg") no-repeat center / cover;
+        url("../media/bg.webp") no-repeat center / cover;
     transform-origin: center;
     opacity: 0.13;
     filter: invert(1);

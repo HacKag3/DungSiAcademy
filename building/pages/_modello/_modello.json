@@ -1,0 +1,7 @@
+{
+    "output": "modello.html",
+    "title": "Titolo della pagina",
+    "description": "Descrizione della pagina per i motori di ricerca.",
+    "nav": { "label": "Voce di menu", "order": 4 },
+    "sitemap": { "priority": "0.5", "changefreq": "monthly" }
+}

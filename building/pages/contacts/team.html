@@ -1,0 +1,38 @@
+{{!--
+    Team: letto a runtime da contenuti/personale.json (modificabile anche su
+    main, senza rebuild). js/pages/contacts/team.js clona questi <template>:
+    i campi con data-campo prendono le chiavi della persona, gli elementi
+    facoltativi senza valore vengono tolti.
+--}}
+<section id="team" class="team-section">
+    <label class="lb_title">Il Nostro Team</label>
+    <div class="team-list"></div>
+</section>
+
+<template id="tpl-persona">
+    <div class="person-row">
+        <div class="person-photo">
+            <img alt="" loading="lazy" data-segnaposto-m="./media/persone/placeholder-uomo.webp" data-segnaposto-f="./media/persone/placeholder-donna.webp">
+        </div>
+        <div class="person-info">
+            <p class="person-title" data-campo="titolo"></p>
+            <h2 class="person-name" data-campo="nomeCompleto"></h2>
+            <p class="person-role" data-campo="ruolo"></p>
+            <ul class="person-other-roles" aria-label="Altri ruoli"></ul>
+            <p class="person-desc" data-campo="descrizione"></p>
+            <div class="person-contacts"></div>
+        </div>
+    </div>
+</template>
+
+<template id="tpl-persona-ruolo">
+    <li></li>
+</template>
+
+<template id="tpl-persona-telefono">
+    <a class="contact-link" data-aria="Chiama"><i class="fas fa-phone-alt" aria-hidden="true"></i><span data-campo="testo"></span></a>
+</template>
+
+<template id="tpl-persona-email">
+    <a class="contact-link" data-aria="Scrivi a"><i class="fas fa-envelope" aria-hidden="true"></i><span data-campo="testo"></span></a>
+</template>

@@ -12,6 +12,10 @@ const debounce = (fn, wait) => {
     return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), wait); };
 };
 
+// Quando manca spazio per il menu desktop:
+//  1. si nascondono i loghi secondari (classe "no-extra-logos");
+//  2. se ancora non basta si passa al burger ("nav-fallback"): logo principale
+//     e titolo restano soli, centrati.
 function checkDesktopFit(headerEl) {
     const titleEl = document.getElementById("titolo");
     const navEl = document.querySelector(".desktop-nav");
@@ -20,13 +24,21 @@ function checkDesktopFit(headerEl) {
         return;
     }
 
-    headerEl.classList.remove("nav-fallback");
+    // Spazio tra la fine del titolo e il bordo interno destro dell'header (padding escluso).
+    const MIN_GAP = 32;
+    const navFits = () => {
+        const paddingRight = parseFloat(getComputedStyle(headerEl).paddingRight) || 0;
+        const free = headerEl.clientWidth - paddingRight - (titleEl.offsetLeft + titleEl.offsetWidth);
+        return navEl.offsetWidth + MIN_GAP <= free;
+    };
 
-    const spaceAvailable = headerEl.offsetWidth
-        - (titleEl.offsetLeft + titleEl.offsetWidth)
-        - 20;
+    headerEl.classList.remove("nav-fallback", "no-extra-logos");
+    if (navFits()) return;
 
-    headerEl.classList.toggle("nav-fallback", navEl.offsetWidth > spaceAvailable);
+    headerEl.classList.add("no-extra-logos");
+    if (navFits()) return;
+
+    headerEl.classList.add("nav-fallback");
 }
 
 export async function loadHeader() {
@@ -53,6 +65,11 @@ export async function loadHeader() {
             requestAnimationFrame(() => checkDesktopFit(headerEl));
         });
     }
+
+    // La larghezza dei loghi è nota solo a immagine caricata: si ricontrolla.
+    headerEl.querySelectorAll("#titolo img").forEach((img) => {
+        if (!img.complete) img.addEventListener("load", () => { if (!isMobile()) checkDesktopFit(headerEl); }, { once: true });
+    });
 
     initSmartHeader(headerEl, burgerEl);
 

@@ -25,17 +25,35 @@ footer::before {
     width: 100%;
     margin-inline: auto;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    /* Colonne laterali uguali: il nome del brand resta al centro della pagina. */
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: var(--space-2xl);
+}
+
+.footer-affiliations {
+    justify-self: start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+}
+
+.footer-affiliation-title {
+    font-size: 0.7em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--f2_color);
 }
 
 .footer-affiliation {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-    padding: var(--space-lg);
+    align-items: stretch;
+    gap: var(--space-sm);
+    width: min(100%, 15rem);
+    padding: var(--space-sm);
     border-radius: var(--radius-lg);
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -49,32 +67,36 @@ footer::before {
     box-shadow: var(--shadow-md);
 }
 
+/* Il logo mantiene le sue proporzioni (quello ASI è largo circa 2:1). */
 .footer-affiliation img {
-    max-width: 80px;
+    display: block;
     width: 100%;
     height: auto;
-    max-height: 50px;
+    max-height: 8rem;
     object-fit: contain;
-    opacity: 0.85;
-    transition: opacity var(--transition-base);
+    border-radius: var(--radius-md);
 }
 
-.footer-affiliation:hover img {
-    opacity: 1;
+.footer-affiliation-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15em;
+    min-width: 0;
+    padding: 0 var(--space-xs) var(--space-xs);
 }
 
-.footer-affiliation-title {
-    font-size: 0.7em;
+.footer-affiliation-label {
+    font-size: 0.65em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--f2_color);
+    color: var(--f3_color);
 }
 
-.footer-asi-subnum {
-    font-size: 0.8em;
-    color: var(--f2_color);
-    opacity: 0.6;
+.footer-affiliation-number {
+    font-size: 0.85em;
+    color: var(--f_color);
+    overflow-wrap: anywhere;
 }
 
 .footer-brand {
@@ -123,10 +145,16 @@ footer::before {
 }
 
 .footer-social {
+    justify-self: end;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: var(--space-md);
+}
+
+/* Nascosto finché js/main_comp/social.js non trova almeno un social con url. */
+.footer-social[hidden] {
+    display: none;
 }
 
 .footer-social-title {
@@ -251,12 +279,14 @@ footer::before {
         gap: var(--space-xl);
     }
 
-    .footer-affiliation {
+    .footer-affiliations,
+    .footer-social {
+        justify-self: center;
         align-items: center;
     }
 
-    .footer-social {
-        align-items: center;
+    .footer-affiliation {
+        text-align: left;
     }
 
     .footer-social-icons {
@@ -291,12 +321,6 @@ footer::before {
 @media (max-width: 768px) {
     footer {
         padding: var(--space-2xl) var(--space-lg) var(--space-lg);
-    }
-
-    .footer-affiliation {
-        width: 100%;
-        max-width: 280px;
-        margin-inline: auto;
     }
 
     .footer-brand-name {

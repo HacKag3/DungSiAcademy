@@ -15,7 +15,7 @@ if [ "$CURRENT_BRANCH" = "main" ]; then
 fi
 
 # 2. Se siamo su dev (o altro branch), esegue il build automatico
-echo "Rigenero gli html da building/pages_template..."
+echo "Rigenero il sito da building/..."
 node building/build.mjs
 
 if [ $? -ne 0 ]; then
@@ -23,8 +23,9 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 3. Aggiunge i file HTML generati nella root e i file ausiliari (sitemap, robots)
-git add index.html contacts.html whoweare.html privacy.html cookie.html sitemap.xml robots.txt
+# 3. Aggiunge al commit tutto ciò che il build genera nella root:
+#    le pagine html (anche quelle di errore) e i file ausiliari di building/files/.
+git add -- ':(glob)*.html' $(ls building/files | grep -v '\.mjs$')
 
 echo "✅ Build completata, file rigenerati inclusi nel commit."
 exit 0

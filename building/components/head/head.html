@@ -1,0 +1,15 @@
+{{!-- <head> comune a tutte le pagine: meta, icone, anteprime social e CSS globali. --}}
+<meta charset="UTF-8">
+
+<title>{{page.titleTag}}</title>
+
+<meta name="author" content="{{sito.author}}" />
+<meta name="description" content="{{page.description}}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{{> icone}}
+
+{{> open-graph}}
+
+<link rel="stylesheet" href="{{page.base}}font/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="{{page.base}}css/comune.css" type="text/css" />

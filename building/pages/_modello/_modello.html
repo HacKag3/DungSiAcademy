@@ -1,0 +1,17 @@
+{{!--
+    Pagina di esempio: il build la ignora perché la cartella inizia con "_".
+
+    Per creare una nuova pagina:
+      1. copia questa cartella in building/pages/<nome>/ e rinomina i file in <nome>.*;
+      2. in <nome>.json imposta output, title, description e (se serve) la voce di menu "nav";
+      3. scrivi qui il contenuto. Ogni sezione può vivere in un suo file della
+         cartella (es. sezione.html) da includere con: {{> sezione}}
+      4. <nome>.mjs è facoltativo: prepara dati aggiuntivi per questo template;
+      5. se esistono, css/pages/<nome>/<nome>.css e js/pages/<nome>/<nome>.js
+         vengono collegati alla pagina in automatico.
+--}}
+<article id="page-content">
+    <label class="lb_title">{{page.title}}</label>
+
+    <p>{{testo}}</p>
+</article>

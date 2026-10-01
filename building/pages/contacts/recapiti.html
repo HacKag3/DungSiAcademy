@@ -1,0 +1,9 @@
+{{!-- Telefono ed email di un contatto o di una persona; etichetta = nome usato negli aria-label. --}}
+<div class="person-contacts">
+    {{#with recapiti.tel}}
+    <a class="contact-link" href="tel:{{href}}" aria-label="Chiama {{../etichetta}}"><i class="fas fa-phone-alt" aria-hidden="true"></i><span>{{testo}}</span></a>
+    {{/with}}
+    {{#if recapiti.mail}}
+    <a class="contact-link" href="mailto:{{recapiti.mail}}" aria-label="Scrivi a {{etichetta}}"><i class="fas fa-envelope" aria-hidden="true"></i><span>{{recapiti.mail}}</span></a>
+    {{/if}}
+</div>

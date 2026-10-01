@@ -144,8 +144,5 @@ Write-Host ""
 Write-Host "Ricorda di controllare visivamente favicon-16x16.png a dimensione reale:"
 Write-Host "se il dettaglio del logo si perde, considera una versione semplificata."
 Write-Host ""
-Write-Host "Percorsi da usare nell'HTML (adatta il prefisso alla tua struttura sito):"
-Write-Host '  /icons/favicon/favicon-32x32.png'
-Write-Host '  /icons/apple/apple-touch-icon.png'
-Write-Host '  /icons/android/icon-192x192.png'
-Write-Host '  /icons/windows/mstile-150x150.png'
+Write-Host "Per usare il logo nel sito aggiungi in building/data/brand.json (logo.loghi):"
+Write-Host "  { `"name`": `"$(Split-Path $OutRoot -Leaf)`", `"alt`": `"descrizione del logo`" }"

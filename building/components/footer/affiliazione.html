@@ -1,0 +1,15 @@
+{{!-- Enti a cui la scuola è affiliata: data/associazioni.json (un riquadro per voce). --}}
+<div class="footer-affiliations">
+    <span class="footer-affiliation-title">Affiliazione ente sportivo</span>
+    {{#each associazioni}}
+    <div class="footer-affiliation">
+        <img src="{{logo}}" alt="{{alt}}" loading="lazy" width="auto" height="72">
+        {{#if tessera}}
+        <div class="footer-affiliation-info">
+            <span class="footer-affiliation-label">Tessera</span>
+            <span class="footer-affiliation-number">{{tessera}}</span>
+        </div>
+        {{/if}}
+    </div>
+    {{/each}}
+</div>

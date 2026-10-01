@@ -164,18 +164,36 @@ header.nav-visible {
         display: none;
     }
 
+    /* Loghi secondari solo se c'è spazio: in modalità burger restano logo
+       principale e titolo, centrati (vedi checkDesktopFit in header.js). */
+    header.no-extra-logos .header-logo-extra {
+        display: none;
+    }
+
+    /* Centrato su tutta la larghezza, lasciando su entrambi i lati lo spazio
+       del burger: così logo e nome restano al centro senza sovrapporsi. */
     header.nav-fallback #titolo {
         position: absolute;
-        left: 50%;
+        inset-inline: 0;
         top: 50%;
-        transform: translate(-50%, -50%);
+        transform: translateY(-50%);
+        width: fit-content;
+        max-width: calc(100% - 2 * (var(--burger-size) * 1.5 + 1rem));
+        margin-inline: auto;
+    }
+
+    /* Il nome resta su una riga (andando a capo il testo non sarebbe più
+       centrato) e si rimpicciolisce solo quanto serve: è largo ~14 volte il
+       carattere, 24rem sono burger, logo e margini. */
+    header.nav-fallback .header-brand-name {
+        white-space: nowrap;
+        font-size: min(2.75em, calc((100vw - 24rem) / 14));
     }
 }
 
 @media (max-width: 767px) {
     header {
         padding-left: calc(var(--burger-size) * 1.5 + 1rem);
-        padding-right: 1rem;
         padding-top: 0;
         padding-bottom: 0;
     }

@@ -1,0 +1,17 @@
+{{!-- Riga di un contatto utile. --}}
+<div class="useful-contact-row" id="contatto-{{id}}">
+    <div class="useful-contact-icon"><i class="{{icon}}" aria-hidden="true"></i></div>
+    <div class="useful-contact-text">
+        <h3 class="useful-contact-title">{{titolo}}</h3>
+        {{#if descrizione}}
+        <p class="useful-contact-desc">{{descrizione}}</p>
+        {{/if}}
+    </div>
+    <div class="useful-contact-actions">
+        {{#if recapiti}}
+        {{> recapiti etichetta=titolo}}
+        {{else}}
+        <span class="useful-contact-pending">In aggiornamento</span>
+        {{/if}}
+    </div>
+</div>
