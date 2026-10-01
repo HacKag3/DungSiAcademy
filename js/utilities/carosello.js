@@ -1,3 +1,8 @@
+import { clonaTemplate } from "./template.js";
+
+// Caroselli caricati a runtime (modificabili su main senza rebuild):
+// media/caroselli/manifest.json elenca le cartelle "<numero>_<nome>",
+// e il manifest.json di ogni cartella elenca le sue immagini.
 const CAROSELLI_ROOT = "./media/caroselli/";
 
 const carousels = new Map();
@@ -6,7 +11,7 @@ let folderIndexPromise = null;
 
 async function getFolderIndex() {
     if (!folderIndexPromise) {
-        folderIndexPromise = fetch(`${CAROSELLI_ROOT}manifest.json`)
+        folderIndexPromise = fetch(`${CAROSELLI_ROOT}manifest.json`, { cache: "no-cache" })
             .then(res => {
                 if (!res.ok) throw new Error("manifest.json dei caroselli non trovato");
                 return res.json();
@@ -34,7 +39,7 @@ async function getImages(caroselloNum) {
 
     const path = `${CAROSELLI_ROOT}${folderName}/`;
     try {
-        const res = await fetch(`${path}manifest.json`);
+        const res = await fetch(`${path}manifest.json`, { cache: "no-cache" });
         if (!res.ok) throw new Error("manifest non trovato");
         const files = await res.json();
         return files.map(name => `${path}${name}`);
@@ -44,43 +49,23 @@ async function getImages(caroselloNum) {
     }
 }
 
-function buildCarouselSkeleton() {
-    const arrowIcon = `
-        <svg viewBox="0 0 14 26">
-            <path d="M 9 20 l -9 -10 l 9 -10 l 5 2 l -7 8 l 7 8 z" />
-        </svg>`;
-
-    return `
-        <div class="slideshow-inner">
-            <div class="slides"></div>
-            <div class="pagination"></div>
-            <div class="arrows">
-                <button type="button" class="arrow prev" data-action="prev" aria-label="Slide precedente">
-                    ${arrowIcon}
-                </button>
-                <button type="button" class="arrow next" data-action="next" aria-label="Prossima slide">
-                    ${arrowIcon}
-                </button>
-            </div>
-        </div>
-    `;
+// Il markup viene dai <template> di building/components/carosello/modelli.html.
+function buildSlide(src, i, total) {
+    const slide = clonaTemplate("tpl-carosello-slide");
+    slide.querySelector(".slide").classList.toggle("is-active", i === 0);
+    const img = slide.querySelector("img");
+    img.src = src;
+    img.alt = `Immagine ${i + 1} di ${total}`;
+    img.loading = i === 0 ? "eager" : "lazy";
+    return slide;
 }
 
-function buildSlidesMarkup(images) {
-    return images.map((src, i) => `
-        <div class="slide ${i === 0 ? 'is-active' : ''}">
-            <div class="image-container">
-                <img src="${src}" alt="Immagine ${i + 1} di ${images.length}" class="image"
-                     loading="${i === 0 ? 'eager' : 'lazy'}"/>
-            </div>
-        </div>`).join("");
-}
-
-function buildPaginationMarkup(images) {
-    return images.map((_, i) => `
-        <button type="button" class="item ${i === 0 ? 'is-active' : ''}"
-                data-slide-index="${i}" aria-label="Vai alla slide ${i + 1}">
-        </button>`).join("");
+function buildPaginationItem(i) {
+    const item = clonaTemplate("tpl-carosello-punto").querySelector(".item");
+    item.classList.toggle("is-active", i === 0);
+    item.dataset.slideIndex = i;
+    item.setAttribute("aria-label", `Vai alla slide ${i + 1}`);
+    return item;
 }
 
 async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = {}) {
@@ -97,15 +82,15 @@ async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = 
     }
     root.hidden = false;
 
-    root.innerHTML = buildCarouselSkeleton();
+    root.replaceChildren(clonaTemplate("tpl-carosello"));
 
     const slidesEl = root.querySelector(".slides");
     const paginationEl = root.querySelector(".pagination");
 
-    slidesEl.innerHTML = buildSlidesMarkup(images);
+    slidesEl.append(...images.map((src, i) => buildSlide(src, i, images.length)));
 
     if (!simple && paginationEl) {
-        paginationEl.innerHTML = buildPaginationMarkup(images);
+        paginationEl.append(...images.map((_, i) => buildPaginationItem(i)));
     }
 
     const previous = carousels.get(caroselloNum);

@@ -1,99 +1,150 @@
 # DŨNG SĨ Academy
 
-Sito statico generato da template HTML e dati editoriali separati.
+Sito statico della scuola, generato da template HTML e da dati separati per argomento.
 
-## Modello: build minimo + dati a runtime
+## Due branch, due ruoli
 
-Il build (`npm run build`) integra negli HTML **solo ciò che deve essere
-presente a priori nel file**: SEO/meta, JSON-LD, struttura della pagina e
-navigazione. La navigazione viene iniettata ogni pagina come JSON
-(`#navigation-data`).
+- **dev**: sorgenti del sito. `building/` contiene dati, template, componenti e il
+  build che genera le pagine; `css/`, `js/`, `contenuti/`, `media/` e `font/` in
+  root sono il sito vero e proprio e si modificano direttamente.
+- **main**: solo il sito finito e stabile. Al push su main la GitHub Action
+  rigenera le pagine e rimuove `building/` e `package.json`. Su main si
+  modificano soltanto i contenuti che non richiedono un rebuild.
 
-Tutto il resto (brand, header/footer, orari, luogo, contatti, social, dati
-legali, team, pagina Chi Siamo) viene **compilato dal build direttamente
-nelle pagine** (`<script type="application/json" id="site-data">`):
-`js/data-loader.js` legge quel blocco inline, senza alcun fetch di contenuto.
+I contenuti modificabili su main (letti dal browser) sono separati per tipo:
 
-- modificare un file JSON richiede **un rebuild** per aggiornare le pagine;
-- unici contenuti ancora letti a runtime: gli annunci
-  (`media/annunci/annunci.json`, aggiornabili senza rebuild) e le immagini
-  dei caroselli (dai manifest in `media/caroselli/`).
-
-## Architettura del build
-
-`building/build.mjs` è l'orchestratore: richiama i sottomoduli dedicati in
-`building/build/`, ognuno con una responsabilità singola (utile per il
-versionamento del codice):
-
-| Sottomodulo | Responsabilità |
+| Cartella | Cosa contiene |
 |---|---|
-| `paths.mjs` | percorsi e costanti condivise (dir, file dati, colori, giorni IT→EN) |
-| `loadData.mjs` | caricamento dei JSON sorgente (`building/data/*.json`) |
-| `validate.mjs` | validazione dati (errore = build interrotto) + asset locali |
-| `transforms.mjs` | trasformazioni dati → config virtuale (runtime) + navigazione |
-| `schema.mjs` | frammenti JSON (`{{SCHEMA_*}}`: logo, indirizzo, geo, contatti, orari, sameAs) per il JSON-LD della home |
-| `tokens.mjs` | calcolo token SEO/meta/icone/JSON-LD (`{{JSON_LD_HOME}}`) + navigazione |
-| `render.mjs` | applicazione partial annidati e token nei template (con seconda passata per i token dentro il JSON-LD) |
-| `checks.mjs` | controllo token irrisolti, placeholder e SEO/output (JSON-LD unico solo in home, canonical, og:image) |
-| `output.mjs` | scrittura pagine + sitemap/robots/manifest (sola lettura) |
+| `contenuti/` | i dati: `annunci.json` (+ pagine di dettaglio in `contenuti/annunci/`), `corsi.json` (orari delle lezioni), `personale.json` (team: `ruolo` principale e `altriRuoli` facoltativi), `social.json` (icone social del footer) |
+| `media/` | solo immagini e i manifest delle immagini: foto del team in `media/persone/`, caroselli in `media/caroselli/<numero>_<nome>/` con il loro `manifest.json` (le cartelle sono elencate in `media/caroselli/manifest.json`), loghi, sfondo, copertina |
 
-Struttura dei partial (annidati, risolti in più passate dal builder):
+Le immagini usate nelle pagine di dettaglio degli annunci vanno comunque in
+`media/` (es. `media/annunci/foto.jpg`) e si richiamano con
+`src="./media/annunci/foto.jpg"`: il dettaglio viene inserito nella home, quindi i
+percorsi partono dalla root del sito.
+
+Il build usa anche `corsi.json` e `social.json` per i dati strutturati della
+home per Google (orari e profili social nel JSON-LD): una modifica fatta solo su
+main arriva lì al build successivo da dev.
+
+Su dev l'hook `.githooks/pre-commit` rigenera il sito e aggiunge al commit i
+file generati; su main blocca i commit che toccano `building/` o `package.json`
+(attivalo una volta con `git config core.hooksPath .githooks`).
+
+## Comandi
+
+```bash
+npm run build                  # genera le pagine html e i file ausiliari in root
+npm run icone -- <NomeLogo>    # genera le icone di building/grafica/loghi/<NomeLogo>.svg
+```
+
+Il build non ha dipendenze (serve solo Node). Un errore nei dati interrompe il
+build indicando file e campo; i valori `[DA CONFERMARE]` producono solo avvisi.
+I file generati in root sono in sola lettura: si modificano i sorgenti in `building/`.
+
+## Struttura di `building/`
 
 ```
-head-pages.html → head-common.html → icons.html
-head-error.html → head-common.html
-index.html include `{{JSON_LD_HOME}}` → partial `json-ld-home.html`
-(unico blocco `<script type="application/ld+json">` con la sola
-SportsActivityLocation della scuola, solo nella home)
-{{BODY_OPEN}} (partial body-open.html: bg-layer + header)
-(chiusura `<body>`/`<html>` con footer integrata direttamente in ogni template)
+building/
+├── build.mjs            orchestratore del build
+├── data/                contenuti del sito, un file per argomento
+├── layouts/             scheletro delle pagine: base.html (sito), error.html (errori)
+├── components/          componenti condivisi (head, header, footer, carosello, …)
+├── pages/               una cartella per pagina (o gruppo di pagine)
+├── files/               file ausiliari generati in root (robots, sitemap, manifest, …)
+├── grafica/             sorgenti grafici: loghi/*.svg e sfondo.svg (non pubblicati)
+├── icons/               script che generano le icone dei loghi
+└── lib/                 motore del build (di norma non serve toccarlo)
 ```
+
+Ogni elemento ha il suo file, con lo stesso nome per tutte le sue parti:
+
+| File | Contenuto |
+|---|---|
+| `nome.html` | markup del componente o della sezione |
+| `nome.mjs` | (facoltativo) prepara i dati per `nome.html` |
+| `nome.json` | (solo pagine) titolo, descrizione, menu e sitemap della pagina |
+
+CSS e JS non passano dal build: restano in root. Per ogni pagina il layout
+collega `css/comune.css` e `js/main.js` (elementi comuni, che importano header,
+footer e burger) più, se esistono, `css/pages/<pagina>/<pagina>.css` e
+`js/pages/<pagina>/<pagina>.js`, che importano a loro volta ciò che serve alla
+pagina (es. il carosello).
 
 ## Dove modificare cosa
 
-- `building/data/seo-data.json`: dominio, elenco delle pagine, titoli, descrizioni e pagina iniziale.
-	Impostare `nav: true` e `navLabel` per includere una pagina nella navigazione.
-- `building/data/settings.json`: brand (nome, logo e icone), dati legali, affiliazioni e
-	stringhe UI. (sorgente del build → inline nelle pagine)
-- `building/data/contatti.json`: social e contatti email utili. (sorgente del build → inline)
-- `building/data/corsi.json`: discipline e orari (in `disciplina[].fascia` con `giorni[].ora`)
-	e luogo della palestra. (sorgente del build → inline nella home)
-- `building/data/personale.json`: persone e profili del team. (sorgente del build → inline in Contatti)
-- `media/annunci/annunci.json`: annunci pubblicati (fetch a runtime, aggiornabili
-	senza rebuild; le pagine di dettaglio vivono nella stessa cartella).
-- `building/data/content/whoweare.json`: contenuti della pagina Chi Siamo e numeri dei caroselli
-	(`intro`, `disciplina[]` con `carosello` di introduzione e `activities[].carosello`).
-	(sorgente del build → inline in Chi Siamo)
-- `building/pages_template/`: template HTML tecnici delle pagine (il footer con
-	chiusura `<body>`/`<html>` è integrato direttamente in ogni template;
-	il `body-open.html` condiviso fornisce bg-layer + header).
-- `building/pages_template/_partials/`: blocchi HTML condivisi (head, body, ecc.).
-	Il JSON-LD vive solo nella home: `building/pages_template/index.html` include
-	`{{JSON_LD_HOME}}` dal file di facile modifica `json-ld-home.html`
-	(sola `SportsActivityLocation` della scuola); `schema.mjs` fornisce solo
-	i frammenti dati `{{SCHEMA_*}}` (indirizzo, orari, contatti, sameAs...).
-- `building/seo/`: sorgente tecnica di robots (`sitemap.xml` è generata
-	dinamicamente da `seo-data.json`: solo pagine senza `errorCode`, con
-	canonical `/` per la home, `lastmod` = data del build, `priority` e
-	`changefreq` per importanza).
-- `building/build.mjs`: orchestratore del build; la logica vive in `building/build/*.mjs`.
-- `building/build/`: sottomoduli del generatore (paths, loadData, validate, transforms, schema, tokens, render, checks, output).
-- `js/data-loader.js`: legge i dati inline che il build incorpora in ogni pagina
-	(`<script type="application/json" id="site-data">`: nessun fetch per il
-	contenuto) e li trasforma per il runtime. Unico fetch: gli annunci da
-	`media/annunci/annunci.json` (e le immagini dei caroselli dai manifest).
-- `js/pages/index/`: logica della home, divisa per sezione (`orari.js`,
-	`luogo.js`, `announcements.js` + `annuncioDettaglio.js` per la modale).
-- Root (`index.html`, `contacts.html`, `site.webmanifest`, ecc.): output generati, da non modificare manualmente.
+| Cosa | File |
+|---|---|
+| Dominio, lingua, autore, banner "sito in sviluppo" | `data/sito.json` |
+| Nome, descrizione, loghi, icone, copertina social, colore | `data/brand.json` |
+| Dati legali (footer e privacy) | `data/legale.json` |
+| Enti di affiliazione (footer) | `data/associazioni.json` |
+| Contatti utili (pagina Contatti, telefono nel footer) | `data/contatti.json` |
+| Indirizzo e mappa della palestra (home) | `data/luogo.json` |
+| Testi e caroselli della pagina Chi Siamo | `data/whoweare.json` |
+| Testi della home | `pages/index/hero.html`, `partecipare.html`, … |
+| Privacy e cookie policy | `pages/legal/privacy.html`, `cookie.html` |
+| Testi delle pagine di errore | `pages/error/error.json` |
+| Header, menu, footer | `components/header/`, `components/footer/` |
+| Titolo, descrizione e voce di menu di una pagina | `pages/<pagina>/<pagina>.json` |
 
-## Flusso di aggiornamento
+Ogni file `data/X.json` è disponibile in tutti i template come `{{X.campo}}`:
+per aggiungere un gruppo di dati basta creare il file.
 
-1. Per contenuti (orari, contatti, team, testi…): modificare il JSON in `building/data/` e rieseguire il build. Per gli annunci: modificare `media/annunci/annunci.json` (senza rebuild).
-2. Per SEO, meta o struttura di pagina: modificare `building/data/seo-data.json` o un template e rieseguire `npm run build`.
-3. Controllare gli avvisi sui placeholder prima della pubblicazione.
+## Template
 
-Le pagine `contacts.html` e `whoweare.html` hanno il contenuto principale
-generato a runtime dai JSON. Il JavaScript gestisce anche interazioni come
-menu, tab, caroselli e caricamento esplicito della mappa.
+I template usano un sottoinsieme della sintassi Handlebars:
 
-Il comando `npm run build` valida i dati prima di generare gli output. Un errore interrompe il build; i warning `[DA CONFERMARE]` indicano invece dati ancora provvisori da completare.
+```handlebars
+{{campo}}  {{brand.name}}                valore (con escape HTML)
+{{{campo}}}                              HTML dai dati, senza escape
+{{#if campo}} … {{else}} … {{/if}}       anche {{#unless campo}}
+{{#each lista}} … {{/each}}              dentro: {{this}}, {{@index}}, {{@first}}, {{@last}}
+{{#with oggetto}} … {{/with}}
+{{> nome}}                               include nome.html (o nome/nome.html)
+{{> carosello numero=3 classe="x"}}      … passando dati aggiuntivi
+{{!-- commento --}}                      non finisce nell'output
+```
+
+- Un campo si cerca nell'elemento corrente (voce di un `each`, componente) e poi
+  nei dati globali (`sito`, `brand`, `page`, `nav`, …); `{{../campo}}` legge
+  l'elemento che contiene quello corrente.
+- `{{> nome}}` cerca prima nella cartella del template che lo include, poi in
+  `components/`.
+- Un campo non definito genera un avviso nel build, con file e riga.
+
+## Aggiungere…
+
+- **una pagina**: copia `pages/_modello/` in `pages/<nome>/`, rinomina i file e
+  segui le istruzioni nel template. Le cartelle che iniziano con `_` vengono ignorate.
+- **una sezione di una pagina**: crea `pages/<pagina>/<sezione>.html` e includila
+  con `{{> sezione}}`; se servono dati calcolati aggiungi `<sezione>.mjs`.
+- **un componente condiviso**: crea `components/<nome>.html` (o `components/<nome>/<nome>.html`)
+  e usalo con `{{> nome}}` in qualsiasi pagina.
+- **un file in root** (es. `humans.txt`): crea il template in `files/`.
+- **un logo**: metti l'SVG in `building/grafica/loghi/`, lancia `npm run icone -- <Nome>`
+  e aggiungi `{ "name": "<Nome>", "alt": "…" }` in `data/brand.json → logo.loghi`
+  (il primo logo è quello principale: favicon e icone vengono da lui).
+
+**Sfondo del sito**: il sorgente è `building/grafica/sfondo.svg`; il sito usa la sua
+versione leggera `media/bg.webp`. Dopo averlo modificato, rigenerala con:
+
+```bash
+inkscape building/grafica/sfondo.svg --export-type=png --export-width=2560 --export-filename=sfondo.png
+magick sfondo.png -resize 1920x -quality 70 media/bg.webp
+```
+
+## Contenuti generati nel browser
+
+Annunci, orari, team, social e caroselli sono caricati dal JS (così su main si
+aggiornano senza rebuild), ma il loro markup vive comunque nei template: i
+`<template>` in `pages/index/annunci.html`, `pages/index/orari.html`,
+`pages/contacts/team.html`, `components/footer/social.html` e
+`components/carosello/modelli.html` vengono clonati dal JS, che ne riempie gli
+elementi con `data-campo="…"`. Questi file vengono sempre riverificati sul server
+(`cache: "no-cache"`), quindi una modifica su main è visibile subito.
+
+Su dev il build valida comunque tutti i file di `contenuti/` (un errore blocca
+anche il build che la GitHub Action esegue su main dopo un merge da dev); su
+main una modifica errata non viene bloccata, quindi conviene controllare la
+pagina dopo il push.

@@ -1,3 +1,5 @@
+import "../../utilities/carosello.js";
+
 // Contenuti Chi Siamo compilati dal build: qui il JS commuta solo i tab.
 function changeTopic(topicIndex) {
     const panels = document.querySelectorAll(".topic");

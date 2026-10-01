@@ -1,3 +1,5 @@
+@import url("../../utilities/caroselloSimple.css");
+
 article {
     background: linear-gradient(180deg, var(--bg2), var(--bg1));
     padding: clamp(1.5em, 4vw, 3em);

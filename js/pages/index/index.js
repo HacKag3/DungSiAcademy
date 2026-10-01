@@ -2,9 +2,10 @@ import { initAnnouncements } from "./announcements.js";
 import { initOrari } from "./orari.js";
 import { initLuogo } from "./luogo.js";
 import { initScrollHighlight } from "./scrollHighlight.js";
+import "../../utilities/carosello.js";
 
-// Contenuti compilati dal build: qui restano le interazioni della home
-// e gli annunci (unico contenuto ancora caricato a runtime).
+// Contenuti compilati dal build: qui restano le interazioni della home,
+// gli annunci e i caroselli (caricati a runtime, modificabili su main).
 document.addEventListener("DOMContentLoaded", () => {
     initScrollHighlight();
     initOrari();

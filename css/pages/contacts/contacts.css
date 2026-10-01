@@ -278,6 +278,26 @@ article .lb_title i {
     margin-bottom: 0.5em;
 }
 
+/* Ruoli secondari (personale.json → altriRuoli): etichette sotto il ruolo principale. */
+.person-other-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    margin: -0.15em 0 0.9em;
+    padding: 0;
+    list-style: none;
+}
+
+.person-other-roles li {
+    padding: 0.2em 0.75em;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-full);
+    background: var(--glass-bg);
+    color: var(--f3_color);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+}
+
 .person-desc {
     font-size: 1rem;
     line-height: 1.7;
