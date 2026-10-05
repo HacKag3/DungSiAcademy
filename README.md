@@ -15,16 +15,30 @@ I contenuti modificabili su main (letti dal browser) sono separati per tipo:
 
 | Cartella | Cosa contiene |
 |---|---|
-| `contenuti/` | i dati: `annunci.json` (+ pagine di dettaglio in `contenuti/annunci/`), `corsi.json` (orari delle lezioni), `personale.json` (team: `ruolo` principale e `altriRuoli` facoltativi), `social.json` (icone social del footer) |
+| `contenuti/` | i dati: `annunci.json` (+ pagine di dettaglio in `contenuti/annunci/`), `corsi.json` (orari delle lezioni), `personale.json` (team: `ruolo` principale e `altriRuoli` facoltativi), `social.json` (icone social del footer), `contatti.json` (contatti utili della pagina Contatti, con `referente` facoltativo; il contatto `generale` dà il telefono del footer, il contatto `privacy` l’email e il referente citati nelle policy) |
 | `media/` | solo immagini e i manifest delle immagini: foto del team in `media/persone/`, caroselli in `media/caroselli/<numero>_<nome>/` con il loro `manifest.json` (le cartelle sono elencate in `media/caroselli/manifest.json`), loghi, sfondo, copertina |
+
+Nell'elenco dei caroselli (`media/caroselli/manifest.json`) ogni voce può essere
+il solo nome della cartella oppure un oggetto con le opzioni del carosello:
+
+```json
+[
+    "0_index",
+    { "name": "1_viet", "autoplay": false }
+]
+```
+
+`autoplay` assente o `true` = le slide scorrono da sole; `false` = cambiano solo
+con frecce, punti, tastiera o swipe. L'autoplay è comunque disattivato per chi ha
+chiesto al sistema di ridurre le animazioni e per i caroselli con una sola immagine.
 
 Le immagini usate nelle pagine di dettaglio degli annunci vanno comunque in
 `media/` (es. `media/annunci/foto.jpg`) e si richiamano con
 `src="./media/annunci/foto.jpg"`: il dettaglio viene inserito nella home, quindi i
 percorsi partono dalla root del sito.
 
-Il build usa anche `corsi.json` e `social.json` per i dati strutturati della
-home per Google (orari e profili social nel JSON-LD): una modifica fatta solo su
+Il build usa anche `contatti.json`, `corsi.json` e `social.json` per i dati
+strutturati della home per Google (telefono, orari e profili social nel JSON-LD): una modifica fatta solo su
 main arriva lì al build successivo da dev.
 
 Su dev l'hook `.githooks/pre-commit` rigenera il sito e aggiunge al commit i
@@ -79,7 +93,6 @@ pagina (es. il carosello).
 | Nome, descrizione, loghi, icone, copertina social, colore | `data/brand.json` |
 | Dati legali (footer e privacy) | `data/legale.json` |
 | Enti di affiliazione (footer) | `data/associazioni.json` |
-| Contatti utili (pagina Contatti, telefono nel footer) | `data/contatti.json` |
 | Indirizzo e mappa della palestra (home) | `data/luogo.json` |
 | Testi e caroselli della pagina Chi Siamo | `data/whoweare.json` |
 | Testi della home | `pages/index/hero.html`, `partecipare.html`, … |
@@ -136,10 +149,11 @@ magick sfondo.png -resize 1920x -quality 70 media/bg.webp
 
 ## Contenuti generati nel browser
 
-Annunci, orari, team, social e caroselli sono caricati dal JS (così su main si
+Annunci, orari, contatti, team, social e caroselli sono caricati dal JS (così su main si
 aggiornano senza rebuild), ma il loro markup vive comunque nei template: i
 `<template>` in `pages/index/annunci.html`, `pages/index/orari.html`,
-`pages/contacts/team.html`, `components/footer/social.html` e
+`pages/contacts/contatti-utili.html`, `pages/contacts/team.html`,
+`pages/contacts/recapiti.html`, `components/footer/social.html` e
 `components/carosello/modelli.html` vengono clonati dal JS, che ne riempie gli
 elementi con `data-campo="…"`. Questi file vengono sempre riverificati sul server
 (`cache: "no-cache"`), quindi una modifica su main è visibile subito.

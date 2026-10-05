@@ -24,7 +24,6 @@ export function validate(data, pages, runtime) {
     validateSito(data.sito);
     validateBrand(data.brand);
     validateList(data.associazioni, "data/associazioni.json", ["nome", "logo", "alt"]);
-    validateContatti(data.contatti);
     validateLuogo(data.luogo);
     validateWhoweare(data.whoweare);
     check(isObject(data.legale), "data/legale.json", "deve contenere un oggetto.");
@@ -34,6 +33,7 @@ export function validate(data, pages, runtime) {
     validatePersonale(runtime.personale);
     validateCorsi(runtime.corsi);
     validateList(runtime.social, "contenuti/social.json", ["name", "icon"]);
+    validateContatti(runtime.contatti);
     validatePages(pages);
     validateAssets(data, runtime);
 }
@@ -69,7 +69,7 @@ function validateList(list, where, required, { notEmpty = false } = {}) {
 }
 
 function validateContatti(contatti) {
-    const where = "data/contatti.json";
+    const where = "contenuti/contatti.json";
     check(isObject(contatti), where, "deve contenere un oggetto { id: contatto }.");
     for (const [id, contatto] of Object.entries(contatti)) {
         check(filled(contatto?.titolo), where, `il contatto "${id}" richiede titolo.`);

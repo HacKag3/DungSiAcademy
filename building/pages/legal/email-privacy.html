@@ -1,2 +1,7 @@
-{{!-- Link all'email per la privacy. Uso: {{> email-privacy aria="testo per lo screen reader"}}. --}}
-<a href="mailto:{{email}}" aria-label="{{aria}}">{{email}}</a>
+{{!--
+    Link all'email del contatto "privacy" di contenuti/contatti.json, inserita
+    a runtime da js/main_comp/contatti.js. Finché non c'è (o senza JS) rimanda
+    al contatto nella pagina Contatti.
+    Uso: {{> email-privacy aria="testo per lo screen reader"}}.
+--}}
+<a href="./contacts.html#contatto-privacy" data-contatto-email="privacy" aria-label="{{aria}}">il contatto «Privacy e Tutela Dati» della pagina Contatti</a>

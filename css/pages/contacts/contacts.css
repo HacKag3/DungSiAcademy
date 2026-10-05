@@ -113,6 +113,13 @@ article .lb_title i {
     white-space: nowrap;
 }
 
+/* Messaggio se contenuti/contatti.json non si carica (js/pages/contacts/contatti-utili.js). */
+.useful-contacts-errore {
+    padding: 1.5rem 1rem;
+    color: var(--f2_color);
+    text-align: center;
+}
+
 @media (max-width: 600px) {
     .useful-contact-row {
         flex-wrap: wrap;

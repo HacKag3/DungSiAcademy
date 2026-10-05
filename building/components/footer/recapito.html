@@ -1,11 +1,12 @@
-{{!-- Nome della scuola e telefono del contatto "generale" di data/contatti.json. --}}
+{{!--
+    Nome della scuola e telefono del contatto "generale": il numero è letto a
+    runtime da contenuti/contatti.json (js/main_comp/contatti.js) e il link
+    resta nascosto se il numero manca.
+--}}
 <address class="footer-brand">
     <span class="footer-brand-name">{{brand.name}}</span>
-    {{#with telefono}}
-
-    <a href="tel:{{href}}" class="footer-phone" aria-label="Chiamaci al {{testo}}">
+    <a class="footer-phone" data-contatto-telefono="generale" data-aria="Chiamaci al" hidden>
         <i class="fas fa-phone-alt" aria-hidden="true"></i>
-        <span>{{testo}}</span>
+        <span data-campo="testo"></span>
     </a>
-    {{/with}}
 </address>

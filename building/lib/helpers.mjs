@@ -15,13 +15,6 @@ export function telefono(valore) {
     return numero && { ...numero, completo: String(valore).trim() };
 }
 
-/** Recapiti di una persona o di un contatto ({ tel, mail }), oppure null se non ce ne sono. */
-export function recapiti({ telefono: numero, email } = {}) {
-    const tel = telefono(numero);
-    const mail = String(email ?? "").trim() || null;
-    return tel || mail ? { tel, mail } : null;
-}
-
 /** Valore reale (non vuoto e non segnaposto come "[DA CONFERMARE]"), altrimenti undefined. */
 export function valoreReale(valore) {
     const testo = String(valore ?? "").trim();

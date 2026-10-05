@@ -1,6 +1,6 @@
 [
-    "0_index",
-    "1_viet",
+    { "name": "0_index", "autoplay": true },
+    { "name": "1_viet", "autoplay": false },
     "2_",
     "9_difesa",
     "10_"

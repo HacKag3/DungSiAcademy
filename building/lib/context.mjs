@@ -6,8 +6,8 @@ export function canonicalUrl(siteUrl, output) {
 
 /**
  * Dati globali visibili in tutti i template:
- *  - un campo per ogni file di building/data/ (sito, brand, contatti, …), più
- *    corsi e social (da contenuti/) per il JSON-LD;
+ *  - un campo per ogni file di building/data/ (sito, brand, legale, …), più
+ *    contatti, corsi e social (da contenuti/) per il JSON-LD;
  *  - sito.url: dominio senza "/" finale;
  *  - brand.loghi / brand.icone: percorsi di loghi e icone già risolti;
  *  - pages: tutte le pagine (con url canonico); nav: le voci di menu in ordine.

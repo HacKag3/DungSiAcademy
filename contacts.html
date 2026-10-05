@@ -95,72 +95,24 @@
         <article id="page-content">
             <section id="contatti-utili" class="useful-contacts-section">
                 <label class="lb_title">Contatti Utili</label>
-                <div class="useful-contacts-list">
-                    <div class="useful-contact-row" id="contatto-generale">
-                        <div class="useful-contact-icon"><i class="fas fa-address-book" aria-hidden="true"></i></div>
-                        <div class="useful-contact-text">
-                            <h3 class="useful-contact-title">Generale</h3>
-                            <p class="useful-contact-desc">Qualsiasi informazione o richiesta.</p>
-                        </div>
-                        <div class="useful-contact-actions">
-                            <div class="person-contacts">
-                                <a class="contact-link" href="tel:+393287217903" aria-label="Chiama Generale"><i class="fas fa-phone-alt" aria-hidden="true"></i><span>328 721 7903</span></a>
-                                <a class="contact-link" href="mailto:email@email.ext" aria-label="Scrivi a Generale"><i class="fas fa-envelope" aria-hidden="true"></i><span>email@email.ext</span></a>
-                            </div>
-                        </div>
+                <div class="useful-contacts-list"></div>
+                <p class="useful-contacts-errore" hidden>I contatti non sono momentaneamente disponibili: riprova più tardi.</p>
+            </section>
+
+            <template id="tpl-contatto">
+                <div class="useful-contact-row">
+                    <div class="useful-contact-icon"><i aria-hidden="true"></i></div>
+                    <div class="useful-contact-text">
+                        <h3 class="useful-contact-title" data-campo="titolo"></h3>
+                        <p class="useful-contact-desc" data-campo="descrizione"></p>
+                        <p class="useful-contact-desc useful-contact-referente">Referente: <span data-campo="referente"></span></p>
                     </div>
-                    <div class="useful-contact-row" id="contatto-segreteria">
-                        <div class="useful-contact-icon"><i class="fas fa-address-card" aria-hidden="true"></i></div>
-                        <div class="useful-contact-text">
-                            <h3 class="useful-contact-title">Segreteria</h3>
-                            <p class="useful-contact-desc">Informazioni su corsi, iscrizioni, orari e prove gratuite.</p>
-                        </div>
-                        <div class="useful-contact-actions">
-                            <span class="useful-contact-pending">In aggiornamento</span>
-                        </div>
-                    </div>
-                    <div class="useful-contact-row" id="contatto-amministrazione">
-                        <div class="useful-contact-icon"><i class="fas fa-file-invoice" aria-hidden="true"></i></div>
-                        <div class="useful-contact-text">
-                            <h3 class="useful-contact-title">Amministrazione</h3>
-                            <p class="useful-contact-desc">Quote associative, pagamenti, certificati medici e fatturazione.</p>
-                        </div>
-                        <div class="useful-contact-actions">
-                            <span class="useful-contact-pending">In aggiornamento</span>
-                        </div>
-                    </div>
-                    <div class="useful-contact-row" id="contatto-privacy">
-                        <div class="useful-contact-icon"><i class="fas fa-user-shield" aria-hidden="true"></i></div>
-                        <div class="useful-contact-text">
-                            <h3 class="useful-contact-title">Privacy e Tutela Dati</h3>
-                            <p class="useful-contact-desc">Richieste privacy, esenzione da foto/video ed esercizio dei diritti GDPR.</p>
-                        </div>
-                        <div class="useful-contact-actions">
-                            <span class="useful-contact-pending">In aggiornamento</span>
-                        </div>
-                    </div>
-                    <div class="useful-contact-row" id="contatto-safeguardian">
-                        <div class="useful-contact-icon"><i class="fas fa-shield-alt" aria-hidden="true"></i></div>
-                        <div class="useful-contact-text">
-                            <h3 class="useful-contact-title">Safeguarding</h3>
-                            <p class="useful-contact-desc">Segnalazioni e richieste relative alla tutela e al benessere degli allievi.</p>
-                        </div>
-                        <div class="useful-contact-actions">
-                            <span class="useful-contact-pending">In aggiornamento</span>
-                        </div>
-                    </div>
-                    <div class="useful-contact-row" id="contatto-eventi">
-                        <div class="useful-contact-icon"><i class="fas fa-calendar-alt" aria-hidden="true"></i></div>
-                        <div class="useful-contact-text">
-                            <h3 class="useful-contact-title">Eventi e Stage</h3>
-                            <p class="useful-contact-desc">Organizzazione di stage, esami di grado ed eventi della scuola.</p>
-                        </div>
-                        <div class="useful-contact-actions">
-                            <span class="useful-contact-pending">In aggiornamento</span>
-                        </div>
+                    <div class="useful-contact-actions">
+                        <div class="person-contacts"></div>
+                        <span class="useful-contact-pending">In aggiornamento</span>
                     </div>
                 </div>
-            </section>
+            </template>
 
             <section id="team" class="team-section">
                 <label class="lb_title">Il Nostro Team</label>
@@ -187,11 +139,11 @@
                 <li></li>
             </template>
 
-            <template id="tpl-persona-telefono">
+            <template id="tpl-recapito-telefono">
                 <a class="contact-link" data-aria="Chiama"><i class="fas fa-phone-alt" aria-hidden="true"></i><span data-campo="testo"></span></a>
             </template>
 
-            <template id="tpl-persona-email">
+            <template id="tpl-recapito-email">
                 <a class="contact-link" data-aria="Scrivi a"><i class="fas fa-envelope" aria-hidden="true"></i><span data-campo="testo"></span></a>
             </template>
         </article>
@@ -211,10 +163,9 @@
 
                 <address class="footer-brand">
                     <span class="footer-brand-name">DŨNG SĨ Academy</span>
-
-                    <a href="tel:+393287217903" class="footer-phone" aria-label="Chiamaci al 328 721 7903">
+                    <a class="footer-phone" data-contatto-telefono="generale" data-aria="Chiamaci al" hidden>
                         <i class="fas fa-phone-alt" aria-hidden="true"></i>
-                        <span>328 721 7903</span>
+                        <span data-campo="testo"></span>
                     </a>
                 </address>
 

@@ -3,7 +3,12 @@ import { clonaTemplate } from "./template.js";
 // Caroselli caricati a runtime (modificabili su main senza rebuild):
 // media/caroselli/manifest.json elenca le cartelle "<numero>_<nome>",
 // e il manifest.json di ogni cartella elenca le sue immagini.
+// Ogni voce dell'elenco può essere il solo nome della cartella oppure
+// { "name": "1_viet", "autoplay": false } (autoplay assente = scorre da solo).
 const CAROSELLI_ROOT = "./media/caroselli/";
+
+// Chi ha chiesto al sistema di ridurre le animazioni non riceve l'autoplay.
+const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const carousels = new Map();
 
@@ -24,28 +29,35 @@ async function getFolderIndex() {
     return folderIndexPromise;
 }
 
-async function resolveFolderName(caroselloNum) {
-    const folders = await getFolderIndex();
-    const prefix = `${caroselloNum}_`;
-    return folders.find(name => name.startsWith(prefix)) ?? null;
+// Voce dell'elenco → { name, autoplay }, qualunque sia il formato usato.
+function normalizeEntry(entry) {
+    if (typeof entry === "string") return { name: entry, autoplay: true };
+    if (entry && typeof entry.name === "string") return { name: entry.name, autoplay: entry.autoplay !== false };
+    return null;
 }
 
-async function getImages(caroselloNum) {
-    const folderName = await resolveFolderName(caroselloNum);
-    if (!folderName) {
+async function resolveFolder(caroselloNum) {
+    const entries = (await getFolderIndex()).map(normalizeEntry).filter(Boolean);
+    const prefix = `${caroselloNum}_`;
+    return entries.find(entry => entry.name.startsWith(prefix)) ?? null;
+}
+
+async function getCarousel(caroselloNum) {
+    const folder = await resolveFolder(caroselloNum);
+    if (!folder) {
         console.warn(`Nessuna cartella trovata per il carosello ${caroselloNum} (prefisso "${caroselloNum}_" assente in ${CAROSELLI_ROOT}manifest.json).`);
-        return [];
+        return { images: [], autoplay: false };
     }
 
-    const path = `${CAROSELLI_ROOT}${folderName}/`;
+    const path = `${CAROSELLI_ROOT}${folder.name}/`;
     try {
         const res = await fetch(`${path}manifest.json`, { cache: "no-cache" });
         if (!res.ok) throw new Error("manifest non trovato");
         const files = await res.json();
-        return files.map(name => `${path}${name}`);
+        return { images: files.map(name => `${path}${name}`), autoplay: folder.autoplay };
     } catch (err) {
         console.error(`Impossibile leggere il manifest per il carosello ${caroselloNum}:`, err);
-        return [];
+        return { images: [], autoplay: false };
     }
 }
 
@@ -75,7 +87,7 @@ async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = 
         return;
     }
 
-    const images = await getImages(caroselloNum);
+    const { images, autoplay } = await getCarousel(caroselloNum);
     if (images.length === 0) {
         root.hidden = true;
         return;
@@ -101,7 +113,8 @@ async function initCarousel(caroselloNum, { simple = false, interval = 6400 } = 
         slides: root.querySelectorAll(".slide"),
         items: paginationEl ? root.querySelectorAll(".item") : [],
         timer: null,
-        interval
+        interval,
+        autoplay: autoplay && images.length > 1 && !prefersReducedMotion()
     };
     carousels.set(caroselloNum, state);
 
@@ -163,9 +176,10 @@ function changeSlide(caroselloNum, n) {
     setSlide(caroselloNum, state.index + n);
 }
 
+// Con autoplay disattivato si cambia slide solo con frecce, punti, tastiera e swipe.
 function startAutoPlay(caroselloNum) {
     const state = carousels.get(caroselloNum);
-    if (!state) return;
+    if (!state?.autoplay) return;
     stopAutoPlay(caroselloNum);
     state.timer = setInterval(() => changeSlide(caroselloNum, 1), state.interval);
 }

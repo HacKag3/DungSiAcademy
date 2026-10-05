@@ -1,5 +1,5 @@
 import { clonaTemplate, riempi } from "../../utilities/template.js";
-import { telefono } from "../../utilities/telefono.js";
+import { creaRecapiti } from "./recapiti.js";
 
 // Team letto a runtime da contenuti/personale.json (modificabile anche su
 // main, senza rebuild). Il markup è nei <template> di building/pages/contacts/team.html.
@@ -27,14 +27,6 @@ function impostaFoto(img, contenitore, persona) {
     }, { once: true });
 }
 
-function creaRecapito(idTemplate, testo, href, nome) {
-    const link = riempi(clonaTemplate(idTemplate), { testo }).querySelector("a");
-    link.href = href;
-    link.setAttribute("aria-label", `${link.dataset.aria} ${nome}`);
-    link.removeAttribute("data-aria");
-    return link;
-}
-
 function creaPersona(persona, indice) {
     const dati = { ...persona, nomeCompleto: `${persona.nome} ${persona.cognome}` };
     const scheda = riempi(clonaTemplate("tpl-persona"), dati);
@@ -52,11 +44,7 @@ function creaPersona(persona, indice) {
         ruoli.append(voce);
     }
 
-    const recapiti = scheda.querySelector(".person-contacts");
-    const tel = telefono(persona.telefono);
-    const email = String(persona.email ?? "").trim();
-    if (tel) recapiti.append(creaRecapito("tpl-persona-telefono", tel.testo, `tel:${tel.href}`, persona.nome));
-    if (email) recapiti.append(creaRecapito("tpl-persona-email", email, `mailto:${email}`, persona.nome));
+    scheda.querySelector(".person-contacts").append(...creaRecapiti(persona, persona.nome));
 
     // Gli elementi facoltativi senza contenuto non restano nella pagina.
     for (const elemento of scheda.querySelectorAll(".person-title, .person-role, .person-other-roles, .person-desc, .person-contacts")) {

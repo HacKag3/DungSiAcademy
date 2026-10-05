@@ -132,6 +132,11 @@ footer::before {
     transition: all var(--transition-base);
 }
 
+/* Nascosto finché js/main_comp/contatti.js non trova il telefono del contatto "generale". */
+.footer-phone[hidden] {
+    display: none;
+}
+
 .footer-phone:hover {
     color: var(--f_color);
     border-color: var(--accent);

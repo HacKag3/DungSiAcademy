@@ -25,8 +25,9 @@ async function build() {
     const runtime = loadRuntimeData();
     validate(data, pages, runtime);
 
-    // corsi e social servono solo al JSON-LD della home: le relative sezioni sono lette a runtime.
-    const site = createSiteContext({ ...data, corsi: runtime.corsi, social: runtime.social }, pages);
+    // contatti, corsi e social servono solo al JSON-LD della home: sul sito sono letti a runtime.
+    const { contatti, corsi, social } = runtime;
+    const site = createSiteContext({ ...data, contatti, corsi, social }, pages);
     const engine = new TemplateEngine({ baseDir: BUILDING_DIR, componentsDir: COMPONENTS_DIR });
     await engine.loadModels([LAYOUTS_DIR, COMPONENTS_DIR, PAGES_DIR, FILES_DIR]);
 

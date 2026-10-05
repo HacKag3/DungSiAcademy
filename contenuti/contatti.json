@@ -4,7 +4,8 @@
         "icon": "fas fa-address-book",
         "descrizione": "Qualsiasi informazione o richiesta.",
         "telefono": "+39 328 721 7903",
-        "email": "email@email.ext"
+        "email": "email@email.ext",
+        "referente": "Antonio Nino Trapani"
     },
     "segreteria": {
         "titolo": "Segreteria",
@@ -18,14 +19,16 @@
         "icon": "fas fa-file-invoice",
         "descrizione": "Quote associative, pagamenti, certificati medici e fatturazione.",
         "telefono": "",
-        "email": ""
+        "email": "",
+        "referente": "Micaela Scala"
     },
     "privacy": {
         "titolo": "Privacy e Tutela Dati",
         "icon": "fas fa-user-shield",
-        "descrizione": "Richieste privacy, esenzione da foto/video ed esercizio dei diritti GDPR.",
+        "descrizione": "Richieste privacy, cancellazione o oscuramento di foto/video ed esercizio dei diritti GDPR.",
         "telefono": "",
-        "email": ""
+        "email": "mattia.giarolo03@gmail.com",
+        "referente": "Mattia Giarolo"
     },
     "safeguardian": {
         "titolo": "Safeguarding",

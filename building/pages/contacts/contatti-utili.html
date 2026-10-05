@@ -1,0 +1,25 @@
+{{!--
+    Contatti utili: letti a runtime da contenuti/contatti.json (modificabile
+    anche su main, senza rebuild). js/pages/contacts/contatti-utili.js clona
+    il <template> per ogni contatto; referente e descrizione sono facoltativi.
+--}}
+<section id="contatti-utili" class="useful-contacts-section">
+    <label class="lb_title">Contatti Utili</label>
+    <div class="useful-contacts-list"></div>
+    <p class="useful-contacts-errore" hidden>I contatti non sono momentaneamente disponibili: riprova più tardi.</p>
+</section>
+
+<template id="tpl-contatto">
+    <div class="useful-contact-row">
+        <div class="useful-contact-icon"><i aria-hidden="true"></i></div>
+        <div class="useful-contact-text">
+            <h3 class="useful-contact-title" data-campo="titolo"></h3>
+            <p class="useful-contact-desc" data-campo="descrizione"></p>
+            <p class="useful-contact-desc useful-contact-referente">Referente: <span data-campo="referente"></span></p>
+        </div>
+        <div class="useful-contact-actions">
+            <div class="person-contacts"></div>
+            <span class="useful-contact-pending">In aggiornamento</span>
+        </div>
+    </div>
+</template>
