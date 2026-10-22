@@ -1,0 +1,951 @@
+@import url("./carosello.css");
+
+/* Bordo luminoso attorno alla sezione raggiunta da un link interno (due lampeggi).
+   position/z-index: il bagliore resta sopra le sezioni adiacenti. */
+.highlight-section {
+    position: relative;
+    z-index: 3;
+    animation: pulse-section 1.4s ease-in-out;
+}
+
+@keyframes pulse-section {
+    0%, 50%, 100% {
+        box-shadow: var(--shadow-md);
+    }
+    20%, 70% {
+        box-shadow: 0 0 0 3px var(--accent-light), 0 0 2rem 0.5rem var(--accent-light);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .highlight-section {
+        animation: none;
+        outline: 2px solid var(--accent-light);
+    }
+}
+
+article .hero-panel {
+    margin: 1.5em auto 2.5em;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 2;
+    width: 95%;
+
+    @media (max-width: 768px) {
+        padding: 0 0.75rem;
+    }
+}
+
+article .hero-card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 2rem;
+    padding: clamp(1.5rem, 3vw, 3rem);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(135deg, var(--bg2), var(--bg1));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), transparent 50%);
+        pointer-events: none;
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-full);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent-light);
+        background: var(--accent-dim);
+        border: 1px solid var(--glass-border);
+    }
+
+    h1 {
+        margin-bottom: 1rem;
+        font-family: var(--fh);
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        letter-spacing: var(--tracking-title);
+        line-height: 1.1;
+        color: white;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    }
+}
+
+article .hero-copy {
+    position: relative;
+    z-index: 1;
+}
+
+article .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    color: var(--f_color);
+    transition: all var(--transition-base);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.1));
+        opacity: 0;
+        transition: opacity var(--transition-base);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            background: var(--glass-bg-hover);
+            border-color: var(--accent);
+
+            &::before {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+article .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+article .hero-highlights {
+    padding: 0 1em;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1em;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+article .hero-highlight {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1em 1.2em;
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-left: 3px solid var(--accent);
+    transition: all var(--transition-base);
+
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent);
+            border-left-color: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+    }
+
+    strong {
+        color: white;
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
+    span {
+        font-size: 0.85rem;
+        color: var(--f2_color);
+        line-height: 1.4;
+    }
+}
+
+article .hero-cta {
+    position: relative;
+    z-index: 1;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+article .hero-cta-text {
+    max-width: 40rem;
+    margin: 0;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+}
+
+article .hero-cta-btn {
+    padding: 0.85rem 1.75rem;
+    font-size: 1.05rem;
+}
+
+article #partecipare,
+article #orari,
+article #luogo,
+article hr {
+    width: 95%;
+    margin: auto;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        border-radius: 0;
+    }
+}
+
+article #partecipare,
+article #orari,
+article #luogo {
+    padding: 1.5rem 1.5rem 2rem;
+    background: linear-gradient(180deg, var(--bg2), var(--bg1));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-md);
+}
+
+article #partecipare{
+    margin-top: 1.5em;
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+    border-bottom: none;
+}
+
+article #luogo {
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+    border-top: none;
+
+    @media (max-width: 768px) {
+        margin-bottom: 0;
+    }
+}
+
+article #orari {
+    border-top: none;
+    border-bottom: none;
+}
+
+/* Messaggio se contenuti/corsi.json non si carica (js/pages/index/orari.js). */
+article #orari .orari-errore {
+    margin: 0;
+    padding: 2rem 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+}
+
+article .lb_title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    margin-bottom: 0.75em;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--glass-border);
+    background: linear-gradient(135deg, var(--glass-bg), var(--accent-dim));
+    font-size: 1.15em;
+    font-weight: bold;
+    color: var(--f_color);
+    border-bottom: none;
+}
+
+article .lb_title i {
+    color: var(--accent);
+}
+
+article #partecipare {
+    div {
+        margin-left: 1em;
+        line-height: 1.5;
+        
+        ul {
+            margin: .75em 1.25em;
+        }
+    }
+}
+
+article #orari .schedule-selector-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.82rem;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+article #orari .schedule-panel-kicker {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: var(--schedule-accent);
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 0.16em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+article #orari .schedule-layout {
+    --schedule-accent: var(--accent);
+    --schedule-surface: var(--glass-bg);
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.72fr) minmax(0, 1.28fr);
+    align-items: center;
+    gap: 1.5rem;
+    width: min(100%, 66rem);
+    margin: 1.5rem auto 0;
+}
+
+article #orari .discipline-description {
+    width: min(100%, 54ch);
+    margin: 1rem auto 0;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.5;
+    text-align: center;
+}
+
+article #orari .schedule-selector-group {
+    min-width: 0;
+}
+
+article #orari .discipline-panel {
+    align-self: start;
+    padding: 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.5rem;
+    background: var(--schedule-surface);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.12);
+}
+
+article #orari .discipline-panel .selector ul {
+    display: grid;
+    gap: 0.45rem;
+}
+
+article #orari .discipline-panel li,
+article #orari .discipline-panel li:not(.off) {
+    border-radius: 0.45rem;
+}
+
+article #orari .discipline-panel .topic-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.65rem;
+    min-height: 2.8rem;
+    text-align: left;
+}
+
+article #orari .discipline-panel .topic-btn i {
+    width: 1.25rem;
+    color: currentColor;
+    text-align: center;
+}
+
+article #orari .discipline-panel li:not(.off) {
+    color: #fff;
+    background: var(--schedule-accent);
+    border-color: var(--schedule-accent);
+    box-shadow: 0 0.35rem 0.9rem rgba(0, 0, 0, 0.2);
+}
+
+article #orari .schedule-results {
+    min-width: 0;
+    padding: 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+article #orari .age-selector {
+    margin-bottom: 1rem;
+}
+
+article #orari .orari-selector-menu[hidden] {
+    display: none !important;
+}
+
+article #orari .selector {
+    justify-content: center;
+    display: flex;
+
+    ul {
+        justify-content: center;
+        display: flex;
+        list-style: none;
+        gap: 0.5em;
+        text-decoration: none;
+    }
+
+    li {
+        cursor: default;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 2em;
+        transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &.off {
+            color: var(--f2_color);
+            background: rgba(255, 255, 255, 0.04);
+            cursor: pointer;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.12);
+                border-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        &:not(.off) {
+            color: var(--bg);
+            background: var(--f2_color);
+            border-color: var(--f2_color);
+            border-bottom-width: 1px;
+            border-radius: 2em;
+            box-shadow: 0 0.25rem 0.8rem rgba(0, 0, 0, 0.18);
+        }
+    }
+}
+
+button.topic-btn {
+    padding: 0.65rem 1.1rem;
+    width: 100%;
+    border: none;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-weight: bold;
+    cursor: inherit;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    &:focus-visible {
+        outline: 2px solid var(--f_color);
+        outline-offset: -4px;
+        border-radius: 0.4em;
+    }
+}
+
+article #orari .content {
+    width: 100%;
+
+    .schedule-description {
+        width: min(100%, 72ch);
+        margin: 0 0 1.15rem;
+        padding-left: 0.85rem;
+        border-left: 2px solid var(--schedule-accent);
+        color: rgba(255, 255, 255, 0.72);
+        line-height: 1.55;
+    }
+
+    .schedule-table-card {
+        position: relative;
+        width: min(100%, 42rem);
+        margin: 0;
+        min-width: 0;
+        background: var(--schedule-surface);
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.14);
+        overflow: hidden;
+    }
+
+    .schedule-table-card h3 {
+        margin: 0;
+        padding: 0.9rem 1rem;
+        background: rgba(255, 255, 255, 0.07);
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+        text-align: left;
+    }
+
+    .schedule-table {
+        background-color: rgba(255, 255, 255, 0.04);
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .schedule-table th {
+        border-bottom: rgba(255, 255, 255, 0.18) solid 2px;
+        padding: 0.85em 0.65em;
+    }
+
+    .schedule-table tbody tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.035);
+    }
+
+    .schedule-table td {
+        text-align: center;
+        padding: 0.7em 0.65em;
+    }
+
+    .schedule-empty {
+        margin: 0;
+        padding: 2rem 1rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
+    }
+
+    .schedule-table .giorno {
+        text-align: left;
+        width: 45%;
+        border-right: solid 2px rgba(255, 255, 255, 0.08);
+    }
+
+    .orario-disciplina {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 768px) {
+    article #orari .schedule-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    article #orari .selector ul {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+}
+
+article #luogo #indirizzo {
+    padding: 0.5rem 2rem;
+    line-height: 1.8;
+}
+
+article #luogo #map {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    max-width: 64em;
+    aspect-ratio: 21 / 9;
+
+    iframe {
+        border-radius: 1em;
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.map-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    padding: 2em 1.5em;
+    box-sizing: border-box;
+    border-radius: 1em;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    background:
+        repeating-linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.03) 0 2px,
+            transparent 2px 14px
+        ),
+        rgba(255, 255, 255, 0.04);
+    transition: border-color 0.25s ease, background 0.25s ease;
+
+    &:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+}
+
+.map-placeholder-icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bg3), var(--bg2));
+    color: var(--f_color);
+    font-size: 1.4em;
+}
+
+.map-placeholder-text {
+    max-width: 32em;
+    margin: 0;
+    line-height: 1.6;
+    color: var(--f_color);
+    font-size: 0.95em;
+}
+
+.map-placeholder-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    article #luogo #map {
+        
+        min-height: 18em;
+    }
+
+    .map-placeholder {
+        padding: 1.5em 1.25em;
+        gap: 0.9em;
+    }
+
+    .map-placeholder-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2em;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .map-placeholder-text {
+        font-size: 0.9em;
+        line-height: 1.5;
+        max-width: 30em;
+    }
+
+    .map-placeholder-btn {
+        width: 100%;
+        max-width: 16em;
+        justify-content: center;
+        padding: 0.8em 1.25em;
+        font-size: 0.95em;
+    }
+}
+
+#sezione-annunci {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1em;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.05);
+
+    label {
+        display: inline-block;
+        padding: 0.75rem;
+        border-radius: 1em;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
+        font-size: 1.5em;
+        font-weight: bold;
+        border-bottom: none;
+    }
+}
+
+.fade-content {
+    overflow: hidden;
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 40px,
+        black calc(100% - 40px),
+        transparent
+    );
+}
+
+.carousel-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, .35) transparent;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 1em;
+    cursor: grab;
+    touch-action: pan-x pan-y;
+    overscroll-behavior-x: contain;
+
+    &.dragging {
+        cursor: grabbing;
+        user-select: none;
+        scroll-behavior: auto;
+        scroll-snap-type: none;
+    }
+
+    &::-webkit-scrollbar {
+        height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        transition: background 0.25s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        &::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+    }
+
+    &:active::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.45);
+    }
+}
+
+.carousel-track {
+    display: flex;
+    gap: 1.1rem;
+    padding: 0em 2em;
+
+    &::after {
+        content: "";
+        flex: 0 0 2em;
+    }
+}
+
+.annuncio-card {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(100deg, var(--bg2), var(--bg1));
+    border-left: 5px solid var(--accent);
+    padding: 1em;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    flex: 0 0 85%;
+    max-width: 32em;
+    scroll-snap-align: center;
+
+    @media (max-width: 768px) {
+        flex-basis: calc(100vw - 8em);
+        max-width: none;
+    }
+
+    h2 {
+        font-weight: bolder;
+    }
+
+    p {
+        padding: 0.5em 1em;
+    }
+}
+
+.annuncio-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    margin-top: auto;
+    padding-top: 0.75em;
+}
+
+.annuncio-data {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.25em 0.5em;
+}
+
+.annuncio-evento-data {
+    font-weight: bold;
+}
+
+.annuncio-evento-data i {
+    color: var(--f2_color);
+    font-size: 1.1em;
+}
+
+.annuncio-pubblicazione-data {
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.78em;
+    font-style: italic;
+}
+
+.annuncio-pubblicazione-data i {
+    opacity: 0.75;
+}
+
+.annuncio-apri,
+.annuncio-chiudi {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.6em;
+    background: rgba(255, 255, 255, 0.1);
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
+}
+
+.annuncio-apri {
+    padding: 0.5em 1em;
+}
+
+.annuncio-apri:hover,
+.annuncio-apri:focus-visible,
+.annuncio-chiudi:hover,
+.annuncio-chiudi:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.annuncio-dettaglio {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    /* Margine sempre libero attorno al dettaglio: il sito resta visibile. */
+    padding: clamp(1rem, 4vw, 3rem);
+    background: rgba(0, 0, 0, 0.78);
+
+    &[hidden] {
+        display: none;
+    }
+}
+
+.annuncio-alert-aperto {
+    overflow: hidden;
+}
+
+/* La dimensione segue il contenuto (testo breve = riquadro stretto, immagine =
+   riquadro più ampio), sempre entro i margini di .annuncio-dettaglio. */
+.annuncio-dettaglio-box {
+    position: relative;
+    width: fit-content;
+    min-width: min(100%, 22rem);
+    max-width: min(100%, 72rem);
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.42) rgba(0, 0, 0, 0.18);
+    padding: 1.5em 2.5em 1.5em 1.5em;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 1em;
+    background: linear-gradient(135deg, var(--bg2), var(--bg1));
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    &::-webkit-scrollbar {
+        width: 0.7rem;
+    }
+
+    &::-webkit-scrollbar-button {
+        display: none;
+        width: 0;
+        height: 0;
+        appearance: none;
+        border: 0;
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-button:single-button,
+    &::-webkit-scrollbar-button:start:decrement,
+    &::-webkit-scrollbar-button:end:increment {
+        display: none;
+        width: 0;
+        height: 0;
+        appearance: none;
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+        margin: 0.75rem 0;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.18);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background-clip: padding-box;
+        background-color: rgba(255, 255, 255, 0.42);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 255, 255, 0.68);
+    }
+
+    h2 {
+        margin: 0.35em 0;
+    }
+
+    p {
+        padding: 0;
+    }
+}
+
+.annuncio-dettaglio-data {
+    font-style: italic;
+}
+
+.annuncio-dettaglio-date {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+.annuncio-chiudi {
+    position: absolute;
+    top: 0.75em;
+    right: 0.75em;
+    width: 2em;
+    height: 2em;
+    line-height: 1;
+}
+
+/* Testi a una larghezza comoda da leggere, anche se il riquadro è largo. */
+.annuncio-dettaglio-contenuto :is(p, ul, ol, h3, h4) {
+    max-width: 65ch;
+}
+
+/* Immagini (es. locandine) intere nello schermo, senza scorrere: altezza dello
+   schermo meno margini, titolo e date del dettaglio (con un minimo per schermi bassi). */
+.annuncio-dettaglio-contenuto img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: max(14rem, calc(100vh - 18rem));
+    margin: 0.75em auto 0;
+    border-radius: var(--radius-md);
+}
+
+@media (max-width: 768px) {
+    .annuncio-dettaglio-box {
+        padding: 1.25em 2.25em 1.25em 1.25em;
+    }
+}

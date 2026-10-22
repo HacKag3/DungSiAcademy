@@ -1,0 +1,47 @@
+name: Remove dev-only files
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  remove-building:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install dependencies & Run Build
+        run: |
+          if [ -f package.json ]; then
+            if [ -f package-lock.json ]; then 
+              npm ci --ignore-scripts; 
+            else 
+              npm install --ignore-scripts; 
+            fi
+            npm run build
+          fi
+
+      - name: Remove dev-only files
+        # Elenco in .githooks/solo-dev.txt (building/, package.json, README.md, …).
+        run: |
+          grep -v '^\s*#' .githooks/solo-dev.txt | tr -d '\r' | while read -r voce; do
+            [ -n "$voce" ] && rm -rf "./$voce"
+          done
+
+      - name: Commit generated files to main
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(prod): aggiornamento automatico file di produzione compilati"
+          branch: main
+          skip_ci: true

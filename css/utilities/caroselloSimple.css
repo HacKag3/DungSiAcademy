@@ -1,0 +1,8 @@
+@import url("./caroselloBase.css");
+
+.slideshow {
+    --slideshow-max-width: 42em;
+    --slideshow-radius: 0.75em;
+    --slideshow-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    --slideshow-outline: 2px solid var(--f2_color);
+}

@@ -1,0 +1,8 @@
+# Contenuti gestiti direttamente su main (le versioni su dev sono solo di prova).
+# Con npm run pubblica (dev → main) di questi resta sempre la versione di main:
+# le modifiche fatte su dev vengono ignorate e i file presenti solo su dev
+# (es. contenuti/annunci/test.html) non arrivano su main.
+# Una voce per riga (le cartelle finiscono con "/").
+contenuti/annunci.json
+contenuti/annunci/
+media/caroselli/

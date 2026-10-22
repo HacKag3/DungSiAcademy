@@ -1,0 +1,40 @@
+@import url("../../utilities/caroselloBase.css");
+
+.slideshow {
+    --slideshow-transition-duration: 1s;
+    --slideshow-aspect-ratio: 21 / 9;
+    --slideshow-max-height: 60vh;
+    --slideshow-max-height-mobile: 45vh;
+    --slideshow-margin: 0 auto 2em;
+    --slideshow-bg: #000000;
+    --slideshow-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+    --slideshow-overlay: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent 50%);
+
+    --pagination-bottom: 1.5em;
+    --pagination-gap: 0.3em;
+    --pagination-item-width: 4.8em;
+    --pagination-item-height: 1.8em;
+    --pagination-item-pad-y: 0.7em;
+    --pagination-item-pad-x: 0.4em;
+    --pagination-dot: rgba(255, 255, 255, 0.25);
+    --pagination-dot-hover: rgba(255, 255, 255, 0.5);
+    --pagination-scale-hover: 1.6;
+    --pagination-scale-active: 1.4;
+    --pagination-focus-offset: -4px;
+    --pagination-width-mobile: 2.2em;
+    --pagination-height-mobile: 1.5em;
+    --pagination-pad-y-mobile: 0.6em;
+    --pagination-pad-x-mobile: 0.15em;
+
+    --arrow-width: 8em;
+    --arrow-width-mobile: 3em;
+    --arrow-offset: 1.5em;
+    --arrow-offset-mobile: 0.75em;
+    --arrow-shift-hover: -0.25em;
+    --arrow-icon-width: 14px;
+    --arrow-icon-height: 26px;
+    --arrow-icon-fill: #ffffff;
+    --arrow-focus-offset: -6px;
+    --arrow-shadow: drop-shadow(0 3px 5px black) drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
+    --arrow-shadow-hover: drop-shadow(0 5px 8px black) drop-shadow(0 0 5px rgba(0, 0, 0, 0.9));
+}

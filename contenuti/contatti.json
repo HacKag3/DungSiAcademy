@@ -1,0 +1,47 @@
+{
+    "generale": {
+        "titolo": "Generale",
+        "icon": "fas fa-address-book",
+        "descrizione": "Qualsiasi informazione o richiesta.",
+        "telefono": "+39 328 721 7903",
+        "email": "email@email.ext",
+        "referente": "Antonio Nino Trapani"
+    },
+    "segreteria": {
+        "titolo": "Segreteria",
+        "icon": "fas fa-address-card",
+        "descrizione": "Informazioni su corsi, iscrizioni, orari e prove gratuite.",
+        "telefono": "",
+        "email": ""
+    },
+    "amministrazione": {
+        "titolo": "Amministrazione",
+        "icon": "fas fa-file-invoice",
+        "descrizione": "Quote associative, pagamenti, certificati medici e fatturazione.",
+        "telefono": "",
+        "email": "",
+        "referente": "Micaela Scala"
+    },
+    "privacy": {
+        "titolo": "Privacy e Tutela Dati",
+        "icon": "fas fa-user-shield",
+        "descrizione": "Richieste privacy, cancellazione o oscuramento di foto/video ed esercizio dei diritti GDPR.",
+        "telefono": "",
+        "email": "mattia.giarolo03@gmail.com",
+        "referente": "Mattia Giarolo"
+    },
+    "safeguardian": {
+        "titolo": "Safeguarding",
+        "icon": "fas fa-shield-alt",
+        "descrizione": "Segnalazioni e richieste relative alla tutela e al benessere degli allievi.",
+        "telefono": "",
+        "email": ""
+    },
+    "eventi": {
+        "titolo": "Eventi e Stage",
+        "icon": "fas fa-calendar-alt",
+        "descrizione": "Organizzazione di stage, esami di grado ed eventi della scuola.",
+        "telefono": "",
+        "email": ""
+    }
+}

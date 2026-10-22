@@ -1,0 +1,40 @@
+#!/bin/sh
+# Pre-commit hook: su main blocca i file solo-dev (.githooks/solo-dev.txt);
+# su dev rigenera il sito prima del commit.
+
+CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# 1. Protezione di main: nessun file solo-dev aggiunto o modificato
+#    (le cancellazioni sono ammesse, servono proprio a toglierli).
+if [ "$CURRENT_BRANCH" = "main" ]; then
+    BLOCCATI=""
+    for FILE in $(git diff --cached --name-only --diff-filter=d); do
+        while IFS= read -r VOCE || [ -n "$VOCE" ]; do
+            VOCE=$(printf '%s' "$VOCE" | tr -d '\r')
+            case "$VOCE" in ""|\#*) continue ;; esac
+            case "$FILE" in "$VOCE"*) BLOCCATI="$BLOCCATI\n   - $FILE"; break ;; esac
+        done < .githooks/solo-dev.txt
+    done
+    if [ -n "$BLOCCATI" ]; then
+        printf '❌ ERRORE: su main non si committano i file solo-dev:%b\n' "$BLOCCATI"
+        echo "   Per portare dev su main usa, dal branch dev: npm run pubblica"
+        exit 1
+    fi
+    exit 0
+fi
+
+# 2. Se siamo su dev (o altro branch), esegue il build automatico
+echo "Rigenero il sito da building/..."
+node building/build.mjs
+
+if [ $? -ne 0 ]; then
+    echo "❌ build.mjs ha fallito: commit annullato."
+    exit 1
+fi
+
+# 3. Aggiunge al commit tutto ciò che il build genera nella root:
+#    le pagine html (anche quelle di errore) e i file ausiliari di building/files/.
+git add -- ':(glob)*.html' $(ls building/files | grep -v '\.mjs$')
+
+echo "✅ Build completata, file rigenerati inclusi nel commit."
+exit 0

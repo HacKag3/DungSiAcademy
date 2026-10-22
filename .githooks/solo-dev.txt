@@ -1,0 +1,9 @@
+# File e cartelle che esistono solo su dev e non devono mai arrivare su main.
+# Una voce per riga (le cartelle finiscono con "/"). Lo leggono:
+#  - npm run pubblica (building/pubblica.mjs): li toglie durante il merge dev → main;
+#  - .githooks/pre-commit: su main blocca i commit che li contengono;
+#  - .github/workflows/deploy-main.yml: li rimuove da main se ci arrivano comunque.
+building/
+package.json
+package-lock.json
+README.md
