@@ -1,0 +1,29 @@
+{{!--
+    Header del sito: burger (mobile), titolo con i loghi e menu desktop.
+    Il primo logo di data/brand.json precede il nome, gli altri lo seguono e
+    vengono nascosti quando manca spazio (js/main_comp/header.js).
+    Comportamento: js/main_comp/header.js, stile: css/main_comp/header.css.
+--}}
+{{> burger}}
+
+<header id="header">
+    <div id="titolo">
+        <a href="./index.html" aria-label="Torna alla homepage di {{brand.name}}">
+            {{#with logoPrincipale}}
+            {{> logo}}
+            {{/with}}
+            <span class="header-brand-name">{{brand.name}}</span>
+            {{#each altriLoghi}}
+            {{> logo classe="header-logo-extra"}}
+            {{/each}}
+        </a>
+    </div>
+
+    <nav class="desktop-nav" aria-label="Navigazione principale">
+        {{#each links}}
+        <a href="{{href}}" class="nav__link">
+            <span>{{label}}</span>
+        </a>
+        {{/each}}
+    </nav>
+</header>

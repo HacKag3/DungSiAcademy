@@ -1,0 +1,10 @@
+{{!-- Contenuto di un riquadro di affiliazione (con o senza link): logo e dati. --}}
+<img src="{{logo}}" alt="{{alt}}" loading="lazy" width="auto" height="72">
+{{#each dati}}
+{{#if this}}
+<div class="footer-affiliation-info">
+    <span class="footer-affiliation-label">{{@key}}</span>
+    <span class="footer-affiliation-number">{{this}}</span>
+</div>
+{{/if}}
+{{/each}}

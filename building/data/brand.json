@@ -1,0 +1,45 @@
+{
+    "name": "DŨNG SĨ Academy",
+    "descrizione": "Corsi di Arti Marziali Tradizionali Vietnamite e Difesa Personale, per bambini, ragazzi e adulti.",
+    "logo": {
+        "loghi": [
+            {
+                "name": "DungSi",
+                "alt": "Logo generico della DŨNG SĨ Academy"
+            },
+            {
+                "name": "KienLongVoDao",
+                "alt": "Logo dell'arte marziale della DŨNG SĨ Academy"
+            }
+        ],
+        "paths": {
+            "root": "/media/loghi/icons",
+            "svg": "/source/logo-square.svg",
+            "favicon": {
+                "16": "/favicon/favicon-16x16.png",
+                "32": "/favicon/favicon-32x32.png",
+                "48": "/favicon/favicon-48x48.png",
+                "ico": "/favicon/favicon.ico"
+            },
+            "android": {
+                "192": "/android/icon-192x192.png",
+                "512": "/android/icon-512x512.png"
+            },
+            "apple": {
+                "120": "/apple/apple-touch-icon-120x120.png",
+                "152": "/apple/apple-touch-icon-152x152.png",
+                "180": "/apple/apple-touch-icon.png"
+            },
+            "windows": "/windows/mstile-150x150.png",
+            "browserconfig": "/browserconfig.xml",
+            "manifest": "/site.webmanifest"
+        }
+    },
+    "copertina": {
+        "path": "./media/social/copertina.jpg",
+        "alt": "Copertina DŨNG SĨ Academy",
+        "width": "1200",
+        "height": "630"
+    },
+    "themeColor": "#1a1a1e"
+}

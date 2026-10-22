@@ -1,0 +1,16 @@
+{{!-- Pannello di una disciplina (voce di whoweare.json → disciplina). --}}
+<div class="content topic" id="topic-{{key}}" role="tabpanel" aria-labelledby="topic-tab-{{indice}}"{{#unless attivo}} hidden{{/unless}}>
+    <h2>{{{heading}}}</h2>
+    <div class="topic-intro">{{{intro}}}</div>
+    {{#if carosello}}
+    {{> carosello numero=carosello classe="activity-media"}}
+    {{/if}}
+    {{#if introOutro}}
+    <div class="topic-intro-outro">{{{introOutro}}}</div>
+    {{/if}}
+    <div class="activities-list">
+        {{#each activities}}
+        {{> attivita}}
+        {{/each}}
+    </div>
+</div>

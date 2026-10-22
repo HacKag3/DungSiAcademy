@@ -1,0 +1,11 @@
+{
+    "name": "dungsi-academy-site",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "node building/build.mjs",
+        "icone": "node building/icons/genera.mjs",
+        "pubblica": "node building/pubblica.mjs",
+        "restage": "node building/restage.mjs"
+    }
+}

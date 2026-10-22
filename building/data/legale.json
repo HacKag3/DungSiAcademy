@@ -1,0 +1,23 @@
+{
+    "denominazione": "ASD DUNG SI ACADEMY",
+    "dati": {
+        "Sede legale": "Via Malaspina 49, 37040 Arcole (VR)",
+        "Rappresentante Legale": "Scala Micaela"
+    },
+    "affiliazioni": [
+        {
+            "ente": "ASI",
+            "logo": "./media/loghi/logo_asi.svg",
+            "alt": "Logo ASI",
+            "dati": {},
+            "link": "https://www.asinazionale.it/"
+        },
+        {
+            "ente": "CONI",
+            "logo": "./media/loghi/logo_coni.svg",
+            "alt": "Logo CONI",
+            "dati": {},
+            "link": "https://www.coni.it/it/registro-societa-sportive/home/registro-2-0/RegistroDettaglio.html?id_societa=70978"
+        }
+    ]
+}

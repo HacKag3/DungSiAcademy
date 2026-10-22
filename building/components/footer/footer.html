@@ -1,0 +1,16 @@
+{{!-- Footer del sito: ogni blocco vive in un file della stessa cartella. Stile: css/main_comp/footer.css. --}}
+<footer id="footer">
+    <div class="footer-inner">
+        {{> affiliazione}}
+
+        {{> recapito}}
+
+        {{> social}}
+    </div>
+
+    {{> note-legali}}
+
+    <div class="footer-copyright">
+        <small>&copy; {{anno}} {{brand.name}}. Tutti i diritti riservati.</small>
+    </div>
+</footer>

@@ -1,0 +1,20 @@
+{{!--
+    Dati legali (data/legale.json): la denominazione e poi una riga
+    "Etichetta: valore" per ogni voce di "dati" (le voci vuote non compaiono).
+    Per aggiungere o rinominare una riga basta cambiare il JSON.
+--}}
+<div class="footer-legal">
+    <div class="footer-legal-info">
+        <span>{{legale.denominazione}}</span>
+        {{#each legale.dati}}
+        {{#if this}}
+        <span>{{@key}}: {{this}}</span>
+        {{/if}}
+        {{/each}}
+    </div>
+    <nav class="footer-legal-links" aria-label="Informazioni legali">
+        <a href="./privacy.html">Privacy Policy</a>
+        <span aria-hidden="true">&middot;</span>
+        <a href="./cookie.html">Cookie Policy</a>
+    </nav>
+</div>

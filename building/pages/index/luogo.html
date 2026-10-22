@@ -1,0 +1,29 @@
+{{!--
+    Sede da data/luogo.json. La mappa di Google parte nascosta: la carica
+    js/pages/index/luogo.js solo quando l'utente la richiede (privacy).
+--}}
+<section id="luogo">
+    <label class="lb_title"><i class="fa-solid fa-location-dot"></i> Dove Siamo</label>
+
+    {{#with luogo.indirizzo}}
+    <div id="indirizzo">{{via}}, {{numero}} <br>{{cap}} {{citta}} ({{provincia}})</div>
+    {{/with}}
+    <div id="map">
+        {{#if mappa.src}}
+        <iframe src="{{mappa.src}}" title="Mappa della sede" loading="lazy" hidden></iframe>
+        <div class="map-placeholder">
+            <div class="map-placeholder-icon">
+                <i class="fas fa-map-location-dot" aria-hidden="true"></i>
+            </div>
+            <p class="map-placeholder-text">
+                Per rispetto della tua privacy, la mappa interattiva di Google Maps
+                viene caricata solo su tua richiesta.
+            </p>
+            <button type="button" id="loadMapBtn" class="btn map-placeholder-btn">
+                <i class="fas fa-map-pin" aria-hidden="true"></i>
+                Carica la mappa
+            </button>
+        </div>
+        {{/if}}
+    </div>
+</section>

@@ -1,0 +1,10 @@
+{
+    "domain": "https://dungsiacademy.it",
+    "locale": "it_IT",
+    "lang": "it",
+    "author": "Giarolo Mattia",
+    "developmentAlert": {
+        "mex": "Sito ancora in fase di sviluppo: le informazioni potrebbero non essere complete o fittizie.",
+        "active": true
+    }
+}

@@ -1,0 +1,142 @@
+{{!-- Privacy policy: i dati del titolare vengono da data/legale.json. --}}
+<article class="legal-page">
+    <label class="lb_title">Privacy Policy</label>
+
+    <p><em>Ultimo aggiornamento: da definire alla pubblicazione definitiva.</em></p>
+
+    <h2>1. Titolare del trattamento</h2>
+    <p>
+        Il Titolare del trattamento dei dati è <strong>{{legale.denominazione}}</strong>:
+    </p>
+    <ul>
+        {{#each legale.dati}}
+        {{#if this}}
+        <li>{{@key}}: {{this}}</li>
+        {{/if}}
+        {{/each}}
+    </ul>
+    <p>
+        Per qualsiasi richiesta relativa al trattamento dei dati personali è possibile scrivere a:
+        {{> email-privacy aria="Scrivici per questioni di privacy"}}.
+    </p>
+
+    <h2>2. Quali dati raccogliamo</h2>
+    <p>
+        Questo sito è realizzato come sito statico e non richiede login né registrazione.
+        Non sono presenti moduli di contatto, commenti o altri strumenti che raccolgono dati
+        personali direttamente sul sito.
+    </p>
+    <ul>
+        <li>
+            <strong>Dati tecnici di navigazione</strong>: il fornitore di hosting può registrare
+            automaticamente informazioni tecniche necessarie al funzionamento del servizio,
+            quali indirizzo IP, tipo di browser e pagine visitate per finalità di sicurezza e
+            manutenzione. Tali dati sono trattati direttamente dal fornitore di hosting e non
+            costituiscono cookie installati sul dispositivo dell'utente.
+        </li>
+        <li>
+            <strong>Dati forniti volontariamente</strong>: se ci contatti via email o tramite i
+            canali social indicati nel sito, trattiamo i dati che ci fornisci in quel contesto
+            (es. nome, indirizzo email, contenuto del messaggio) esclusivamente per risponderti.
+        </li>
+        <li>
+            <strong>Dati e immagini di allievi (minorenni e maggiorenni)</strong>: eventuali foto o
+            video di allievi pubblicati sul sito, sui canali social o su materiale promozionale
+            stampato dell'associazione vengono utilizzati solo previo consenso verbale. Per gli
+            allievi minorenni il consenso è espresso da un genitore o da chi esercita la
+            responsabilità genitoriale; per gli allievi maggiorenni direttamente dall'interessato.
+            In qualsiasi momento è possibile chiedere la cancellazione o l'oscuramento delle
+            immagini che ritraggono sé stessi o il proprio figlio, con le modalità descritte al punto 5.
+        </li>
+    </ul>
+
+    <h2>3. Finalità e base giuridica del trattamento</h2>
+    <p>
+        I dati sono trattati per:
+    </p>
+    <ul>
+        <li>fornire informazioni sui corsi e sulle attività dell'associazione;</li>
+        <li>rispondere a richieste di informazioni e contatti;</li>
+        <li>pubblicare contenuti fotografici/video di attività didattiche, sul sito, sui canali
+            social e su materiale promozionale stampato, con finalità informative e
+            promozionali, previo consenso verbale dell'interessato o di chi esercita la
+            responsabilità genitoriale per i minori.
+        </li>
+    </ul>
+    <p>
+        Le basi giuridiche sono l'esecuzione di misure precontrattuali richieste dall'interessato,
+        il legittimo interesse a gestire le richieste di contatto e il consenso per le immagini
+        degli allievi, quando pertinente.
+    </p>
+
+    <h2>4. Google Maps</h2>
+    <p>
+        Nella homepage il sito propone il caricamento su richiesta di una mappa di Google Maps.
+        La mappa non viene attivata automaticamente: l'utente deve cliccare sul pulsante
+        "Carica la mappa" per visualizzarla. Solo in quel momento vengono inviati dati a Google
+        LLC, che può a sua volta impostare cookie e trattare dati secondo le proprie policy.
+    </p>
+    <p>
+        Per maggiori informazioni si rimanda a:
+    </p>
+    <ul>
+        <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Informativa privacy di Google</a></li>
+        <li><a href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener noreferrer">Informativa sui cookie di Google</a></li>
+    </ul>
+
+    <h2>5. Modalità di trattamento e conservazione</h2>
+    <p>
+        I dati sono trattati con strumenti informatici e con misure di sicurezza adeguate al
+        rischio, per il tempo strettamente necessario alle finalità indicate o comunque secondo
+        i termini previsti dalla normativa vigente.
+    </p>
+    <p>
+        Il consenso alla pubblicazione di foto e video degli allievi (minorenni e maggiorenni)
+        è espresso verbalmente dall'interessato o, per i minorenni, da un genitore o da chi
+        esercita la responsabilità genitoriale. Il consenso resta valido finché non viene
+        revocato, anche in caso di cessata frequentazione dei corsi.
+    </p>
+    <p>
+        In qualsiasi momento è possibile chiedere la cancellazione o l'oscuramento delle
+        immagini pubblicate:
+    </p>
+    <ul>
+        <li>
+            scrivendo al contatto per la gestione delle immagini:
+            {{> email-privacy aria="Scrivi per la cancellazione o l'oscuramento delle immagini"}}<span data-contatto-referente="privacy" hidden>
+            (referente: <span data-campo="referente"></span>)</span>;
+        </li>
+        <li>oppure di persona, durante le lezioni, al referente o a un istruttore.</li>
+    </ul>
+    <p>
+        A seguito della richiesta, l'associazione provvederà alla rimozione o all'oscuramento
+        dei contenuti digitali già pubblicati (sito e social) entro 30 giorni. Per il materiale
+        promozionale già stampato e distribuito, la richiesta sarà applicata alle stampe
+        successive; non è possibile garantire il ritiro delle copie già in circolazione.
+    </p>
+    <p>
+        Nel caso in cui l'immagine ritragga anche altri allievi (es. foto di gruppo, saggi,
+        spettacoli), l'associazione provvederà, ove tecnicamente possibile, a oscurare o
+        ritagliare unicamente la persona che ne ha fatto richiesta, mantenendo pubblicato il
+        contenuto per la parte restante. Solo qualora ciò non sia tecnicamente possibile senza
+        compromettere il contenuto, l'intera foto o video verrà rimosso.
+    </p>
+
+    <h2>6. Diritti dell'interessato</h2>
+    <p>
+        L'interessato può esercitare, scrivendo all'email indicata al punto 1, i diritti previsti
+        dagli articoli 15-22 del Regolamento (UE) 2016/679 (GDPR): accesso, rettifica,
+        cancellazione, limitazione del trattamento, opposizione e portabilità dei dati.
+    </p>
+    <p>
+        In caso di presunta violazione dei propri diritti, è possibile proporre reclamo all'Autorità
+        Garante per la protezione dei dati personali: <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer">www.garanteprivacy.it</a>.
+    </p>
+
+    <h2>7. Modifiche alla presente informativa</h2>
+    <p>
+        Questa informativa può essere aggiornata nel tempo in caso di modifiche del sito,
+        dei servizi offerti o della normativa applicabile. Si consiglia di consultarla
+        periodicamente.
+    </p>
+</article>

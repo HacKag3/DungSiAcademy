@@ -1,0 +1,17 @@
+{{!-- Pagina di errore: testi da error.json (una voce per codice). --}}
+<main class="error-page" aria-labelledby="error-title">
+    <div class="error-code" aria-hidden="true">{{page.errorCode}}</div>
+    <p class="error-kicker">{{page.errorKicker}}</p>
+    <h1 id="error-title">{{page.errorTitle}}</h1>
+    <p class="error-description">{{page.errorDescription}}</p>
+    <div class="error-actions">
+        <a class="error-button error-button-primary" href="{{page.base}}index.html">
+            <i class="fas fa-home" aria-hidden="true"></i>
+            <span>Torna alla home</span>
+        </a>
+        <a class="error-button error-button-secondary" href="{{page.base}}contacts.html">
+            <i class="fas fa-envelope" aria-hidden="true"></i>
+            <span>Contattaci</span>
+        </a>
+    </div>
+</main>

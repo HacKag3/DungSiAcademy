@@ -1,0 +1,6 @@
+{{!-- Banner "sito in sviluppo": si attiva/disattiva da data/sito.json (developmentAlert.active). --}}
+{{#with sito.developmentAlert}}
+{{#if active}}
+<div class="development-alert" role="alert">{{mex}}</div>
+{{/if}}
+{{/with}}

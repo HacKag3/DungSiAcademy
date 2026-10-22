@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            {{#if brand.icone.windows}}
+            <square150x150logo src="{{brand.icone.windows}}"/>
+            {{/if}}
+            <TileColor>{{brand.themeColor}}</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>

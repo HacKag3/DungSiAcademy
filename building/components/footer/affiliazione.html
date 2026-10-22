@@ -1,0 +1,21 @@
+{{!--
+    Enti a cui la scuola è affiliata: "affiliazioni" di data/legale.json, un
+    riquadro per ente. Con "link" il riquadro porta alla pagina dell'ente (o a
+    quella che presenta l'affiliazione, es. il registro CONI) in una nuova scheda.
+    Ogni voce di "dati" diventa un'etichetta col suo valore (es. "Tessera");
+    le voci vuote non compaiono.
+--}}
+<div class="footer-affiliations">
+    <span class="footer-affiliation-title">Affiliazione ente sportivo</span>
+    {{#each legale.affiliazioni}}
+    {{#if link}}
+    <a class="footer-affiliation" href="{{link}}" target="_blank" rel="noopener noreferrer" aria-label="{{ente}}: apri la pagina (nuova scheda)">
+        {{> affiliazione-contenuto}}
+    </a>
+    {{else}}
+    <div class="footer-affiliation">
+        {{> affiliazione-contenuto}}
+    </div>
+    {{/if}}
+    {{/each}}
+</div>

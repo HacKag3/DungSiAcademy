@@ -1,0 +1,9 @@
+{
+    "output": "index.html",
+    "title": "Home Page",
+    "ogTitle": "DŨNG SĨ Academy - Arti Marziali e Difesa Personale ad Arcole (VR)",
+    "description": "DŨNG SĨ Academy: scuola di arti marziali tradizionali vietnamite e difesa personale Close Combat ad Arcole (VR). Corsi per bambini e adulti.",
+    "nav": { "label": "Home", "order": 1 },
+    "sitemap": { "priority": "1.0", "changefreq": "weekly" },
+    "jsonLd": true
+}

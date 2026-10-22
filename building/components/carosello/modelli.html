@@ -1,0 +1,34 @@
+{{!--
+    Markup dei caroselli: js/utilities/carosello.js clona questi <template>
+    per ogni carosello della pagina. Stile: css/utilities/caroselloBase.css.
+--}}
+<template id="tpl-carosello">
+    <div class="slideshow-inner">
+        <div class="slides"></div>
+        <div class="pagination"></div>
+        <div class="arrows">
+            <button type="button" class="arrow prev" data-action="prev" aria-label="Slide precedente">
+                <svg viewBox="0 0 14 26">
+                    <path d="M 9 20 l -9 -10 l 9 -10 l 5 2 l -7 8 l 7 8 z" />
+                </svg>
+            </button>
+            <button type="button" class="arrow next" data-action="next" aria-label="Prossima slide">
+                <svg viewBox="0 0 14 26">
+                    <path d="M 9 20 l -9 -10 l 9 -10 l 5 2 l -7 8 l 7 8 z" />
+                </svg>
+            </button>
+        </div>
+    </div>
+</template>
+
+<template id="tpl-carosello-slide">
+    <div class="slide">
+        <div class="image-container">
+            <img alt="" class="image" loading="lazy">
+        </div>
+    </div>
+</template>
+
+<template id="tpl-carosello-punto">
+    <button type="button" class="item"></button>
+</template>

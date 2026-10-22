@@ -1,0 +1,25 @@
+{{!--
+    Layout delle pagine di errore: niente header, footer né indicizzazione.
+    Queste pagine vengono servite su qualsiasi indirizzo, quindi usano
+    percorsi assoluti (page.base = "/" in building/pages/error/error.json).
+--}}
+<!DOCTYPE html>
+<html lang="{{sito.lang}}">
+
+<head>
+    {{> head}}
+
+    <meta name="robots" content="noindex, follow">
+    {{#if page.css}}
+
+    <link rel="stylesheet" href="{{page.css}}" type="text/css">
+    {{/if}}
+</head>
+
+<body class="error-document">
+    <div class="bg-layer"></div>
+
+    {{{content}}}
+</body>
+
+</html>
