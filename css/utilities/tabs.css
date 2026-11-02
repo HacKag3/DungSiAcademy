@@ -1,4 +1,4 @@
-@import url("../../utilities/caroselloSimple.css");
+/* Tab condivisi da Corsi e Discipline e Approfondimenti: pannello (article), selettore e pannelli (.topic). */
 
 article {
     background: linear-gradient(180deg, var(--bg2), var(--bg1));
@@ -99,64 +99,6 @@ article {
 
 .topic-intro-outro {
     margin-top: 1em;
-}
-
-.activities-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5em;
-    margin-top: 1.5em;
-}
-
-.activity {
-    width: 95%;
-    margin: auto;
-    padding: 1.25em 1.5em;
-    border-left: 4px solid var(--accent);
-    background: var(--glass-bg);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    transition: all var(--transition-base);
-    
-    &:hover {
-        background: var(--glass-bg-hover);
-        border-left-width: 6px;
-        border-left-color: var(--accent2);
-        transform: translateX(4px);
-        box-shadow: var(--shadow-sm);
-    }
-
-    @media (max-width: 768px) {
-        width: 100%;
-    }
-}
-
-.activity-title {
-    margin: 0 0 0.6em 0;
-    letter-spacing: var(--tracking-title);
-    color: var(--f_color);
-}
-
-.activity-text {
-    line-height: 1.7;
-    color: var(--f2_color);
-}
-
-.activity-media.slideshow {
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    margin: 1em auto 1.25em auto;
-    box-shadow: var(--shadow-md);
-}
-
-@media (max-width: 767px) {
-    #topicSelector {
-        width: 100%;
-    }
-
-    .activity {
-        padding: 1em 1.25em;
-    }
 }
 
 @keyframes topic-fade-in {

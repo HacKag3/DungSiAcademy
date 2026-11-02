@@ -1,0 +1,59 @@
+@import url("../../utilities/caroselloSimple.css");
+@import url("../../utilities/tabs.css");
+
+.article-meta {
+    margin: 0.4em 0.5em 0;
+    font-size: 0.9em;
+    color: var(--f2_color);
+}
+
+.article-summary {
+    margin: 1em 0.5em 0;
+    padding-left: 1em;
+    border-left: 4px solid var(--accent);
+    line-height: 1.7;
+    font-style: italic;
+    color: var(--f2_color);
+}
+
+.article-body {
+    line-height: 1.7;
+    padding: 1em 0.5em;
+    color: var(--f2_color);
+
+    p {
+        margin: 0 0 1em;
+    }
+
+    h3 {
+        margin: 1.75em 0 0.6em;
+        letter-spacing: var(--tracking-title);
+        color: var(--f_color);
+    }
+
+    ul,
+    ol {
+        margin: 0 0 1em;
+        padding-left: 1.4em;
+    }
+
+    li {
+        margin-bottom: 0.7em;
+    }
+
+    ol {
+        margin-top: 0.7em;
+    }
+
+    strong {
+        color: var(--f_color);
+    }
+}
+
+.activity-media.slideshow {
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin: 1em auto 1.25em auto;
+    box-shadow: var(--shadow-md);
+}
