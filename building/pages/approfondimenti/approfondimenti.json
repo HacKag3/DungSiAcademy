@@ -1,0 +1,12 @@
+{
+    "output": "approfondimenti.html",
+    "title": "Approfondimenti",
+    "description": "Articoli di approfondimento sulla storia e sulla cultura delle arti marziali vietnamite, a cura della DŨNG SĨ Academy.",
+    "nav": {
+        "label": "Approfondimenti",
+        "order": 3
+    },
+    "sitemap": {
+        "priority": "0.7"
+    }
+}

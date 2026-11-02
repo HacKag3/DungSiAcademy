@@ -24,7 +24,7 @@ export function validate(data, pages, runtime) {
     validateSito(data.sito);
     validateBrand(data.brand);
     validateLuogo(data.luogo);
-    validateWhoweare(data.whoweare);
+    validateCaroselli(data.discipline, data.approfondimenti);
     validateLegale(data.legale);
     // Contenuti runtime: su main si modificano senza build, qui almeno si controllano su dev.
     check(Array.isArray(runtime.annunci), "contenuti/annunci.json", "deve contenere una lista.");
@@ -134,22 +134,51 @@ function validateLuogo(luogo) {
     check(filled(luogo.indirizzo.via) && filled(luogo.indirizzo.citta), where, "indirizzo.via e indirizzo.citta sono obbligatori.");
 }
 
-function validateWhoweare(whoweare) {
-    const where = "data/whoweare.json";
-    check(filled(whoweare?.intro?.text), where, "intro.text è obbligatorio.");
-    check(Array.isArray(whoweare.disciplina) && whoweare.disciplina.length > 0, where, "definire almeno una disciplina.");
+const UNIQUE_KEY = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-    // Il carosello 0 è quello della home: ogni numero deve essere unico.
-    const caroselli = new Set([0]);
-    for (const disciplina of whoweare.disciplina) {
+function validateDiscipline(discipline, caroselli) {
+    const where = "data/discipline.json";
+    check(filled(discipline?.intro?.text), where, "intro.text è obbligatorio.");
+    check(Array.isArray(discipline.disciplina) && discipline.disciplina.length > 0, where, "definire almeno una disciplina.");
+    const keys = new Set();
+    for (const disciplina of discipline.disciplina) {
         check(filled(disciplina?.key) && filled(disciplina.tabLabel) && filled(disciplina.heading)
             && filled(disciplina.intro) && Array.isArray(disciplina.activities),
             where, `disciplina "${disciplina?.key ?? "?"}": servono key, tabLabel, heading, intro e activities.`);
-        const numeri = [disciplina.carosello, ...disciplina.activities.map((activity) => activity.carosello)];
-        for (const numero of numeri.filter((value) => value != null)) {
-            check(!caroselli.has(numero), where, `carosello ${numero} usato più volte.`);
-            caroselli.add(numero);
-        }
+        check(UNIQUE_KEY.test(disciplina.key) && !keys.has(disciplina.key), where, `key "${disciplina.key}" non valida o ripetuta (solo minuscole, numeri e trattini).`);
+        keys.add(disciplina.key);
+        useCaroselli(caroselli, where, [disciplina.carosello, ...disciplina.activities.map((activity) => activity.carosello)]);
+    }
+}
+
+// Un articolo per file in data/approfondimenti/: ognuno è un tab della pagina Approfondimenti.
+function validateApprofondimenti(articoli, caroselli) {
+    const where = "data/approfondimenti/";
+    check(Array.isArray(articoli) && articoli.length > 0, where, "definire almeno un articolo (un file .json per articolo).");
+    const keys = new Set();
+    for (const articolo of articoli) {
+        const nome = `${where}${articolo?.key ?? "?"}.json`;
+        check(filled(articolo?.key) && filled(articolo.tabLabel) && filled(articolo.title) && filled(articolo.summary) && filled(articolo.body),
+            nome, "servono key, tabLabel, title, summary e body.");
+        check(UNIQUE_KEY.test(articolo.key) && !keys.has(articolo.key), nome, `key "${articolo.key}" non valida o ripetuta (solo minuscole, numeri e trattini).`);
+        keys.add(articolo.key);
+        check(articolo.date === undefined || /^\d{4}-\d{2}-\d{2}$/.test(articolo.date), nome, "date deve avere il formato AAAA-MM-GG.");
+        check(articolo.order === undefined || Number.isFinite(articolo.order), nome, "order deve essere un numero.");
+        useCaroselli(caroselli, nome, [articolo.carosello]);
+    }
+}
+
+// Il carosello 0 è quello della home: ogni numero deve essere unico in tutto il sito.
+function validateCaroselli(discipline, approfondimenti) {
+    const caroselli = new Set([0]);
+    validateDiscipline(discipline, caroselli);
+    validateApprofondimenti(approfondimenti, caroselli);
+}
+
+function useCaroselli(caroselli, where, numeri) {
+    for (const numero of numeri.filter((value) => value != null)) {
+        check(!caroselli.has(numero), where, `carosello ${numero} usato più volte.`);
+        caroselli.add(numero);
     }
 }
 
@@ -157,13 +186,15 @@ function validatePages(pages) {
     check(pages.length > 0, "building/pages", "definire almeno una pagina.");
     check(pages.some((page) => page.output === "index.html"), "building/pages", "manca la home (output \"index.html\").");
 
-    const outputs = new Set();
+    const outputs = new Map();
     for (const page of pages) {
         const where = `building/pages/${page.folder}/${page.folder}.json`;
         check(filled(page.output) && /^[\w-]+\.html$/.test(page.output), where,
             `output non valido "${page.output}" (es. "nome.html", nella root del sito).`);
-        check(!outputs.has(page.output), where, `output "${page.output}" già usato da un'altra pagina.`);
-        outputs.add(page.output);
+        check(!outputs.has(page.output), where,
+            `output "${page.output}" già usato dalla cartella building/pages/${outputs.get(page.output)}/ `
+            + "(se è una cartella vecchia o rinominata, eliminala).");
+        outputs.set(page.output, page.folder);
         check(filled(page.title), where, `la pagina "${page.output}" richiede title.`);
         check(fs.existsSync(page.template), where, `template non trovato: ${path.relative(ROOT_DIR, page.template)}.`);
         check(fs.existsSync(page.layout), where, `layout non trovato: ${path.relative(ROOT_DIR, page.layout)}.`);

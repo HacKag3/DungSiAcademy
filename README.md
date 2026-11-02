@@ -128,7 +128,8 @@ pagina (es. il carosello).
 | Nome, descrizione, loghi, icone, copertina social, colore | `data/brand.json` |
 | Dati legali (footer e privacy) ed enti di affiliazione (footer) | `data/legale.json` |
 | Indirizzo e mappa della palestra (home) | `data/luogo.json` |
-| Testi e caroselli della pagina Chi Siamo | `data/whoweare.json` |
+| Testi e caroselli della pagina Corsi e Discipline | `data/discipline.json` |
+| Articoli della pagina Approfondimenti (un file per articolo, un tab ciascuno) | `data/approfondimenti/<articolo>.json` |
 | Testi della home | `pages/index/hero.html`, `partecipare.html`, … |
 | Privacy e cookie policy | `pages/legal/privacy.html`, `cookie.html` |
 | Testi delle pagine di errore | `pages/error/error.json` |
@@ -145,7 +146,9 @@ registro CONI): il riquadro nel footer diventa cliccabile e apre il link in una
 nuova scheda.
 
 Ogni file `data/X.json` è disponibile in tutti i template come `{{X.campo}}`:
-per aggiungere un gruppo di dati basta creare il file.
+per aggiungere un gruppo di dati basta creare il file. Una cartella `data/X/` diventa
+invece una lista (`{{#each X}}`), con un file `.json` per voce, ordinata per il campo `order`:
+così funzionano gli articoli di `data/approfondimenti/`.
 
 ## Template
 

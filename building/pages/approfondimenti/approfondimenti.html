@@ -1,0 +1,31 @@
+{{!--
+    Approfondimenti: un tab per articolo. Gli articoli sono i file di
+    data/approfondimenti/ (un .json ciascuno, ordinati per "order"): per
+    aggiungerne uno basta creare un nuovo file. Ogni tab si apre anche da
+    approfondimenti.html#<key>. Il JS (js/utilities/tabs.js) commuta solo i tab.
+--}}
+<article id="page-content">
+    <div id="descrizione">
+        Di seguito sono riportati alcuni approfondimenti sulle discipline e su ciò che viene praticato nelle lezioni.
+    </div>
+
+    {{#if tabVisibili}}
+    <div id="topicSelector" role="tablist" aria-label="Seleziona articolo">
+        <ul>
+            {{#each articoli}}
+            <li class="{{#unless attivo}}off{{/unless}}">
+                <button type="button" class="topic-btn" role="tab" aria-selected="{{attivo}}" aria-controls="topic-{{key}}" id="topic-tab-{{indice}}" data-topic-index="{{indice}}" data-topic-key="{{key}}">{{tabLabel}}</button>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
+
+    <div id="topicsContainer">
+        {{#each articoli}}
+        {{> articolo}}
+        {{/each}}
+    </div>
+
+    {{> carosello/modelli}}
+</article>

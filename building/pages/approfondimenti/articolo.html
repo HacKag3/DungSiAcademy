@@ -1,0 +1,12 @@
+{{!-- Pannello di un articolo (un file di data/approfondimenti/). --}}
+<div class="content topic" id="topic-{{key}}" role="tabpanel" aria-labelledby="topic-tab-{{indice}}"{{#unless attivo}} hidden{{/unless}}>
+    <h2>{{{title}}}</h2>
+    {{#if dataLabel}}
+    <p class="article-meta"><time datetime="{{date}}">{{dataLabel}}</time></p>
+    {{/if}}
+    <p class="article-summary">{{{summary}}}</p>
+    {{#if carosello}}
+    {{> carosello numero=carosello classe="activity-media"}}
+    {{/if}}
+    <div class="article-body">{{{body}}}</div>
+</div>

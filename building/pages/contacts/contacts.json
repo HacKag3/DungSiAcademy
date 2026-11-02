@@ -2,6 +2,6 @@
     "output": "contacts.html",
     "title": "Contatti",
     "description": "Contatti e team della DŨNG SĨ Academy: maestro, istruttori e responsabili della scuola di arti marziali di Arcole (VR).",
-    "nav": { "label": "Contatti", "order": 3 },
+    "nav": { "label": "Contatti", "order": 4 },
     "sitemap": { "priority": "0.8" }
 }
