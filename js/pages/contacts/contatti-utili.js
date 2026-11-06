@@ -2,6 +2,10 @@ import { caricaContatti } from "../../utilities/contatti.js";
 import { clonaTemplate, riempi } from "../../utilities/template.js";
 import { creaRecapiti } from "./recapiti.js";
 
+// "attivo": false nasconde il contatto dalla lista (anche la stringa "false");
+// se il campo manca il contatto è mostrato.
+const eAttivo = (contatto) => ![false, "false"].includes(contatto.attivo);
+
 // Contatti utili letti a runtime da contenuti/contatti.json (modificabile anche
 // su main, senza rebuild). Il markup è in building/pages/contacts/contatti-utili.html.
 function creaContatto([id, contatto]) {
@@ -29,7 +33,7 @@ export async function initContattiUtili() {
 
     try {
         const contatti = await caricaContatti();
-        const voci = Object.entries(contatti ?? {}).filter(([, contatto]) => contatto?.titolo);
+        const voci = Object.entries(contatti ?? {}).filter(([, contatto]) => contatto?.titolo && eAttivo(contatto));
         lista.replaceChildren(...voci.map(creaContatto));
     } catch (error) {
         console.error("[Contatti] Contatti utili non disponibili:", error);

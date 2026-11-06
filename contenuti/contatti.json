@@ -1,5 +1,6 @@
 {
     "generale": {
+        "attivo": true,
         "titolo": "Generale",
         "icon": "fas fa-address-book",
         "descrizione": "Qualsiasi informazione o richiesta.",
@@ -8,6 +9,7 @@
         "referente": "Antonio Nino Trapani"
     },
     "segreteria": {
+        "attivo": false,
         "titolo": "Segreteria",
         "icon": "fas fa-address-card",
         "descrizione": "Informazioni su corsi, iscrizioni, orari e prove gratuite.",
@@ -15,6 +17,7 @@
         "email": ""
     },
     "amministrazione": {
+        "attivo": false,
         "titolo": "Amministrazione",
         "icon": "fas fa-file-invoice",
         "descrizione": "Quote associative, pagamenti, certificati medici e fatturazione.",
@@ -23,21 +26,25 @@
         "referente": "Micaela Scala"
     },
     "privacy": {
+        "attivo": true,
         "titolo": "Privacy e Tutela Dati",
         "icon": "fas fa-user-shield",
-        "descrizione": "Richieste privacy, cancellazione o oscuramento di foto/video ed esercizio dei diritti GDPR.",
+        "descrizione": "Richieste privacy, cancellazione o oscuramento di foto/video ed esercizio dei diritti GDPR per questo sito web.",
         "telefono": "",
         "email": "mattia.giarolo03@gmail.com",
         "referente": "Mattia Giarolo"
     },
     "safeguardian": {
+        "attivo": true,
         "titolo": "Safeguarding",
         "icon": "fas fa-shield-alt",
         "descrizione": "Segnalazioni e richieste relative alla tutela e al benessere degli allievi.",
         "telefono": "",
-        "email": ""
+        "email": "",
+        "referente": "Jennifer Caletti"
     },
     "eventi": {
+        "attivo": false,
         "titolo": "Eventi e Stage",
         "icon": "fas fa-calendar-alt",
         "descrizione": "Organizzazione di stage, esami di grado ed eventi della scuola.",
